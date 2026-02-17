@@ -21,9 +21,9 @@
 #
 # For more information: https://github.github.com/gh-aw/introduction/overview/
 #
-# Weekly report on recent activity in dotnet/msbuild — new/unassigned issues, stale issues with recent comments, and open PRs triaged by action needed.
+# Weekly activity report for dotnet/msbuild — new/unassigned issues, stale issues with recent comments, and open PRs triaged by action needed.
 #
-# frontmatter-hash: 7f99b265c74ad87fc7be9f02778344dd368d57e245e6e0f2973002999e81bf7d
+# frontmatter-hash: ae0b31658e2040c889b9c08545703a094f52b5aaeb552013f35bf74bce7ea06e
 
 name: "MSBuild Weekly Activity Report"
 "on":
@@ -853,7 +853,7 @@ jobs:
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
           WORKFLOW_NAME: "MSBuild Weekly Activity Report"
-          WORKFLOW_DESCRIPTION: "Weekly report on recent activity in dotnet/msbuild — new/unassigned issues, stale issues with recent comments, and open PRs triaged by action needed."
+          WORKFLOW_DESCRIPTION: "Weekly activity report for dotnet/msbuild — new/unassigned issues, stale issues with recent comments, and open PRs triaged by action needed."
           HAS_PATCH: ${{ needs.agent.outputs.has_patch }}
         with:
           script: |

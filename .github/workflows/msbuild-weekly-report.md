@@ -1,5 +1,5 @@
 ---
-description: Weekly report on recent activity in dotnet/msbuild — new/unassigned issues, stale issues with recent comments, and open PRs triaged by action needed.
+description: Weekly activity report for dotnet/msbuild — new/unassigned issues, stale issues with recent comments, and open PRs triaged by action needed.
 on:
   schedule:
     - cron: "0 11 * * 2"
@@ -41,8 +41,8 @@ Produce a single, well-structured markdown report covering three sections descri
    - **Suggest next steps** (e.g., "needs repro", "needs area label", "candidate for good-first-issue", "needs team discussion", "may duplicate #XXXX").
 3. Present results in a markdown table:
 
-| # | Title | Category | Age (days) | Labels | Possible Reason | Suggested Next Steps |
-|---|-------|----------|------------|--------|-----------------|----------------------|
+| # | Author | Title | Category | Age (days) | Labels | Possible Reason | Suggested Next Steps |
+|---|--------|-------|----------|------------|--------|-----------------|----------------------|
 
 ---
 
@@ -52,8 +52,8 @@ Produce a single, well-structured markdown report covering three sections descri
 2. For each issue apply the same analysis as Section 1 (categorize, investigate, suggest next steps). Also note what the recent comment was about (community question, ping, new information, etc.).
 3. Present results in a markdown table:
 
-| # | Title | Category | Created | Latest Comment Summary | Possible Reason | Suggested Next Steps |
-|---|-------|----------|---------|------------------------|-----------------|----------------------|
+| # | Author | Title | Category | Created | Latest Comment Summary | Possible Reason | Suggested Next Steps |
+|---|--------|-------|----------|---------|------------------------|-----------------|----------------------|
 
 ---
 
