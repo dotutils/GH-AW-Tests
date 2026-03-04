@@ -23,7 +23,7 @@
 #
 # Daily agentic workflow that scans the dotnet/machinelearning repository for health signals — pending maintainer actions, workflow failures, concerning bugs/PRs — and maintains a pinned health dashboard issue with automatic comment history pruning.
 #
-# frontmatter-hash: 0109acd1ced2d35a457f3fd49a95a600a4ca5d47a30caaf5f1c8c474eef10a28
+# frontmatter-hash: edeac4f8370e2133cce0d0421ba9b24dac41cdc2c8f79a2e5fbf578fcccb5591
 
 name: "ML.NET Repository Health Check"
 "on":
@@ -289,9 +289,9 @@ jobs:
           github.event.pull_request
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
-          GH_TOKEN: ${{ secrets.CROSS_REPO_PAT }}
+          GH_TOKEN: ${{ secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
         with:
-          github-token: ${{ secrets.CROSS_REPO_PAT }}
+          github-token: ${{ secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
           script: |
             const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
             setupGlobals(core, github, context, exec, io);
@@ -1075,7 +1075,7 @@ jobs:
           GH_AW_NOOP_MAX: 1
           GH_AW_WORKFLOW_NAME: "ML.NET Repository Health Check"
         with:
-          github-token: ${{ secrets.CROSS_REPO_PAT }}
+          github-token: ${{ secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
           script: |
             const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
             setupGlobals(core, github, context, exec, io);
@@ -1088,7 +1088,7 @@ jobs:
           GH_AW_AGENT_OUTPUT: ${{ env.GH_AW_AGENT_OUTPUT }}
           GH_AW_WORKFLOW_NAME: "ML.NET Repository Health Check"
         with:
-          github-token: ${{ secrets.CROSS_REPO_PAT }}
+          github-token: ${{ secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
           script: |
             const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
             setupGlobals(core, github, context, exec, io);
@@ -1106,7 +1106,7 @@ jobs:
           GH_AW_SECRET_VERIFICATION_RESULT: ${{ needs.agent.outputs.secret_verification_result }}
           GH_AW_CHECKOUT_PR_SUCCESS: ${{ needs.agent.outputs.checkout_pr_success }}
         with:
-          github-token: ${{ secrets.CROSS_REPO_PAT }}
+          github-token: ${{ secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
           script: |
             const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
             setupGlobals(core, github, context, exec, io);
@@ -1123,7 +1123,7 @@ jobs:
           GH_AW_NOOP_MESSAGE: ${{ steps.noop.outputs.noop_message }}
           GH_AW_NOOP_REPORT_AS_ISSUE: "true"
         with:
-          github-token: ${{ secrets.CROSS_REPO_PAT }}
+          github-token: ${{ secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
           script: |
             const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
             setupGlobals(core, github, context, exec, io);
@@ -1275,7 +1275,7 @@ jobs:
           GH_AW_AGENT_OUTPUT: ${{ env.GH_AW_AGENT_OUTPUT }}
           GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: "{\"add_comment\":{\"max\":1,\"target\":\"*\",\"target-repo\":\"dotnet/machinelearning\"},\"add_labels\":{\"max\":2,\"target\":\"*\",\"target-repo\":\"dotnet/machinelearning\"},\"create_issue\":{\"labels\":[\"repo-health\"],\"max\":1,\"target-repo\":\"dotnet/machinelearning\",\"title_prefix\":\"🏥 \"},\"hide_comment\":{\"max\":60,\"target-repo\":\"dotnet/machinelearning\"},\"missing_data\":{},\"missing_tool\":{},\"update_issue\":{\"allow_body\":true,\"max\":1,\"target\":\"*\",\"target-repo\":\"dotnet/machinelearning\"}}"
         with:
-          github-token: ${{ secrets.CROSS_REPO_PAT }}
+          github-token: ${{ secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
           script: |
             const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
             setupGlobals(core, github, context, exec, io);

@@ -23,7 +23,7 @@ tools:
   edit:
 
 safe-outputs:
-  github-token: ${{ secrets.CROSS_REPO_PAT }}
+  github-token: ${{ secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
   create-issue:
     target-repo: dotnet/machinelearning
     title-prefix: "🏥 "
