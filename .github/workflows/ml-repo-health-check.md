@@ -238,13 +238,12 @@ Using ALL collected data:
 
 ### 4.1 Find or Create Dashboard Issue
 
-Use the github tool to search for open issues with label `repo-health` in `dotnet/machinelearning`.
+First check `/tmp/gh-aw/cache-memory/ml-health-issue-number.json` for a cached issue number.
 
-Also check `/tmp/gh-aw/cache-memory/ml-health-issue-number.json`.
+If the cache has a number, use `update-issue` with that `item_number` to overwrite the body.
+If the cache is empty (first run), use `create-issue` to create one titled `🏥 ML.NET Repository Health Dashboard`.
 
-- If an issue exists → use `update-issue` (operation: `replace`) to overwrite the body.
-- If none exists → use `create-issue` to create one titled `🏥 ML.NET Repository Health Dashboard`.
-- Save the issue number to cache.
+After creating or updating, save the issue number to cache.
 
 ### 4.2 Issue Body
 
@@ -367,7 +366,11 @@ Replace the entire body with this structure (fill in real data):
 
 **You have exactly 1 `add-comment` available. Do NOT produce more than one comment.**
 
-After creating/updating the issue, post this single comment:
+After creating/updating the issue, post this single comment.
+
+The comment MUST compare against the cached previous-run data from `ml-health-last-run.json`. This is the most important part — maintainers scan comments to see **what changed**, not re-read the full dashboard.
+
+Use this format:
 
 ```markdown
 ## 📋 Health Check — {date}
@@ -375,12 +378,38 @@ After creating/updating the issue, post this single comment:
 **Overall:** {emoji} {status}
 🔴 {critical_count} · 🟡 {warning_count} · 🔵 {info_count}
 
-**Key Changes Since Last Run:**
-{Bullets of changes. First run: "Initial health check — no previous data for comparison."}
+### 🆕 What Changed Since Last Run ({previous_date})
 
-**Snapshot:**
-- Untriaged issues: {n} ({delta or "first run"})
-- Open bugs: {n} ({delta or "first run"})
+{If this is the first run: "**First run** — no previous data for comparison. All items below are the initial baseline."}
+
+{If NOT the first run, include ALL of the following subsections:}
+
+**Metric Deltas:**
+| Metric | Previous | Current | Δ |
+|--------|----------|---------|---|
+| Untriaged issues | {prev} | {curr} | {+/-n or →} |
+| Open bugs | {prev} | {curr} | {+/-n or →} |
+| Open P0 | {prev} | {curr} | {+/-n or →} |
+| Open P1 | {prev} | {curr} | {+/-n or →} |
+| Open PRs | {prev} | {curr} | {+/-n or →} |
+| Unanswered questions | {prev} | {curr} | {+/-n or →} |
+| Unreviewed PRs | {prev} | {curr} | {+/-n or →} |
+| GH Actions pass rate | {prev}% | {curr}% | {delta or →} |
+| Critical findings | {prev} | {curr} | {+/-n or →} |
+| Warning findings | {prev} | {curr} | {+/-n or →} |
+
+**🚨 New Critical Items** (not in previous run):
+{Bulleted list of critical items that are NEW — e.g., new P0 issues, new CI failures, newly stale PRs crossing thresholds. Compare against `critical_items` in cache. If none: "✅ No new critical items."}
+
+**✅ Resolved Since Last Run:**
+{Bulleted list of items that were critical/warning before but are no longer. Compare against `critical_items` in cache. If none: "None resolved."}
+
+**📈 Notable Movements:**
+{Bullet list of significant metric changes — e.g., "Untriaged issues ↑12 (from 199 to 211)", "Open bugs ↓3", "CI pass rate dropped from 100% to 85%". Only include metrics that changed. If all stable: "All metrics stable since last run."}
+
+### 📊 Current Snapshot
+- Untriaged issues: {n}
+- Open bugs: {n}
 - Unanswered questions: {n}
 - Unreviewed PRs: {n}
 - CI status: {emoji} GH Actions / {emoji} AzDO (heuristic)
@@ -419,9 +448,22 @@ Write cache files using bash `echo` + redirect or `jq`:
     "critical_count": <n>,
     "warning_count": <n>,
     "info_count": <n>
-  }
+  },
+  "critical_items": [
+    { "type": "P0", "number": 5805, "title": "MKLImports PDB..." },
+    { "type": "untriaged_backlog", "count": 211 },
+    { "type": "stale_community_pr", "number": 6449, "days": 1208 },
+    { "type": "ci_failure", "workflow": "build", "details": "..." }
+  ],
+  "warning_items": [
+    { "type": "P1_count", "count": 23 },
+    { "type": "unanswered_questions", "count": 52 },
+    { "type": "security_issue", "number": 3604 }
+  ]
 }
 ```
+
+**Important:** The `critical_items` and `warning_items` arrays are essential for delta reporting. Each item should have a `type` and enough info (issue `number`, `count`, `workflow` name) to identify it uniquely across runs. On the next run, compare the new critical/warning items against these cached lists to determine what is NEW vs. what was already known.
 
 **`/tmp/gh-aw/cache-memory/ml-health-history.json`:**
 Append today's entry. Keep max 30 entries.
