@@ -23,19 +23,25 @@ tools:
   edit:
 
 safe-outputs:
+  github-token: ${{ secrets.CROSS_REPO_PAT }}
   create-issue:
+    target-repo: dotnet/machinelearning
     title-prefix: "🏥 "
     labels: [repo-health]
     max: 1
   update-issue:
+    target-repo: dotnet/machinelearning
     target: "*"
     max: 1
   add-comment:
+    target-repo: dotnet/machinelearning
     target: "*"
     max: 1
   hide-comment:
+    target-repo: dotnet/machinelearning
     max: 60
   add-labels:
+    target-repo: dotnet/machinelearning
     max: 2
     target: "*"
 
