@@ -66,7 +66,9 @@ You are an AI agent that performs a daily health check on the **dotnet/machinele
 - Create scripts (Python, bash) to collect data — not needed
 - Use any tool other than the `github` MCP tool for GitHub API access
 
-**Use `bash` ONLY for**: `date`, `jq`, `cat`, `echo`, and file operations on `/tmp/gh-aw/cache-memory/`.
+**Use `bash` ONLY for**: `date`, `jq`, `cat` (reading), `echo` (stdout), `head`, `tail`, `grep`, etc.
+
+**For writing files** to `/tmp/gh-aw/cache-memory/`: You **MUST use the `write` tool**. Bash shell redirects (`>`, `>>`, `tee`) to that directory are permission-denied. Reads via `cat` work; writes via bash do NOT.
 
 **Safe output constraints**: You have EXACTLY 1 `create-issue`, 1 `update-issue`, and 1 `add-comment` available. Plan your outputs carefully — produce only one comment total.
 
@@ -82,10 +84,9 @@ Read cache files using `cat` (if they exist):
 - `/tmp/gh-aw/cache-memory/ml-health-history.json`
 - `/tmp/gh-aw/cache-memory/ml-health-maintainers.json`
 
-If `ml-health-maintainers.json` doesn't exist, create it:
-```bash
-echo '["rokonec"]' > /tmp/gh-aw/cache-memory/ml-health-maintainers.json
-```
+If `ml-health-maintainers.json` doesn't exist, create it using the **write** tool (NOT bash redirect — bash writes to `/tmp/gh-aw/cache-memory/` are blocked):
+
+Use the `write` tool to create `/tmp/gh-aw/cache-memory/ml-health-maintainers.json` with content `["rokonec"]`.
 
 **Known bots** (hard-coded, always excluded from "community"):
 `dotnet-maestro[bot]`, `github-actions[bot]`, `copilot[bot]`, `dependabot[bot]`
@@ -420,7 +421,9 @@ Use this format:
 
 ## Phase 5: Update Cache
 
-Write cache files using bash `echo` + redirect or `jq`:
+⚠️ **CRITICAL**: You MUST use the **`write` tool** (file write) for ALL cache writes. **DO NOT use bash `echo >`, `cat >`, `tee`, or any shell redirect** — they are permission-denied on `/tmp/gh-aw/cache-memory/`. Reads via `cat` work fine; writes MUST use the `write` tool.
+
+Write these cache files using the **write** tool:
 
 **`/tmp/gh-aw/cache-memory/ml-health-issue-number.json`:**
 ```json
