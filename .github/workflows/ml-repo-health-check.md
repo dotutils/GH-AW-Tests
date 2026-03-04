@@ -239,12 +239,14 @@ Using ALL collected data:
 
 ### 4.1 Find or Create Dashboard Issue
 
-First check `/tmp/gh-aw/cache-memory/ml-health-issue-number.json` for a cached issue number.
+Use the **github MCP tool** to search for an existing dashboard issue:
+- Call `list_issues` on the **host repository** (`dotutils/GH-AW-Tests`) with labels: `repo-health`, state: `open`.
+- If an issue is found → use `update-issue` with that `item_number` to overwrite the body.
+- If no issue is found (first run) → use `create-issue` to create one titled `🏥 ML.NET Repository Health Dashboard`.
 
-If the cache has a number, use `update-issue` with that `item_number` to overwrite the body.
-If the cache is empty (first run), use `create-issue` to create one titled `🏥 ML.NET Repository Health Dashboard`.
+⚠️ **Do NOT rely on cached issue number.** The `create-issue` safe output returns a temporary_id, not a real number. Always search by label to discover the issue.
 
-After creating or updating, save the issue number to cache.
+After updating/creating, save the known issue number to `/tmp/gh-aw/cache-memory/ml-health-issue-number.json` using the `write` tool (the number from list_issues, or use "pending" if just created).
 
 ### 4.2 Issue Body
 
