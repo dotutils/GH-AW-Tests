@@ -53,250 +53,206 @@ network:
 
 # ML.NET Repository Health Check
 
-You are an AI agent that performs a daily health check on the **dotnet/machinelearning** repository and maintains a living dashboard issue. You read data from `dotnet/machinelearning` and write the results to a pinned issue in that same repository.
+You are an AI agent that performs a daily health check on the **dotnet/machinelearning** repository and maintains a living dashboard issue.
 
-Run `date -u +%Y-%m-%d` to determine today's date. Use that date throughout all computations.
+## CRITICAL TOOL USAGE RULES
+
+**For ALL data collection from GitHub, you MUST use the `github` MCP tool** (e.g., `list_issues`, `get_issue`, `list_issue_comments`, `list_pull_requests`, `get_pull_request`, `list_pull_request_reviews`, `list_workflow_runs`, `get_repo`, etc.). These tools are configured with a cross-repo PAT that gives you read access to `dotnet/machinelearning`.
+
+**DO NOT** attempt to:
+- Run `gh api` commands via bash — you don't have permission
+- Run `curl` commands — blocked by security policy
+- Create scripts (Python, bash) to collect data — not needed
+- Use any tool other than the `github` MCP tool for GitHub API access
+
+**Use `bash` ONLY for**: `date`, `jq`, `cat`, `echo`, and file operations on `/tmp/gh-aw/cache-memory/`.
+
+**Safe output constraints**: You have EXACTLY 1 `create-issue`, 1 `update-issue`, and 1 `add-comment` available. Plan your outputs carefully — produce only one comment total.
 
 ---
 
-## Phase 1: Initialize State
+## Phase 1: Initialize
 
-### 1.1 Load Cache
+Run `date -u +%Y-%m-%d` to get today's date. Also run `date -u -d '7 days ago' +%Y-%m-%dT00:00:00Z` to get the 7-day-ago timestamp (or compute it with date arithmetic).
 
-Read the following cache files from `/tmp/gh-aw/cache-memory/`. If any file does not exist, this is a **cold start** — note that and skip delta/trend computations later.
+Read cache files using `cat` (if they exist):
+- `/tmp/gh-aw/cache-memory/ml-health-issue-number.json`
+- `/tmp/gh-aw/cache-memory/ml-health-last-run.json`
+- `/tmp/gh-aw/cache-memory/ml-health-history.json`
+- `/tmp/gh-aw/cache-memory/ml-health-maintainers.json`
 
-```
-/tmp/gh-aw/cache-memory/ml-health-issue-number.json
-/tmp/gh-aw/cache-memory/ml-health-last-run.json
-/tmp/gh-aw/cache-memory/ml-health-history.json
-/tmp/gh-aw/cache-memory/ml-health-maintainers.json
-```
-
-If `ml-health-maintainers.json` does not exist, create it now with:
-```json
-["rokonec"]
+If `ml-health-maintainers.json` doesn't exist, create it:
+```bash
+echo '["rokonec"]' > /tmp/gh-aw/cache-memory/ml-health-maintainers.json
 ```
 
-**Known bots** (always excluded from "community" classification — hard-coded, do not store in cache):
+**Known bots** (hard-coded, always excluded from "community"):
 `dotnet-maestro[bot]`, `github-actions[bot]`, `copilot[bot]`, `dependabot[bot]`
 
 ---
 
 ## Phase 2: Data Collection
 
-Collect ALL of the following data from `dotnet/machinelearning` using GitHub tools. For each section, store the results in bash variables or temporary files for later use. **Be thorough** — fetch all pages if needed.
+Use the **github MCP tool** for ALL of the following. The tool accesses `dotnet/machinelearning` via the configured PAT.
 
 ### M1 — Untriaged Issues
 
-Fetch open issues with label `untriaged`:
-```
-GET /repos/dotnet/machinelearning/issues?labels=untriaged&state=open&sort=created&direction=desc&per_page=100
-```
-- Count total untriaged issues.
-- Identify those created in the **last 7 days**.
-- Sub-classify: does the issue also have `question` label? `bug` label? Neither?
-- **Severity:** 🟡 Warning if count > 20; 🔴 Critical if > 50.
-- Record the 10 most recent with: number, title, author, created_at, labels.
+Use the github tool to list issues in `dotnet/machinelearning` with these filters:
+- Labels: `untriaged`
+- State: `open`
+- Sort: `created`, direction: `desc`
+- Per page: 100
+
+Count total untriaged issues. Identify those created in the last 7 days. Note which also have `question` or `bug` labels.
+- **Severity:** 🟡 if count > 20; 🔴 if > 50.
+- Record the 10 most recent: number, title, author, created_at, labels.
 
 ### M2 — Issues Awaiting User Input with New Activity
 
-Fetch open issues with label `Awaiting User Input`:
-```
-GET /repos/dotnet/machinelearning/issues?labels=Awaiting+User+Input&state=open&per_page=50
-```
-For each, fetch the last few comments:
-```
-GET /repos/dotnet/machinelearning/issues/{number}/comments?per_page=5&sort=created&direction=desc
-```
-Flag issues where the **most recent comment** is from someone who is NOT a known maintainer and NOT a known bot. That means the author responded and a maintainer should follow up.
+Use the github tool to list issues with label `Awaiting User Input`, state `open`.
+
+For each issue found, use the github tool to list its comments (last 5). Flag issues where the most recent comment author is NOT a known maintainer and NOT a known bot — that means the user replied and needs maintainer follow-up.
 
 - **Severity:** 🟡 Warning
-- Record: number, title, author, last_commenter, last_comment_date.
 
 ### M3 — Unanswered Questions (> 7 days old)
 
-Fetch open issues with label `question`:
-```
-GET /repos/dotnet/machinelearning/issues?labels=question&state=open&sort=created&direction=asc&per_page=50
-```
-Filter to issues created > 7 days ago. For each, check if there are ANY comments from a known maintainer. If no maintainer has ever commented, flag it.
+Use the github tool to list issues with label `question`, state `open`, sorted by `created` ascending.
 
-- **Severity:** 🟡 Warning if count > 5; 🔴 Critical if > 15.
-- Record: number, title, author, created_at, comment_count.
+Filter to issues created > 7 days ago. For each, use the github tool to check comments — if no maintainer has commented, flag it.
+
+- **Severity:** 🟡 if count > 5; 🔴 if > 15.
 
 ### M4 — Pull Requests Needing Review
 
-Fetch open PRs:
-```
-GET /repos/dotnet/machinelearning/pulls?state=open&sort=created&direction=asc&per_page=50
-```
-For each PR, check reviews:
-```
-GET /repos/dotnet/machinelearning/pulls/{number}/reviews
-```
-Flag PRs with:
-- **No reviews at all** and open > 7 days → 🟡 Warning
-- **No reviews at all** and open > 30 days → 🔴 Critical
-- **`community-contribution` label** with no review → 🔴 Critical
-- **Open > 90 days** → 🟡 Warning (stale)
+Use the github tool to list pull requests in `dotnet/machinelearning`: state `open`, sorted by `created` ascending.
+
+For each PR, use the github tool to list reviews. Flag PRs with:
+- No reviews and open > 7 days → 🟡
+- No reviews and open > 30 days → 🔴
+- Has `community-contribution` label and no review → 🔴
+- Open > 90 days → 🟡 (stale)
 
 Record: number, title, author, created_at, review_count, labels, days_open.
 
 ### M5 — Community Items Needing Maintainer Follow-up
 
-Fetch the 50 most recently updated open issues:
-```
-GET /repos/dotnet/machinelearning/issues?state=open&sort=updated&direction=desc&per_page=50
-```
-For each, fetch last comment. If the last commenter is NOT a known maintainer and NOT a bot, and the issue previously had maintainer involvement (any earlier comment from a maintainer), flag it as "needs follow-up."
+Use the github tool to list the 50 most recently updated open issues in `dotnet/machinelearning` (sort: `updated`, direction: `desc`).
 
-- **Severity:** 🟡 Warning
-- Record: number, title, type (issue/PR), author, last_commenter, last_activity_date.
+For each, check the last comment. If last commenter is NOT a maintainer/bot, and the issue previously had maintainer comments, flag as "needs follow-up."
+
+- **Severity:** 🟡
 
 ### W1 — GitHub Actions: Failed Runs on `main` (last 24h)
 
-```
-GET /repos/dotnet/machinelearning/actions/runs?branch=main&status=failure&per_page=30
-```
-Filter to runs with `created_at` within the last 24 hours.
+Use the github tool to list workflow runs for `dotnet/machinelearning`: branch `main`, status `failure`.
 
-- **Severity:** 🔴 Critical if any failures; 🟢 if none.
-- Record: workflow_name, run_number, conclusion, html_url, created_at.
+Filter to runs created within the last 24 hours.
 
-### W2 — GitHub Actions: Workflow Run Summary (7-day rolling)
+- **Severity:** 🔴 if any failures; 🟢 if none.
 
-```
-GET /repos/dotnet/machinelearning/actions/runs?branch=main&per_page=100
-```
-Filter to runs from the last 7 days. Group by `workflow_name` (or `name`). For each workflow, compute:
-- Total runs
-- Success count
-- Failure count
-- Cancelled count
-- Success rate (%)
+### W2 — GitHub Actions: Workflow Summary (7-day rolling)
 
-- **Severity:** 🟡 Warning if any workflow > 15% failure; 🔴 Critical if > 30%.
+Use the github tool to list workflow runs: branch `main`, per_page 100.
 
-### W3 — GitHub Actions: Cancelled/Timed-out Runs (last 24h)
+Filter to last 7 days. Group by workflow name. Compute success/failure/cancelled counts and success rate per workflow.
 
-```
-GET /repos/dotnet/machinelearning/actions/runs?branch=main&status=cancelled&per_page=10
-```
-Filter to last 24 hours.
+- **Severity:** 🟡 if any workflow > 15% failure; 🔴 if > 30%.
 
-- **Severity:** 🟡 Warning if any.
+### W3 — Cancelled Runs (last 24h)
+
+Use the github tool to list workflow runs: branch `main`, status `cancelled`.
+
+Filter to last 24 hours. **Severity:** 🟡 if any.
 
 ### W4 — Azure DevOps CI Status (Heuristic)
 
-Check:
-```
-GET /repos/dotnet/machinelearning/issues?labels=blocking-clean-ci&state=open&per_page=10
-GET /repos/dotnet/machinelearning/issues?labels=Known+Build+Error&state=open&per_page=10
-```
-And:
-```
-GET /repos/dotnet/machinelearning/commits/main/status
-```
+Use the github tool to:
+1. List open issues with label `blocking-clean-ci` in `dotnet/machinelearning`
+2. List open issues with label `Known Build Error` in `dotnet/machinelearning`
 
-- **Severity:** 🔴 Critical if open `blocking-clean-ci` issues; 🟡 Warning if `Known Build Error` issues.
-- Record: counts and issue details, latest commit combined status.
+- **Severity:** 🔴 if open `blocking-clean-ci` issues; 🟡 if `Known Build Error` issues exist.
 
-### C1 — High-Priority Open Bugs (P0 and P1)
+### C1 — High-Priority Bugs (P0 and P1)
 
-```
-GET /repos/dotnet/machinelearning/issues?labels=P0&state=open&per_page=10
-GET /repos/dotnet/machinelearning/issues?labels=P1&state=open&per_page=50
-```
+Use the github tool to:
+1. List open issues with label `P0` in `dotnet/machinelearning`
+2. List open issues with label `P1` in `dotnet/machinelearning`
 
-- **Severity:** 🔴 Critical for each P0; 🟡 Warning for P1s open > 30 days.
-- Record: number, title, assignee, created_at, milestone, labels.
+- **Severity:** 🔴 for each P0; 🟡 for P1s open > 30 days.
 
 ### C2 — Bug Count Trends
 
-```
-GET /repos/dotnet/machinelearning/issues?labels=bug&state=open&per_page=100
-```
-Count open bugs. Compare against value from `ml-health-last-run.json` (if cache exists).
+Use the github tool to list open issues with label `bug` in `dotnet/machinelearning` (per_page 100).
 
-- **Severity:** 🟡 Warning if net increase > 5 in last 7 days.
+Count them and compare against `ml-health-last-run.json` cache value.
 
-### C3 — Stale PRs (open > 90 days)
+- **Severity:** 🟡 if net increase > 5 in 7 days.
 
-From M4 data, filter PRs open > 90 days.
+### C3 — Stale PRs
 
-- **Severity:** 🟡 Warning.
+From M4 data, identify PRs open > 90 days. **Severity:** 🟡.
 
 ### C4 — PRs with Failing CI
 
-For each open PR (from M4), check the combined commit status or check runs if feasible. Flag PRs where checks are failing.
+From M4 data, note any PRs with failing checks (if visible in PR data). **Severity:** 🟡.
 
-- **Severity:** 🟡 Warning.
+### C5 — Security Issues
 
-### C5 — Security-Related Issues
+Use the github tool to list open issues with label `Security` in `dotnet/machinelearning`.
 
-```
-GET /repos/dotnet/machinelearning/issues?labels=Security&state=open&per_page=10
-```
+- **Severity:** 🔴 if any open.
 
-- **Severity:** 🔴 Critical if any open.
+### C7 — Issue Velocity
 
-### C7 — Issue Velocity & Health Metrics
-
-Compute:
-- **Issues opened (last 7d):** `GET /repos/dotnet/machinelearning/issues?since={7d_ago}&state=all&per_page=100` — filter by `created_at` in last 7 days.
-- **Issues closed (last 7d):** `GET /repos/dotnet/machinelearning/issues?state=closed&sort=updated&direction=desc&per_page=100` — filter by `closed_at` in last 7 days.
-- **PRs merged (last 7d):** `GET /repos/dotnet/machinelearning/pulls?state=closed&sort=updated&direction=desc&per_page=50` — filter by `merged_at` in last 7 days.
-- **Open issue count:** from repository info `open_issues_count`.
-- **Open PR count:** from PR listing.
+Use the github tool to:
+1. List issues created since 7 days ago (state: all, since: 7d ago) — count those with `created_at` in last 7d.
+2. List recently closed issues (state: closed, sort: updated, desc) — count those with `closed_at` in last 7d.
+3. List recently closed PRs (state: closed) — count those with `merged_at` in last 7d.
+4. Get repo info for `open_issues_count`.
 
 ---
 
 ## Phase 3: Analysis
 
-Using ALL the collected data, generate:
+Using ALL collected data:
 
-1. **Executive Summary** — 2-3 sentences describing overall repo health and what changed since the last run (use cache data for comparison, or note this is the first run).
+1. **Executive Summary** — 2-3 sentences on overall health. Compare with cache data if available (or note first run).
 
-2. **Severity Classification:**
-   - Count the number of 🔴 Critical, 🟡 Warning, and 🔵 Info findings.
-   - **Overall Health:**
-     - 🔴 **Unhealthy** if any critical findings
-     - 🟡 **Needs Attention** if no critical but warnings exist
-     - 🟢 **Healthy** if only info-level findings
+2. **Classify Severity:**
+   - Count 🔴 Critical, 🟡 Warning, 🔵 Info findings.
+   - **Overall:** 🔴 Unhealthy (any critical), 🟡 Needs Attention (warnings only), 🟢 Healthy (info only).
 
-3. **Correlation Insights** — Look for patterns:
-   - Many untriaged issues + no recent maintainer comments → possible maintainer bandwidth issue
-   - CI failures + open `blocking-clean-ci` issues → known CI problem
-   - Stale PRs from community + no reviews → community engagement concern
-   - Rising bug count + no P0/P1 triage → potential triage backlog
+3. **Correlation Insights:**
+   - Many untriaged + no maintainer comments → bandwidth issue
+   - CI failures + `blocking-clean-ci` → known CI problem
+   - Stale community PRs + no reviews → engagement concern
+   - Rising bugs + no P0/P1 triage → triage backlog
 
-4. **Recommendations** — 3-5 actionable next steps for maintainers.
+4. **Recommendations** — 3-5 actionable items.
 
 ---
 
-## Phase 4: Output — Dashboard Issue
+## Phase 4: Output
 
 ### 4.1 Find or Create Dashboard Issue
 
-Search for open issues with label `repo-health` in `dotnet/machinelearning`:
-```
-GET /repos/dotnet/machinelearning/issues?labels=repo-health&state=open&per_page=5
-```
+Use the github tool to search for open issues with label `repo-health` in `dotnet/machinelearning`.
 
-Also check the cached issue number in `/tmp/gh-aw/cache-memory/ml-health-issue-number.json`.
+Also check `/tmp/gh-aw/cache-memory/ml-health-issue-number.json`.
 
-- If exactly one issue with `repo-health` label exists → use that issue.
-- If none exists → use `create-issue` to create one with title `🏥 ML.NET Repository Health Dashboard` and label `repo-health`. Then save its number to cache.
-- If multiple exist → use the most recently created one.
+- If an issue exists → use `update-issue` (operation: `replace`) to overwrite the body.
+- If none exists → use `create-issue` to create one titled `🏥 ML.NET Repository Health Dashboard`.
+- Save the issue number to cache.
 
-### 4.2 Update Issue Body
+### 4.2 Issue Body
 
-Use `update-issue` with operation `replace` to **completely replace** the issue body with the dashboard content. The body MUST follow this exact structure:
+Replace the entire body with this structure (fill in real data):
 
-```
+```markdown
 # 🏥 ML.NET Repository Health Dashboard — {date}
 
-**Overall:** {overall_emoji} {overall_status}
+**Overall:** {emoji} {status}
 **Status:** 🔴 {critical_count} critical · 🟡 {warning_count} warnings · 🔵 {info_count} info
 
 > {executive_summary}
@@ -306,10 +262,10 @@ Use `update-issue` with operation `replace` to **completely replace** the issue 
 ## 🚨 Maintainer Action Required
 
 ### Immediate (🔴 Critical)
-{Bulleted list of critical items — P0 bugs, security issues, CI failures on main, long-unreviewed community PRs. Include issue/PR numbers as links. If none, write "✅ No critical items."}
+{Bulleted list of critical items with linked issue/PR numbers. If none: "✅ No critical items."}
 
 ### Timely (🟡 Warning)
-{Bulleted list of warning items — untriaged issues backlog, unanswered questions, stale PRs, etc. Include counts and links to the most important items. If none, write "✅ No warnings."}
+{Bulleted list of warning items with counts and links. If none: "✅ No warnings."}
 
 ---
 
@@ -319,29 +275,26 @@ Use `update-issue` with operation `replace` to **completely replace** the issue 
 
 | # | Title | Type | Author | Waiting Since | Last Activity |
 |---|-------|------|--------|--------------|---------------|
-{One row for each item from M2, M5 where community is waiting. Link issue numbers.}
+{Rows from M2/M5 data. Link issue numbers as [#NNN](https://github.com/dotnet/machinelearning/issues/NNN).}
 
-**Summary:** {X} issues/PRs awaiting maintainer response · {Y} untriaged issues · {Z} unreviewed PRs
+**Summary:** {X} awaiting response · {Y} untriaged · {Z} unreviewed PRs
 
 ---
 
 ## 🔧 CI / Workflow Health
 
-### GitHub Actions (last 24h)
-| Workflow | Runs (7d) | ✅ Pass | ❌ Fail | ⏹️ Cancel | Rate |
-|----------|-----------|---------|---------|-----------|------|
-{One row per workflow from W2 data}
+### GitHub Actions (7-day summary)
+| Workflow | Runs | ✅ Pass | ❌ Fail | ⏹️ Cancel | Rate |
+|----------|------|---------|---------|-----------|------|
+{Rows from W2}
 
-{If W1 found failures: "### ❌ Failed Runs (last 24h)" followed by bulleted list with links}
-
-{If W3 found cancellations: "### ⏹️ Cancelled Runs (last 24h)" followed by bulleted list}
+{If W1 failures: "### ❌ Failed Runs (last 24h)" + list with links}
+{If W3 cancellations: "### ⏹️ Cancelled Runs (last 24h)" + list}
 
 ### Azure DevOps Status (Heuristic)
-- Latest `main` commit status: {status_state} ({context details})
 - Open `blocking-clean-ci` issues: {count}
 - Open `Known Build Error` issues: {count}
-
-{If any blocking issues, list them with links}
+{List blocking issues with links if any}
 
 ---
 
@@ -349,9 +302,9 @@ Use `update-issue` with operation `replace` to **completely replace** the issue 
 
 | Metric | Current | 7d Ago | Δ | Trend |
 |--------|---------|--------|---|-------|
-| Open issues (total) | {n} | {prev or N/A} | {delta or —} | {↑↓→ or —} |
-| Open bugs | {n} | {prev or N/A} | {delta or —} | {↑↓→ or —} |
-| Untriaged issues | {n} | {prev or N/A} | {delta or —} | {↑↓→ or —} |
+| Open issues (total) | {n} | {prev or N/A} | {+/-n or —} | {↑↓→} |
+| Open bugs | {n} | {prev or N/A} | {+/-n or —} | {↑↓→} |
+| Untriaged issues | {n} | {prev or N/A} | {+/-n or —} | {↑↓→} |
 | Open P0 | {n} | | | |
 | Open P1 | {n} | | | |
 | Issues opened (7d) | {n} | | | |
@@ -360,9 +313,9 @@ Use `update-issue` with operation `replace` to **completely replace** the issue 
 ### High-Priority Bugs (P0/P1)
 | # | Title | Priority | Assignee | Age (days) | Milestone |
 |---|-------|----------|----------|------------|-----------|
-{One row per P0/P1 bug from C1}
+{Rows from C1. Link numbers.}
 
-{If C5 found security issues: "### 🔒 Security Issues" followed by list}
+{If C5 security issues: "### 🔒 Security Issues" + list}
 
 ---
 
@@ -370,14 +323,14 @@ Use `update-issue` with operation `replace` to **completely replace** the issue 
 
 | Metric | Current | 7d Ago | Δ | Trend |
 |--------|---------|--------|---|-------|
-| Open PRs | {n} | {prev or N/A} | {delta or —} | {↑↓→ or —} |
+| Open PRs | {n} | {prev or N/A} | {+/-n or —} | {↑↓→} |
 | PRs merged (7d) | {n} | | | |
 | Community PRs awaiting review | {n} | | | |
 
 ### Open PRs Needing Attention
-| # | Title | Author | Age (days) | Reviews | CI | Labels |
-|---|-------|--------|------------|---------|----| -------|
-{One row per PR from M4 that needs attention — sort by urgency}
+| # | Title | Author | Age (days) | Reviews | Labels |
+|---|-------|--------|------------|---------|--------|
+{Rows from M4 — PRs needing attention, sorted by urgency. Link numbers.}
 
 ---
 
@@ -385,52 +338,51 @@ Use `update-issue` with operation `replace` to **completely replace** the issue 
 
 | Metric | Current | Previous | Δ | Trend |
 |--------|---------|----------|---|-------|
-| Issues opened/day | {avg} | {prev_avg or N/A} | {delta or —} | {↑↓→ or —} |
-| Issues closed/day | {avg} | {prev_avg or N/A} | {delta or —} | {↑↓→ or —} |
-| PRs merged/day | {avg} | {prev_avg or N/A} | {delta or —} | {↑↓→ or —} |
-| GH Actions pass rate | {%} | {prev or N/A} | {delta or —} | {↑↓→ or —} |
+| Issues opened/day | {avg} | {prev or N/A} | {delta or —} | {↑↓→} |
+| Issues closed/day | {avg} | {prev or N/A} | {delta or —} | {↑↓→} |
+| PRs merged/day | {avg} | {prev or N/A} | {delta or —} | {↑↓→} |
+| GH Actions pass rate | {%} | {prev or N/A} | {delta or —} | {↑↓→} |
 
 ---
 
 ## 💡 Recommendations
 
-{Numbered list of 3-5 actionable recommendations based on the analysis}
+{Numbered list of 3-5 actionable recommendations}
 
 ---
 
 ## 🔍 Correlation Insights
 
-{Bullet list of connected findings and patterns observed}
+{Bullet list of patterns and connected findings}
 
 ---
 
-<sub>🤖 Generated by ML.NET Repo Health Check · {run_timestamp} UTC</sub>
+<sub>🤖 Generated by ML.NET Repo Health Check · {timestamp} UTC</sub>
 ```
 
-**Size guard:** If the body exceeds 60,000 characters:
-- Keep **Maintainer Action Required** and **Pending Community Interactions** in full.
-- Wrap all other sections in `<details><summary>Section Title</summary>...content...</details>` tags.
-- Add footer: `> ⚠️ Content truncated to fit GitHub issue size limits.`
+**Size guard:** If body > 60,000 chars, wrap non-critical sections in `<details>` tags. Always keep "Maintainer Action Required" and "Pending Community Interactions" in full.
 
-### 4.3 Post Daily Summary Comment
+### 4.3 Post ONE Daily Summary Comment
 
-After updating the issue body, use `add-comment` to post a daily summary comment on the same issue:
+**You have exactly 1 `add-comment` available. Do NOT produce more than one comment.**
 
-```
+After creating/updating the issue, post this single comment:
+
+```markdown
 ## 📋 Health Check — {date}
 
-**Overall:** {overall_emoji} {overall_status}
+**Overall:** {emoji} {status}
 🔴 {critical_count} · 🟡 {warning_count} · 🔵 {info_count}
 
 **Key Changes Since Last Run:**
-{Bullet list of what changed — new findings, resolved items, trend shifts. If first run, say "Initial health check — no previous data for comparison."}
+{Bullets of changes. First run: "Initial health check — no previous data for comparison."}
 
 **Snapshot:**
 - Untriaged issues: {n} ({delta or "first run"})
 - Open bugs: {n} ({delta or "first run"})
 - Unanswered questions: {n}
 - Unreviewed PRs: {n}
-- CI status: {pass_emoji} GH Actions / {pass_emoji} AzDO (heuristic)
+- CI status: {emoji} GH Actions / {emoji} AzDO (heuristic)
 - Community items awaiting response: {n}
 ```
 
@@ -438,7 +390,7 @@ After updating the issue body, use `add-comment` to post a daily summary comment
 
 ## Phase 5: Update Cache
 
-Write updated cache files:
+Write cache files using bash `echo` + redirect or `jq`:
 
 **`/tmp/gh-aw/cache-memory/ml-health-issue-number.json`:**
 ```json
@@ -462,7 +414,7 @@ Write updated cache files:
     "unanswered_questions": <n>,
     "unreviewed_prs": <n>,
     "community_waiting": <n>,
-    "gh_actions_pass_rate": <percentage>,
+    "gh_actions_pass_rate": <pct>,
     "critical_count": <n>,
     "warning_count": <n>,
     "info_count": <n>
@@ -471,72 +423,40 @@ Write updated cache files:
 ```
 
 **`/tmp/gh-aw/cache-memory/ml-health-history.json`:**
-Append today's metrics to the array. Keep only the last 30 entries. If the file doesn't exist, create a new array with just today's entry:
-```json
-[
-  { "date": "<today>", "critical": <n>, "warning": <n>, "untriaged": <n>, "bugs": <n>, "prs": <n>, "open_issues": <n> }
-]
-```
+Append today's entry. Keep max 30 entries.
 
 ---
 
 ## Phase 6: History Pruning
 
-Prune old daily summary comments on the dashboard issue to keep the comment thread manageable.
+Prune old daily summary comments on the dashboard issue.
 
-### 6.1 Enumerate Comments
-
-Fetch ALL comments on the dashboard issue:
-```
-GET /repos/dotnet/machinelearning/issues/{number}/comments?per_page=100
-```
-Paginate if needed.
-
-### 6.2 Filter to Bot Comments
-
-Only consider comments whose body starts with `## 📋 Health Check`. **Never** hide human-authored comments.
-
-### 6.3 Parse Dates
-
-Extract the date from each matching comment's title line: `## 📋 Health Check — {date}`. If the date cannot be parsed, skip that comment.
-
-### 6.4 Apply Retention Rules
-
-For each bot comment:
-- **Age ≤ 10 days** → KEEP
-- **10 days < age ≤ 1 year** → Group by ISO week (year + week number). Within each week, keep only the **latest** comment. Mark all others for hiding.
-- **Age > 1 year** → Mark for hiding.
-
-### 6.5 Hide Marked Comments
-
-For each comment marked for hiding, use `hide-comment` with reason `OUTDATED`.
-
-**Constraints:**
-- Maximum 60 hide operations per run (safe-output limit). If more than 60 need pruning, prioritize the **oldest** first.
-- Skip comments that are already minimized/hidden.
-- Log the count: "Pruned {N} comments: {X} older than 1 year, {Y} redundant within-week."
-
-### 6.6 Edge Cases
-- **First run:** No comments exist yet. Skip pruning.
-- **No comments to prune:** Skip and log "No comments need pruning."
+### Steps:
+1. Use the **github tool** to list ALL comments on the dashboard issue.
+2. Filter to comments whose body starts with `## 📋 Health Check`. Never hide human comments.
+3. Parse the date from each: `## 📋 Health Check — {date}`.
+4. Apply retention:
+   - Age ≤ 10 days → KEEP
+   - 10 days < age ≤ 1 year → keep only the latest per ISO week, mark others for hiding
+   - Age > 1 year → mark for hiding
+5. Use `hide-comment` safe output with reason `OUTDATED` for each marked comment.
+6. Max 60 hides per run. Prioritize oldest if > 60.
+7. Skip already-hidden comments and unparseable dates.
+8. First run: skip pruning entirely.
 
 ---
 
 ## Error Handling
 
-- If any API call returns 404 or 403, skip that check and note in the output: "⚠️ Skipped: {check_name} (API error: {status})".
-- If rate-limited, retry once after a brief pause. If still limited, skip remaining checks in that category and note in the output.
-- If no cache files exist (first run), skip delta/trend computations. Display "N/A" or "—" for previous values and deltas. Note "First run" in the daily comment.
-- If the issue body exceeds 60,000 characters, apply the size guard from §4.2.
-- If a comment date can't be parsed during pruning, skip that comment.
+- API errors → skip that check, note "⚠️ Skipped: {check} (API error)" in output.
+- No cache → first run, display "N/A" for deltas, note "First run."
+- Body > 60k chars → apply size guard.
+- Unparseable comment date → skip in pruning.
 
----
+## Reminders
 
-## Important Reminders
-
-- **ALL issue/PR numbers must be linked** as `[#NNN](https://github.com/dotnet/machinelearning/issues/NNN)` or `[#NNN](https://github.com/dotnet/machinelearning/pull/NNN)`.
-- The **maintainer list** is in `/tmp/gh-aw/cache-memory/ml-health-maintainers.json`. Read it before classifying commenters.
-- The **bot list** is hard-coded: `dotnet-maestro[bot]`, `github-actions[bot]`, `copilot[bot]`, `dependabot[bot]`.
-- Be conservative with API calls — reuse data across checks (e.g., M4 PR data for C3 and C4).
-- Use `jq` for JSON processing when working with bash.
-- **Always call a safe-output.** If you cannot complete the workflow for any reason, call `noop` with an error description.
+- Link ALL issue/PR numbers: `[#NNN](https://github.com/dotnet/machinelearning/issues/NNN)`
+- Read maintainer list from cache before classifying commenters.
+- Reuse data across checks (M4 → C3, C4).
+- You have exactly: 1 create-issue OR 1 update-issue, 1 add-comment, up to 60 hide-comment. Plan accordingly.
+- If the workflow cannot complete, call `noop` with an error description.
