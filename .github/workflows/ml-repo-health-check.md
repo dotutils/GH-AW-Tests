@@ -23,25 +23,27 @@ tools:
   edit:
 
 safe-outputs:
+  # NOTE: To write to dotnet/machinelearning, set CROSS_REPO_PAT secret with
+  # issues:write scope and uncomment the target-repo lines below.
   github-token: ${{ secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
   create-issue:
-    target-repo: dotnet/machinelearning
+    # target-repo: dotnet/machinelearning
     title-prefix: "🏥 "
     labels: [repo-health]
     max: 1
   update-issue:
-    target-repo: dotnet/machinelearning
+    # target-repo: dotnet/machinelearning
     target: "*"
     max: 1
   add-comment:
-    target-repo: dotnet/machinelearning
+    # target-repo: dotnet/machinelearning
     target: "*"
     max: 1
   hide-comment:
-    target-repo: dotnet/machinelearning
+    # target-repo: dotnet/machinelearning
     max: 60
   add-labels:
-    target-repo: dotnet/machinelearning
+    # target-repo: dotnet/machinelearning
     max: 2
     target: "*"
 

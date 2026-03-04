@@ -23,7 +23,7 @@
 #
 # Daily agentic workflow that scans the dotnet/machinelearning repository for health signals — pending maintainer actions, workflow failures, concerning bugs/PRs — and maintains a pinned health dashboard issue with automatic comment history pruning.
 #
-# frontmatter-hash: edeac4f8370e2133cce0d0421ba9b24dac41cdc2c8f79a2e5fbf578fcccb5591
+# frontmatter-hash: e681736a77caca3844756333e2a13c8ae0e583a8ade34298293f84c377300d0e
 
 name: "ML.NET Repository Health Check"
 "on":
@@ -368,12 +368,12 @@ jobs:
           mkdir -p /tmp/gh-aw/safeoutputs
           mkdir -p /tmp/gh-aw/mcp-logs/safeoutputs
           cat > /opt/gh-aw/safeoutputs/config.json << 'GH_AW_SAFE_OUTPUTS_CONFIG_EOF'
-          {"add_comment":{"max":1,"target":"*","target-repo":"dotnet/machinelearning"},"add_labels":{"max":2,"target":"*","target-repo":"dotnet/machinelearning"},"create_issue":{"max":1},"hide_comment":{"max":60},"missing_data":{},"missing_tool":{},"noop":{"max":1},"update_issue":{"max":1}}
+          {"add_comment":{"max":1,"target":"*"},"add_labels":{"max":2,"target":"*"},"create_issue":{"max":1},"hide_comment":{"max":60},"missing_data":{},"missing_tool":{},"noop":{"max":1},"update_issue":{"max":1}}
           GH_AW_SAFE_OUTPUTS_CONFIG_EOF
           cat > /opt/gh-aw/safeoutputs/tools.json << 'GH_AW_SAFE_OUTPUTS_TOOLS_EOF'
           [
             {
-              "description": "Create a new GitHub issue for tracking bugs, feature requests, or tasks. Use this for actionable work items that need assignment, labeling, and status tracking. For reports, announcements, or status updates that don't require task tracking, use create_discussion instead. CONSTRAINTS: Maximum 1 issue(s) can be created. Title will be prefixed with \"🏥 \". Labels [repo-health] will be automatically added. Issues will be created in repository \"dotnet/machinelearning\".",
+              "description": "Create a new GitHub issue for tracking bugs, feature requests, or tasks. Use this for actionable work items that need assignment, labeling, and status tracking. For reports, announcements, or status updates that don't require task tracking, use create_discussion instead. CONSTRAINTS: Maximum 1 issue(s) can be created. Title will be prefixed with \"🏥 \". Labels [repo-health] will be automatically added.",
               "inputSchema": {
                 "additionalProperties": false,
                 "properties": {
@@ -414,7 +414,7 @@ jobs:
               "name": "create_issue"
             },
             {
-              "description": "Add a comment to an existing GitHub issue, pull request, or discussion. Use this to provide feedback, answer questions, or add information to an existing conversation. For creating new items, use create_issue, create_discussion, or create_pull_request instead. IMPORTANT: Comments are subject to validation constraints enforced by the MCP server - maximum 65536 characters for the complete comment (including footer which is added automatically), 10 mentions (@username), and 50 links. Exceeding these limits will result in an immediate error with specific guidance. CONSTRAINTS: Maximum 1 comment(s) can be added. Target: *. Comments will be added in repository \"dotnet/machinelearning\".",
+              "description": "Add a comment to an existing GitHub issue, pull request, or discussion. Use this to provide feedback, answer questions, or add information to an existing conversation. For creating new items, use create_issue, create_discussion, or create_pull_request instead. IMPORTANT: Comments are subject to validation constraints enforced by the MCP server - maximum 65536 characters for the complete comment (including footer which is added automatically), 10 mentions (@username), and 50 links. Exceeding these limits will result in an immediate error with specific guidance. CONSTRAINTS: Maximum 1 comment(s) can be added. Target: *.",
               "inputSchema": {
                 "additionalProperties": false,
                 "properties": {
@@ -1273,7 +1273,7 @@ jobs:
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
           GH_AW_AGENT_OUTPUT: ${{ env.GH_AW_AGENT_OUTPUT }}
-          GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: "{\"add_comment\":{\"max\":1,\"target\":\"*\",\"target-repo\":\"dotnet/machinelearning\"},\"add_labels\":{\"max\":2,\"target\":\"*\",\"target-repo\":\"dotnet/machinelearning\"},\"create_issue\":{\"labels\":[\"repo-health\"],\"max\":1,\"target-repo\":\"dotnet/machinelearning\",\"title_prefix\":\"🏥 \"},\"hide_comment\":{\"max\":60,\"target-repo\":\"dotnet/machinelearning\"},\"missing_data\":{},\"missing_tool\":{},\"update_issue\":{\"allow_body\":true,\"max\":1,\"target\":\"*\",\"target-repo\":\"dotnet/machinelearning\"}}"
+          GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: "{\"add_comment\":{\"max\":1,\"target\":\"*\"},\"add_labels\":{\"max\":2,\"target\":\"*\"},\"create_issue\":{\"labels\":[\"repo-health\"],\"max\":1,\"title_prefix\":\"🏥 \"},\"hide_comment\":{\"max\":60},\"missing_data\":{},\"missing_tool\":{},\"update_issue\":{\"allow_body\":true,\"max\":1,\"target\":\"*\"}}"
         with:
           github-token: ${{ secrets.CROSS_REPO_PAT || secrets.GITHUB_TOKEN }}
           script: |
