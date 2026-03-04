@@ -18,7 +18,6 @@ permissions:
 tools:
   github:
     toolsets: [repos, issues, pull_requests, actions]
-    github-token: ${{ secrets.CROSS_REPO_PAT }}
   cache-memory: true
   bash: ["cat", "grep", "head", "tail", "find", "ls", "wc", "jq", "date", "sort", "uniq", "echo", "sed", "awk"]
   edit:
