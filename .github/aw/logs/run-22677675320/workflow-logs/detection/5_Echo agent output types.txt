@@ -1,7 +1,0 @@
-﻿2026-03-04T16:09:46.1565271Z ##[group]Run echo "Agent output-types: $AGENT_OUTPUT_TYPES"
-2026-03-04T16:09:46.1565730Z [36;1mecho "Agent output-types: $AGENT_OUTPUT_TYPES"[0m
-2026-03-04T16:09:46.1614564Z shell: /usr/bin/bash -e {0}
-2026-03-04T16:09:46.1614832Z env:
-2026-03-04T16:09:46.1615069Z   AGENT_OUTPUT_TYPES: create_issue,add_comment
-2026-03-04T16:09:46.1615375Z ##[endgroup]
-2026-03-04T16:09:46.1679935Z Agent output-types: create_issue,add_comment
