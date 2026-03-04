@@ -1,0 +1,29 @@
+﻿2026-03-04T16:04:16.7356093Z ##[group]Run actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+2026-03-04T16:04:16.7356677Z with:
+2026-03-04T16:04:16.7356945Z   name: prompt
+2026-03-04T16:04:16.7357262Z   path: /tmp/gh-aw/aw-prompts
+2026-03-04T16:04:16.7357647Z   merge-multiple: false
+2026-03-04T16:04:16.7358034Z   repository: dotutils/GH-AW-Tests
+2026-03-04T16:04:16.7358344Z   run-id: 22677675320
+2026-03-04T16:04:16.7358671Z env:
+2026-03-04T16:04:16.7358970Z   DEFAULT_BRANCH: main
+2026-03-04T16:04:16.7359334Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-03-04T16:04:16.7359688Z   GH_AW_ASSETS_BRANCH: 
+2026-03-04T16:04:16.7360025Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-03-04T16:04:16.7360398Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-03-04T16:04:16.7361080Z   GH_AW_SAFE_OUTPUTS: /opt/gh-aw/safeoutputs/outputs.jsonl
+2026-03-04T16:04:16.7361542Z   GH_AW_SAFE_OUTPUTS_CONFIG_PATH: /opt/gh-aw/safeoutputs/config.json
+2026-03-04T16:04:16.7362091Z   GH_AW_SAFE_OUTPUTS_TOOLS_PATH: /opt/gh-aw/safeoutputs/tools.json
+2026-03-04T16:04:16.7363044Z   GH_AW_WORKFLOW_ID_SANITIZED: mlrepohealthcheck
+2026-03-04T16:04:16.7363392Z ##[endgroup]
+2026-03-04T16:04:16.9351654Z Downloading single artifact
+2026-03-04T16:04:17.2399125Z Preparing to download the following artifacts:
+2026-03-04T16:04:17.2400423Z - prompt (ID: 5762873613, Size: 10126, Expected Digest: sha256:448b6d70075813a63ac6c19040a230203c1533e3d533dc9348b52e997ecd4643)
+2026-03-04T16:04:17.4149580Z Redirecting to blob download url: https://productionresultssa19.blob.core.windows.net/actions-results/ebf64ec7-2060-47b2-813b-f01e2151c72c/workflow-job-run-8e73f75c-341f-5336-b311-0daad4cacc08/artifacts/cf07194ee232eb531e15f690000d19846dea69cf05504782658afcfacb9228a2.zip
+2026-03-04T16:04:17.4151965Z Starting download of artifact to: /tmp/gh-aw/aw-prompts
+2026-03-04T16:04:17.6880030Z (node:3940) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-03-04T16:04:17.6881304Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-03-04T16:04:17.6925862Z SHA256 digest of downloaded artifact is 448b6d70075813a63ac6c19040a230203c1533e3d533dc9348b52e997ecd4643
+2026-03-04T16:04:17.6926928Z Artifact download completed successfully.
+2026-03-04T16:04:17.6927557Z Total of 1 artifact(s) downloaded
+2026-03-04T16:04:17.6934799Z Download artifact has finished successfully

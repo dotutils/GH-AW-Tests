@@ -1,0 +1,31 @@
+﻿2026-03-04T16:03:36.8489065Z ##[group]Run bash /opt/gh-aw/actions/download_docker_images.sh ghcr.io/github/gh-aw-firewall/agent:0.19.1 ghcr.io/github/gh-aw-firewall/squid:0.19.1 ghcr.io/github/gh-aw-mcpg:v0.1.4 ghcr.io/github/github-mcp-server:v0.30.3 node:lts-alpine
+2026-03-04T16:03:36.8491676Z [36;1mbash /opt/gh-aw/actions/download_docker_images.sh ghcr.io/github/gh-aw-firewall/agent:0.19.1 ghcr.io/github/gh-aw-firewall/squid:0.19.1 ghcr.io/github/gh-aw-mcpg:v0.1.4 ghcr.io/github/github-mcp-server:v0.30.3 node:lts-alpine[0m
+2026-03-04T16:03:36.8541705Z shell: /usr/bin/bash -e {0}
+2026-03-04T16:03:36.8541943Z env:
+2026-03-04T16:03:36.8542119Z   DEFAULT_BRANCH: main
+2026-03-04T16:03:36.8542578Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-03-04T16:03:36.8542813Z   GH_AW_ASSETS_BRANCH: 
+2026-03-04T16:03:36.8543018Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-03-04T16:03:36.8543489Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-03-04T16:03:36.8543849Z   GH_AW_SAFE_OUTPUTS: /opt/gh-aw/safeoutputs/outputs.jsonl
+2026-03-04T16:03:36.8544237Z   GH_AW_SAFE_OUTPUTS_CONFIG_PATH: /opt/gh-aw/safeoutputs/config.json
+2026-03-04T16:03:36.8544691Z   GH_AW_SAFE_OUTPUTS_TOOLS_PATH: /opt/gh-aw/safeoutputs/tools.json
+2026-03-04T16:03:36.8545057Z   GH_AW_WORKFLOW_ID_SANITIZED: mlrepohealthcheck
+2026-03-04T16:03:36.8545328Z ##[endgroup]
+2026-03-04T16:03:36.8625322Z Starting download of 5 image(s) with max 4 concurrent downloads...
+2026-03-04T16:03:36.8686639Z Attempt 1 of 3: Pulling ghcr.io/github/gh-aw-firewall/agent:0.19.1...
+2026-03-04T16:03:36.8687902Z Attempt 1 of 3: Pulling ghcr.io/github/gh-aw-firewall/squid:0.19.1...
+2026-03-04T16:03:36.8688688Z Attempt 1 of 3: Pulling ghcr.io/github/gh-aw-mcpg:v0.1.4...
+2026-03-04T16:03:36.8693543Z Attempt 1 of 3: Pulling ghcr.io/github/github-mcp-server:v0.30.3...
+2026-03-04T16:03:39.4593010Z ghcr.io/github/gh-aw-mcpg:v0.1.4
+2026-03-04T16:03:39.4607596Z Successfully pulled ghcr.io/github/gh-aw-mcpg:v0.1.4
+2026-03-04T16:03:39.4639603Z Attempt 1 of 3: Pulling node:lts-alpine...
+2026-03-04T16:03:42.4741234Z docker.io/library/node:lts-alpine
+2026-03-04T16:03:42.4754479Z Successfully pulled node:lts-alpine
+2026-03-04T16:03:52.6384710Z ghcr.io/github/gh-aw-firewall/agent:0.19.1
+2026-03-04T16:03:52.6400978Z Successfully pulled ghcr.io/github/gh-aw-firewall/agent:0.19.1
+2026-03-04T16:03:59.8193009Z ghcr.io/github/gh-aw-firewall/squid:0.19.1
+2026-03-04T16:03:59.8207682Z Successfully pulled ghcr.io/github/gh-aw-firewall/squid:0.19.1
+2026-03-04T16:04:10.2882007Z ghcr.io/github/github-mcp-server:v0.30.3
+2026-03-04T16:04:10.2898427Z Successfully pulled ghcr.io/github/github-mcp-server:v0.30.3
+2026-03-04T16:04:10.2903814Z All images downloaded successfully

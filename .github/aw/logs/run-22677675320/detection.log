@@ -1,0 +1,18 @@
+● Read /tmp/gh-aw/threat-detection/aw-prompts/prompt.txt
+  └ 603 lines read
+
+● Read /tmp/gh-aw/threat-detection/agent_output.json
+  └ 1 line read
+
+Based on my analysis of the workflow prompt and agent output:
+
+THREAT_DETECTION_RESULT:{"prompt_injection":false,"secret_leak":false,"malicious_patch":false,"reasons":[]}
+
+
+Total usage est:        1 Premium request
+API time spent:         8s
+Total session time:     10s
+Total code changes:     +0 -0
+Breakdown by AI model:
+ claude-sonnet-4.5       38.5k in, 287 out, 11.5k cached (Est. 1 Premium request)
+Session exported to: /tmp/gh-aw/sandbox/agent/logs/conversation.md

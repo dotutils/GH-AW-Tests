@@ -1,0 +1,55 @@
+﻿2026-03-04T16:08:50.3014055Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-03-04T16:08:50.3014798Z with:
+2026-03-04T16:08:50.3016212Z   script: const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io);
+const { main } = require('/opt/gh-aw/actions/collect_ndjson_output.cjs');
+await main();
+
+2026-03-04T16:08:50.3017993Z   github-token: ***
+2026-03-04T16:08:50.3018384Z   debug: false
+2026-03-04T16:08:50.3018770Z   user-agent: actions/github-script
+2026-03-04T16:08:50.3019274Z   result-encoding: json
+2026-03-04T16:08:50.3019683Z   retries: 0
+2026-03-04T16:08:50.3020128Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-03-04T16:08:50.3020674Z env:
+2026-03-04T16:08:50.3021018Z   DEFAULT_BRANCH: main
+2026-03-04T16:08:50.3021394Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-03-04T16:08:50.3021884Z   GH_AW_ASSETS_BRANCH: 
+2026-03-04T16:08:50.3022500Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-03-04T16:08:50.3023031Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-03-04T16:08:50.3023754Z   GH_AW_SAFE_OUTPUTS: /opt/gh-aw/safeoutputs/outputs.jsonl
+2026-03-04T16:08:50.3024541Z   GH_AW_SAFE_OUTPUTS_CONFIG_PATH: /opt/gh-aw/safeoutputs/config.json
+2026-03-04T16:08:50.3025352Z   GH_AW_SAFE_OUTPUTS_TOOLS_PATH: /opt/gh-aw/safeoutputs/tools.json
+2026-03-04T16:08:50.3026256Z   GH_AW_WORKFLOW_ID_SANITIZED: mlrepohealthcheck
+2026-03-04T16:08:50.3033769Z   GH_AW_ALLOWED_DOMAINS: *.githubusercontent.com,api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,codeload.github.com,github-cloud.githubusercontent.com,github-cloud.s3.amazonaws.com,github.com,github.githubassets.com,host.docker.internal,lfs.github.com,objects.githubusercontent.com,raw.githubusercontent.com,registry.npmjs.org,telemetry.enterprise.githubcopilot.com
+2026-03-04T16:08:50.3041194Z   GITHUB_SERVER_URL: https://github.com
+2026-03-04T16:08:50.3041767Z   GITHUB_API_URL: https://api.github.com
+2026-03-04T16:08:50.3042480Z ##[endgroup]
+2026-03-04T16:08:50.3815484Z Loaded validation config from /opt/gh-aw/safeoutputs/validation.json
+2026-03-04T16:08:50.3821827Z Found 1 unique mentions in text
+2026-03-04T16:08:50.6697138Z Cached 0 recent collaborators for optimistic resolution
+2026-03-04T16:08:50.6697896Z Resolved 0 mentions via individual API calls
+2026-03-04T16:08:50.6698444Z Total allowed mentions: 1
+2026-03-04T16:08:50.6698940Z [OUTPUT COLLECTOR] Allowed mentions: JanKrivanek
+2026-03-04T16:08:50.6699669Z [INGESTION] Reading config from: /opt/gh-aw/safeoutputs/config.json
+2026-03-04T16:08:50.6704457Z [INGESTION] Raw config content: {"add_comment":{"max":1,"target":"*","target-repo":"dotnet/machinelearning"},"add_labels":{"max":2,"target":"*","target-repo":"dotnet/machinelearning"},"create_issue":{"max":1},"hide_comment":{"max":60},"missing_data":{},"missing_tool":{},"noop":{"max":1},"update_issue":{"max":1}}
+2026-03-04T16:08:50.6706471Z 
+2026-03-04T16:08:50.6707584Z [INGESTION] Parsed config keys: ["add_comment","add_labels","create_issue","hide_comment","missing_data","missing_tool","noop","update_issue"]
+2026-03-04T16:08:50.6708855Z [INGESTION] Output file path: /opt/gh-aw/safeoutputs/outputs.jsonl
+2026-03-04T16:08:50.6709530Z Raw output content length: 10774
+2026-03-04T16:08:50.6713865Z [INGESTION] First 500 chars of output: {"body":"# 🏥 ML.NET Repository Health Dashboard — 2026-03-04\n\n**Overall:** 🔴 Needs Attention\n**Status:** 🔴 3 critical · 🟡 5 warnings · 🔵 2 info\n\n> This is the first health check for the dotnet/machinelearning repository. The repository shows significant backlog in issue triage and community engagement. There are 211 untriaged issues requiring classification, 5 community PRs without any reviews (some over 3 years old), and 52 unanswered questions. However, CI health is good with 100% Gi
+2026-03-04T16:08:50.6717861Z [INGESTION] Normalizing config keys (dash -> underscore)
+2026-03-04T16:08:50.6719287Z [INGESTION] Expected output types after normalization: ["add_comment","add_labels","create_issue","hide_comment","missing_data","missing_tool","noop","update_issue"]
+2026-03-04T16:08:50.6722746Z [INGESTION] Expected output types full config: {"add_comment":{"max":1,"target":"*","target-repo":"dotnet/machinelearning"},"add_labels":{"max":2,"target":"*","target-repo":"dotnet/machinelearning"},"create_issue":{"max":1},"hide_comment":{"max":60},"missing_data":{},"missing_tool":{},"noop":{"max":1},"update_issue":{"max":1}}
+2026-03-04T16:08:50.6726227Z [INGESTION] Processing line 1: {"body":"# 🏥 ML.NET Repository Health Dashboard — 2026-03-04\n\n**Overall:** 🔴 Needs Attention\n**Status:** 🔴 3 critical · 🟡 5 warnings · 🔵 2 info\n\n> This is the first health check for the dotn...
+2026-03-04T16:08:50.6727931Z [INGESTION] Line 1: Original type='create_issue', Normalized type='create_issue'
+2026-03-04T16:08:50.6728620Z Line 1: type 'create_issue'
+2026-03-04T16:08:50.6742386Z Line 1: Valid create_issue item
+2026-03-04T16:08:50.6745188Z [INGESTION] Processing line 2: {"body":"## 📋 Health Check — 2026-03-04\n\n**Overall:** 🔴 Needs Attention\n🔴 3 · 🟡 5 · 🔵 2\n\n**Key Changes Since Last Run:**\n- Initial health check — no previous data for comparison\n- First ba...
+2026-03-04T16:08:50.6748271Z [INGESTION] Line 2: Original type='add_comment', Normalized type='add_comment'
+2026-03-04T16:08:50.6749033Z Line 2: type 'add_comment'
+2026-03-04T16:08:50.6749481Z Line 2: Valid add_comment item
+2026-03-04T16:08:50.6749980Z Successfully parsed 2 valid output items
+2026-03-04T16:08:50.6750633Z Stored validated output to: /tmp/gh-aw/agent_output.json
+2026-03-04T16:08:50.6758857Z output_types: create_issue, add_comment
+2026-03-04T16:08:50.6759462Z Patch file does not exist at: /tmp/gh-aw/aw.patch

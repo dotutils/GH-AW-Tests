@@ -1,0 +1,22 @@
+﻿2026-03-04T16:09:46.1749535Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-03-04T16:09:46.1749953Z with:
+2026-03-04T16:09:46.1750719Z   script: const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io);
+const { main } = require('/opt/gh-aw/actions/setup_threat_detection.cjs');
+await main();
+
+2026-03-04T16:09:46.1751731Z   github-token: ***
+2026-03-04T16:09:46.1751938Z   debug: false
+2026-03-04T16:09:46.1752142Z   user-agent: actions/github-script
+2026-03-04T16:09:46.1752401Z   result-encoding: json
+2026-03-04T16:09:46.1752602Z   retries: 0
+2026-03-04T16:09:46.1752826Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-03-04T16:09:46.1753099Z env:
+2026-03-04T16:09:46.1753304Z   WORKFLOW_NAME: ML.NET Repository Health Check
+2026-03-04T16:09:46.1754668Z   WORKFLOW_DESCRIPTION: Daily agentic workflow that scans the dotnet/machinelearning repository for health signals — pending maintainer actions, workflow failures, concerning bugs/PRs — and maintains a pinned health dashboard issue with automatic comment history pruning.
+2026-03-04T16:09:46.1755782Z   HAS_PATCH: false
+2026-03-04T16:09:46.1755978Z ##[endgroup]
+2026-03-04T16:09:46.2482814Z Prompt file found: /tmp/gh-aw/threat-detection/aw-prompts/prompt.txt (26514 bytes)
+2026-03-04T16:09:46.2485338Z Agent output file found: /tmp/gh-aw/threat-detection/agent_output.json (10959 bytes)
+2026-03-04T16:09:46.2486368Z No patch file found at: /tmp/gh-aw/threat-detection/aw.patch
+2026-03-04T16:09:46.2518963Z Threat detection setup completed

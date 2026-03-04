@@ -1,0 +1,23 @@
+[
+  {
+    "date": "2026-03-04",
+    "metrics": {
+      "open_issues": 211,
+      "open_bugs": 0,
+      "untriaged": 211,
+      "open_p0": 1,
+      "open_p1": 0,
+      "open_prs": 12,
+      "issues_opened_7d": 0,
+      "issues_closed_7d": 0,
+      "prs_merged_7d": 0,
+      "unanswered_questions": 52,
+      "unreviewed_prs": 5,
+      "community_waiting": 5,
+      "gh_actions_pass_rate": 100,
+      "critical_count": 3,
+      "warning_count": 5,
+      "info_count": 2
+    }
+  }
+]

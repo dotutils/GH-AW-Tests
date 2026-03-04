@@ -1,0 +1,19 @@
+﻿2026-03-04T15:45:45.6779071Z ##[group]Run actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+2026-03-04T15:45:45.6779546Z with:
+2026-03-04T15:45:45.6779776Z   name: agent-artifacts
+2026-03-04T15:45:45.6780033Z   path: /tmp/gh-aw/threat-detection/
+2026-03-04T15:45:45.6780320Z   merge-multiple: false
+2026-03-04T15:45:45.6780536Z   repository: dotutils/GH-AW-Tests
+2026-03-04T15:45:45.6780765Z   run-id: 22676341856
+2026-03-04T15:45:45.6780949Z ##[endgroup]
+2026-03-04T15:45:45.8927811Z Downloading single artifact
+2026-03-04T15:45:46.0532481Z Preparing to download the following artifacts:
+2026-03-04T15:45:46.0533685Z - agent-artifacts (ID: 5762538541, Size: 77348, Expected Digest: sha256:3ce6b9d5fe8b79e020678f928a65247e84ac1569c5e1ab0b218a0024f5cc0cdd)
+2026-03-04T15:45:46.2461385Z Redirecting to blob download url: https://productionresultssa7.blob.core.windows.net/actions-results/d9b3a61a-553a-4b53-bbce-79abad5e39c1/workflow-job-run-dced67c8-9530-541c-bf19-670208e9c1f8/artifacts/048a8fab6d204fbc816c87d3d94fee39902cbc8b565ed4f9f5e5ffce7f8bc3e1.zip
+2026-03-04T15:45:46.2463143Z Starting download of artifact to: /tmp/gh-aw/threat-detection
+2026-03-04T15:45:46.2686388Z (node:3043) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-03-04T15:45:46.2687924Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-03-04T15:45:46.2891143Z SHA256 digest of downloaded artifact is 3ce6b9d5fe8b79e020678f928a65247e84ac1569c5e1ab0b218a0024f5cc0cdd
+2026-03-04T15:45:46.2892065Z Artifact download completed successfully.
+2026-03-04T15:45:46.2892409Z Total of 1 artifact(s) downloaded
+2026-03-04T15:45:46.2898184Z Download artifact has finished successfully

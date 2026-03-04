@@ -1,0 +1,12 @@
+﻿2026-03-04T15:52:28.3113386Z ##[group]Run bash /opt/gh-aw/actions/validate_prompt_placeholders.sh
+2026-03-04T15:52:28.3114315Z [36;1mbash /opt/gh-aw/actions/validate_prompt_placeholders.sh[0m
+2026-03-04T15:52:28.3120305Z shell: /usr/bin/bash -e {0}
+2026-03-04T15:52:28.3120780Z env:
+2026-03-04T15:52:28.3121206Z   GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
+2026-03-04T15:52:28.3121771Z ##[endgroup]
+2026-03-04T15:52:28.3223891Z 🔍 Validating prompt placeholders...
+2026-03-04T15:52:28.3226226Z ✅ Placeholder validation complete
+2026-03-04T15:52:28.3226944Z 📊 Prompt statistics:
+2026-03-04T15:52:28.3227458Z    - Lines: 604
+2026-03-04T15:52:28.3227920Z    - Characters: 26514
+2026-03-04T15:52:28.3228414Z    - Words: 3730

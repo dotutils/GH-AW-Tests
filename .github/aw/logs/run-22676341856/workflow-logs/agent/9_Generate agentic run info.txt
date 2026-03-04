@@ -1,0 +1,90 @@
+﻿2026-03-04T15:31:48.2108337Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-03-04T15:31:48.2108718Z with:
+2026-03-04T15:31:48.2112518Z   script: const fs = require('fs');
+
+const awInfo = {
+  engine_id: "copilot",
+  engine_name: "GitHub Copilot CLI",
+  model: process.env.GH_AW_MODEL_AGENT_COPILOT || "",
+  version: "",
+  agent_version: "0.0.410",
+  cli_version: "v0.45.4",
+  workflow_name: "ML.NET Repository Health Check",
+  experimental: false,
+  supports_tools_allowlist: true,
+  run_id: context.runId,
+  run_number: context.runNumber,
+  run_attempt: process.env.GITHUB_RUN_ATTEMPT,
+  repository: context.repo.owner + '/' + context.repo.repo,
+  ref: context.ref,
+  sha: context.sha,
+  actor: context.actor,
+  event_name: context.eventName,
+  staged: false,
+  allowed_domains: ["github"],
+  firewall_enabled: true,
+  awf_version: "v0.19.1",
+  awmg_version: "v0.1.4",
+  steps: {
+    firewall: "squid"
+  },
+  created_at: new Date().toISOString()
+};
+
+// Write to /tmp/gh-aw directory to avoid inclusion in PR
+const tmpPath = '/tmp/gh-aw/aw_info.json';
+fs.writeFileSync(tmpPath, JSON.stringify(awInfo, null, 2));
+console.log('Generated aw_info.json at:', tmpPath);
+console.log(JSON.stringify(awInfo, null, 2));
+
+// Set model as output for reuse in other steps/jobs
+core.setOutput('model', awInfo.model);
+
+2026-03-04T15:31:48.2116797Z   github-token: ***
+2026-03-04T15:31:48.2116994Z   debug: false
+2026-03-04T15:31:48.2117183Z   user-agent: actions/github-script
+2026-03-04T15:31:48.2117432Z   result-encoding: json
+2026-03-04T15:31:48.2117628Z   retries: 0
+2026-03-04T15:31:48.2117829Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-03-04T15:31:48.2118095Z env:
+2026-03-04T15:31:48.2118252Z   DEFAULT_BRANCH: main
+2026-03-04T15:31:48.2118460Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-03-04T15:31:48.2118674Z   GH_AW_ASSETS_BRANCH: 
+2026-03-04T15:31:48.2118901Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-03-04T15:31:48.2119160Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-03-04T15:31:48.2119499Z   GH_AW_SAFE_OUTPUTS: /opt/gh-aw/safeoutputs/outputs.jsonl
+2026-03-04T15:31:48.2119878Z   GH_AW_SAFE_OUTPUTS_CONFIG_PATH: /opt/gh-aw/safeoutputs/config.json
+2026-03-04T15:31:48.2120283Z   GH_AW_SAFE_OUTPUTS_TOOLS_PATH: /opt/gh-aw/safeoutputs/tools.json
+2026-03-04T15:31:48.2120746Z   GH_AW_WORKFLOW_ID_SANITIZED: mlrepohealthcheck
+2026-03-04T15:31:48.2121018Z ##[endgroup]
+2026-03-04T15:31:48.2826891Z Generated aw_info.json at: /tmp/gh-aw/aw_info.json
+2026-03-04T15:31:48.2829062Z {
+2026-03-04T15:31:48.2829354Z   "engine_id": "copilot",
+2026-03-04T15:31:48.2829755Z   "engine_name": "GitHub Copilot CLI",
+2026-03-04T15:31:48.2830171Z   "model": "",
+2026-03-04T15:31:48.2830469Z   "version": "",
+2026-03-04T15:31:48.2830945Z   "agent_version": "0.0.410",
+2026-03-04T15:31:48.2831323Z   "cli_version": "v0.45.4",
+2026-03-04T15:31:48.2847470Z   "workflow_name": "ML.NET Repository Health Check",
+2026-03-04T15:31:48.2848098Z   "experimental": false,
+2026-03-04T15:31:48.2848517Z   "supports_tools_allowlist": true,
+2026-03-04T15:31:48.2848941Z   "run_id": 22676341856,
+2026-03-04T15:31:48.2849315Z   "run_number": 1,
+2026-03-04T15:31:48.2849678Z   "run_attempt": "1",
+2026-03-04T15:31:48.2850018Z   "repository": "dotutils/GH-AW-Tests",
+2026-03-04T15:31:48.2850306Z   "ref": "refs/heads/main",
+2026-03-04T15:31:48.2850588Z   "sha": "bf496a2cae75633d65589d9d9519904340e87972",
+2026-03-04T15:31:48.2851197Z   "actor": "JanKrivanek",
+2026-03-04T15:31:48.2851451Z   "event_name": "workflow_dispatch",
+2026-03-04T15:31:48.2851714Z   "staged": false,
+2026-03-04T15:31:48.2851932Z   "allowed_domains": [
+2026-03-04T15:31:48.2852123Z     "github"
+2026-03-04T15:31:48.2852281Z   ],
+2026-03-04T15:31:48.2852450Z   "firewall_enabled": true,
+2026-03-04T15:31:48.2852662Z   "awf_version": "v0.19.1",
+2026-03-04T15:31:48.2852886Z   "awmg_version": "v0.1.4",
+2026-03-04T15:31:48.2853086Z   "steps": {
+2026-03-04T15:31:48.2853253Z     "firewall": "squid"
+2026-03-04T15:31:48.2853436Z   },
+2026-03-04T15:31:48.2853606Z   "created_at": "2026-03-04T15:31:48.281Z"
+2026-03-04T15:31:48.2853872Z }

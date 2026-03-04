@@ -1,0 +1,28 @@
+﻿2026-03-04T15:53:07.5024337Z ##[group]Run # Generate a secure random API key (360 bits of entropy, 40+ chars)
+2026-03-04T15:53:07.5025006Z [36;1m# Generate a secure random API key (360 bits of entropy, 40+ chars)[0m
+2026-03-04T15:53:07.5025523Z [36;1m# Mask immediately to prevent timing vulnerabilities[0m
+2026-03-04T15:53:07.5025968Z [36;1mAPI_KEY=$(openssl rand -base64 45 | tr -d '/+=')[0m
+2026-03-04T15:53:07.5026331Z [36;1mecho "::add-mask::${API_KEY}"[0m
+2026-03-04T15:53:07.5026934Z [36;1m[0m
+2026-03-04T15:53:07.5027174Z [36;1mPORT=3001[0m
+2026-03-04T15:53:07.5027373Z [36;1m[0m
+2026-03-04T15:53:07.5027561Z [36;1m# Set outputs for next steps[0m
+2026-03-04T15:53:07.5027818Z [36;1m{[0m
+2026-03-04T15:53:07.5028032Z [36;1m  echo "safe_outputs_api_key=${API_KEY}"[0m
+2026-03-04T15:53:07.5028359Z [36;1m  echo "safe_outputs_port=${PORT}"[0m
+2026-03-04T15:53:07.5028647Z [36;1m} >> "$GITHUB_OUTPUT"[0m
+2026-03-04T15:53:07.5028877Z [36;1m[0m
+2026-03-04T15:53:07.5029149Z [36;1mecho "Safe Outputs MCP server will run on port ${PORT}"[0m
+2026-03-04T15:53:07.5077520Z shell: /usr/bin/bash -e {0}
+2026-03-04T15:53:07.5077771Z env:
+2026-03-04T15:53:07.5077958Z   DEFAULT_BRANCH: main
+2026-03-04T15:53:07.5078182Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-03-04T15:53:07.5078428Z   GH_AW_ASSETS_BRANCH: 
+2026-03-04T15:53:07.5078658Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-03-04T15:53:07.5078944Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-03-04T15:53:07.5079352Z   GH_AW_SAFE_OUTPUTS: /opt/gh-aw/safeoutputs/outputs.jsonl
+2026-03-04T15:53:07.5079787Z   GH_AW_SAFE_OUTPUTS_CONFIG_PATH: /opt/gh-aw/safeoutputs/config.json
+2026-03-04T15:53:07.5080246Z   GH_AW_SAFE_OUTPUTS_TOOLS_PATH: /opt/gh-aw/safeoutputs/tools.json
+2026-03-04T15:53:07.5080645Z   GH_AW_WORKFLOW_ID_SANITIZED: mlrepohealthcheck
+2026-03-04T15:53:07.5080935Z ##[endgroup]
+2026-03-04T15:53:07.5195613Z Safe Outputs MCP server will run on port 3001

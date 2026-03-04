@@ -1,0 +1,86 @@
+﻿2026-03-04T15:31:30.8431494Z ##[group]Run bash /opt/gh-aw/actions/create_prompt_first.sh
+2026-03-04T15:31:30.8433110Z [36;1mbash /opt/gh-aw/actions/create_prompt_first.sh[0m
+2026-03-04T15:31:30.8434328Z [36;1mcat << 'GH_AW_PROMPT_EOF' > "$GH_AW_PROMPT"[0m
+2026-03-04T15:31:30.8435336Z [36;1m<system>[0m
+2026-03-04T15:31:30.8436062Z [36;1mGH_AW_PROMPT_EOF[0m
+2026-03-04T15:31:30.8437092Z [36;1mcat "/opt/gh-aw/prompts/xpia.md" >> "$GH_AW_PROMPT"[0m
+2026-03-04T15:31:30.8438560Z [36;1mcat "/opt/gh-aw/prompts/temp_folder_prompt.md" >> "$GH_AW_PROMPT"[0m
+2026-03-04T15:31:30.8440516Z [36;1mcat "/opt/gh-aw/prompts/markdown.md" >> "$GH_AW_PROMPT"[0m
+2026-03-04T15:31:30.8442892Z [36;1mcat "/opt/gh-aw/prompts/cache_memory_prompt.md" >> "$GH_AW_PROMPT"[0m
+2026-03-04T15:31:30.8444344Z [36;1mcat << 'GH_AW_PROMPT_EOF' >> "$GH_AW_PROMPT"[0m
+2026-03-04T15:31:30.8445363Z [36;1m<safe-outputs>[0m
+2026-03-04T15:31:30.8446463Z [36;1m<description>GitHub API Access Instructions</description>[0m
+2026-03-04T15:31:30.8447667Z [36;1m<important>[0m
+2026-03-04T15:31:30.8448952Z [36;1mThe gh CLI is NOT authenticated. Do NOT use gh commands for GitHub operations.[0m
+2026-03-04T15:31:30.8450613Z [36;1m</important>[0m
+2026-03-04T15:31:30.8451393Z [36;1m<instructions>[0m
+2026-03-04T15:31:30.8454135Z [36;1mTo create or modify GitHub resources (issues, discussions, pull requests, etc.), you MUST call the appropriate safe output tool. Simply writing content will NOT work - the workflow requires actual tool calls.[0m
+2026-03-04T15:31:30.8456968Z [36;1m[0m
+2026-03-04T15:31:30.8459870Z [36;1mTemporary IDs: Some safe output tools support a temporary ID field (usually named temporary_id) so you can reference newly-created items elsewhere in the SAME agent output (for example, using #aw_abc1 in a later body). [0m
+2026-03-04T15:31:30.8462810Z [36;1m[0m
+2026-03-04T15:31:30.8463610Z [36;1m**IMPORTANT - temporary_id format rules:**[0m
+2026-03-04T15:31:30.8465600Z [36;1m- If you DON'T need to reference the item later, OMIT the temporary_id field entirely (it will be auto-generated if needed)[0m
+2026-03-04T15:31:30.8468291Z [36;1m- If you DO need cross-references/chaining, you MUST match this EXACT validation regex: /^aw_[A-Za-z0-9]{3,8}$/i[0m
+2026-03-04T15:31:30.8470853Z [36;1m- Format: aw_ prefix followed by 3 to 8 alphanumeric characters (A-Z, a-z, 0-9, case-insensitive)[0m
+2026-03-04T15:31:30.8473330Z [36;1m- Valid alphanumeric characters: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789[0m
+2026-03-04T15:31:30.8476381Z [36;1m- INVALID examples: aw_ab (too short), aw_123456789 (too long), aw_test-id (contains hyphen), aw_id_123 (contains underscore)[0m
+2026-03-04T15:31:30.8478582Z [36;1m- VALID examples: aw_abc, aw_abc1, aw_Test123, aw_A1B2C3D4, aw_12345678[0m
+2026-03-04T15:31:30.8480869Z [36;1m- To generate valid IDs: use 3-8 random alphanumeric characters or omit the field to let the system auto-generate[0m
+2026-03-04T15:31:30.8482659Z [36;1m[0m
+2026-03-04T15:31:30.8484443Z [36;1mDo NOT invent other aw_* formats — downstream steps will reject them with validation errors matching against /^aw_[A-Za-z0-9]{3,8}$/i.[0m
+2026-03-04T15:31:30.8486710Z [36;1m[0m
+2026-03-04T15:31:30.8487675Z [36;1mDiscover available tools from the safeoutputs MCP server.[0m
+2026-03-04T15:31:30.8488987Z [36;1m[0m
+2026-03-04T15:31:30.8490922Z [36;1m**Critical**: Tool calls write structured data that downstream jobs process. Without tool calls, follow-up actions will be skipped.[0m
+2026-03-04T15:31:30.8492926Z [36;1m[0m
+2026-03-04T15:31:30.8495225Z [36;1m**Note**: If you made no other safe output tool calls during this workflow execution, call the "noop" tool to provide a status message indicating completion or that no actions were needed.[0m
+2026-03-04T15:31:30.8527032Z [36;1m</instructions>[0m
+2026-03-04T15:31:30.8527940Z [36;1m</safe-outputs>[0m
+2026-03-04T15:31:30.8528773Z [36;1m<github-context>[0m
+2026-03-04T15:31:30.8530261Z [36;1mThe following GitHub context information is available for this workflow:[0m
+2026-03-04T15:31:30.8532048Z [36;1m{{#if __GH_AW_GITHUB_ACTOR__ }}[0m
+2026-03-04T15:31:30.8533068Z [36;1m- **actor**: __GH_AW_GITHUB_ACTOR__[0m
+2026-03-04T15:31:30.8533993Z [36;1m{{/if}}[0m
+2026-03-04T15:31:30.8534761Z [36;1m{{#if __GH_AW_GITHUB_REPOSITORY__ }}[0m
+2026-03-04T15:31:30.8535879Z [36;1m- **repository**: __GH_AW_GITHUB_REPOSITORY__[0m
+2026-03-04T15:31:30.8536888Z [36;1m{{/if}}[0m
+2026-03-04T15:31:30.8537649Z [36;1m{{#if __GH_AW_GITHUB_WORKSPACE__ }}[0m
+2026-03-04T15:31:30.8538732Z [36;1m- **workspace**: __GH_AW_GITHUB_WORKSPACE__[0m
+2026-03-04T15:31:30.8540019Z [36;1m{{/if}}[0m
+2026-03-04T15:31:30.8541452Z [36;1m{{#if __GH_AW_GITHUB_EVENT_ISSUE_NUMBER__ }}[0m
+2026-03-04T15:31:30.8542763Z [36;1m- **issue-number**: #__GH_AW_GITHUB_EVENT_ISSUE_NUMBER__[0m
+2026-03-04T15:31:30.8543964Z [36;1m{{/if}}[0m
+2026-03-04T15:31:30.8544834Z [36;1m{{#if __GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER__ }}[0m
+2026-03-04T15:31:30.8546230Z [36;1m- **discussion-number**: #__GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER__[0m
+2026-03-04T15:31:30.8547501Z [36;1m{{/if}}[0m
+2026-03-04T15:31:30.8548391Z [36;1m{{#if __GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER__ }}[0m
+2026-03-04T15:31:30.8550034Z [36;1m- **pull-request-number**: #__GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER__[0m
+2026-03-04T15:31:30.8551337Z [36;1m{{/if}}[0m
+2026-03-04T15:31:30.8552131Z [36;1m{{#if __GH_AW_GITHUB_EVENT_COMMENT_ID__ }}[0m
+2026-03-04T15:31:30.8553316Z [36;1m- **comment-id**: __GH_AW_GITHUB_EVENT_COMMENT_ID__[0m
+2026-03-04T15:31:30.8554398Z [36;1m{{/if}}[0m
+2026-03-04T15:31:30.8555146Z [36;1m{{#if __GH_AW_GITHUB_RUN_ID__ }}[0m
+2026-03-04T15:31:30.8556215Z [36;1m- **workflow-run-id**: __GH_AW_GITHUB_RUN_ID__[0m
+2026-03-04T15:31:30.8557245Z [36;1m{{/if}}[0m
+2026-03-04T15:31:30.8557961Z [36;1m</github-context>[0m
+2026-03-04T15:31:30.8558736Z [36;1m[0m
+2026-03-04T15:31:30.8559555Z [36;1mGH_AW_PROMPT_EOF[0m
+2026-03-04T15:31:30.8560494Z [36;1mcat << 'GH_AW_PROMPT_EOF' >> "$GH_AW_PROMPT"[0m
+2026-03-04T15:31:30.8561488Z [36;1m</system>[0m
+2026-03-04T15:31:30.8562241Z [36;1mGH_AW_PROMPT_EOF[0m
+2026-03-04T15:31:30.8563160Z [36;1mcat << 'GH_AW_PROMPT_EOF' >> "$GH_AW_PROMPT"[0m
+2026-03-04T15:31:30.8564506Z [36;1m{{#runtime-import .github/workflows/ml-repo-health-check.md}}[0m
+2026-03-04T15:31:30.8565761Z [36;1mGH_AW_PROMPT_EOF[0m
+2026-03-04T15:31:30.8573662Z shell: /usr/bin/bash -e {0}
+2026-03-04T15:31:30.8574494Z env:
+2026-03-04T15:31:30.8575271Z   GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
+2026-03-04T15:31:30.8576288Z   GH_AW_SAFE_OUTPUTS: 
+2026-03-04T15:31:30.8577056Z   GH_AW_GITHUB_ACTOR: JanKrivanek
+2026-03-04T15:31:30.8577961Z   GH_AW_GITHUB_EVENT_COMMENT_ID: 
+2026-03-04T15:31:30.8578864Z   GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER: 
+2026-03-04T15:31:30.8580119Z   GH_AW_GITHUB_EVENT_ISSUE_NUMBER: 
+2026-03-04T15:31:30.8581074Z   GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER: 
+2026-03-04T15:31:30.8582120Z   GH_AW_GITHUB_REPOSITORY: dotutils/GH-AW-Tests
+2026-03-04T15:31:30.8583124Z   GH_AW_GITHUB_RUN_ID: 22676341856
+2026-03-04T15:31:30.8584257Z   GH_AW_GITHUB_WORKSPACE: /home/runner/work/GH-AW-Tests/GH-AW-Tests
+2026-03-04T15:31:30.8585667Z ##[endgroup]

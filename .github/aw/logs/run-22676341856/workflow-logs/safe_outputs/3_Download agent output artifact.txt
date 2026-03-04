@@ -1,0 +1,23 @@
+﻿2026-03-04T15:46:21.6353511Z ##[group]Run actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+2026-03-04T15:46:21.6354947Z with:
+2026-03-04T15:46:21.6355967Z   name: agent-output
+2026-03-04T15:46:21.6356709Z   path: /tmp/gh-aw/safeoutputs/
+2026-03-04T15:46:21.6357546Z   merge-multiple: false
+2026-03-04T15:46:21.6358326Z   repository: dotutils/GH-AW-Tests
+2026-03-04T15:46:21.6359166Z   run-id: 22676341856
+2026-03-04T15:46:21.6359832Z env:
+2026-03-04T15:46:21.6360426Z   GH_AW_ENGINE_ID: copilot
+2026-03-04T15:46:21.6361264Z   GH_AW_WORKFLOW_ID: ml-repo-health-check
+2026-03-04T15:46:21.6362305Z   GH_AW_WORKFLOW_NAME: ML.NET Repository Health Check
+2026-03-04T15:46:21.6363341Z ##[endgroup]
+2026-03-04T15:46:22.0670553Z Downloading single artifact
+2026-03-04T15:46:22.3155000Z Preparing to download the following artifacts:
+2026-03-04T15:46:22.3158446Z - agent-output (ID: 5762537635, Size: 4888, Expected Digest: sha256:ded8ce9b9c503558ee83d7d7ffb989deff2e71bb9ca0bbf57888186a8a564635)
+2026-03-04T15:46:22.3183479Z Redirecting to blob download url: https://productionresultssa7.blob.core.windows.net/actions-results/d9b3a61a-553a-4b53-bbce-79abad5e39c1/workflow-job-run-dced67c8-9530-541c-bf19-670208e9c1f8/artifacts/5feb6d3ffed3baf4352cf0f03dcabdcad81892c86a67977bf8e6087a64894dee.zip
+2026-03-04T15:46:22.3188066Z Starting download of artifact to: /tmp/gh-aw/safeoutputs
+2026-03-04T15:46:22.3567175Z SHA256 digest of downloaded artifact is ded8ce9b9c503558ee83d7d7ffb989deff2e71bb9ca0bbf57888186a8a564635
+2026-03-04T15:46:22.3573653Z (node:931) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-03-04T15:46:22.3576831Z Artifact download completed successfully.
+2026-03-04T15:46:22.3578573Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-03-04T15:46:22.3659128Z Total of 1 artifact(s) downloaded
+2026-03-04T15:46:22.3666397Z Download artifact has finished successfully

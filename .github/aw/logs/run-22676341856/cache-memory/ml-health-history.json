@@ -1,0 +1,12 @@
+[
+  {
+    "date": "2026-03-04",
+    "critical": 0,
+    "warning": 2,
+    "untriaged": null,
+    "bugs": null,
+    "prs": null,
+    "open_issues": null,
+    "notes": "Initial run - no API access"
+  }
+]

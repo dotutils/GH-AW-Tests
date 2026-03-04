@@ -1,0 +1,1013 @@
+[INFO] Starting MCP Gateway in containerized mode...
+[INFO] Running in containerized environment
+[WARN] Invalid container ID format: runnervmnay03
+[WARN] Could not determine container ID
+[INFO] Docker daemon is accessible
+[INFO] Required environment variables are set
+[INFO] Set DOCKER_API_VERSION=1.48 (server current)
+[INFO] Detecting host IP for container networking...
+[INFO] Method 1 (primary interface): 10.1.0.45
+[INFO] Using host IP: 10.1.0.45
+[INFO] Adding host.docker.internal mapping to /etc/hosts
+[INFO] DNS mapping configured: 10.1.0.45 -> host.docker.internal
+[INFO] Gateway will listen on 0.0.0.0:80
+[INFO] Log directory: /tmp/gh-aw/mcp-logs/
+[INFO] Command: ./awmg --routed --listen 0.0.0.0:80 --config-stdin --log-dir /tmp/gh-aw/mcp-logs/
+[INFO] Waiting for JSON configuration on stdin...
+[INFO] 
+[INFO] IMPORTANT: Configuration must be provided via stdin.
+[INFO] No default configuration is used in containerized mode.
+[INFO] 
+middleware:jqschema Successfully compiled jq schema filter at init +64µs
+2026/03/04 15:32:07 Logging level: DEBUG=* (from environment)
+2026/03/04 15:32:07 Logging to file: /tmp/gh-aw/mcp-logs/mcp-gateway.log
+2026/03/04 15:32:07 Initialized per-serverID logging in directory: /tmp/gh-aw/mcp-logs/
+2026/03/04 15:32:07 Tools logging to file: /tmp/gh-aw/mcp-logs/tools.json
+cmd:root Starting MCPG with config: stdin, listen: 0.0.0.0:80 +2ms
+2026/03/04 15:32:07 Reading configuration from stdin...
+config:validation Expanding variables in raw JSON data +3ms
+config:validation Expanded variable in JSON: GITHUB_MCP_SERVER_TOKEN +321µs
+config:validation Expanded variable in JSON: GH_AW_SAFE_OUTPUTS_API_KEY +300µs
+config:validation Raw JSON variable expansion completed +277µs
+config:validation_schema Starting JSON schema validation: data_size=743 bytes +4ms
+config:validation_schema Compiling JSON schema for the first time +302µs
+config:validation_schema Fetching schema from URL: https://raw.githubusercontent.com/github/gh-aw/v0.41.1/docs/public/schemas/mcp-gateway-config.schema.json +300µs
+config:validation_schema HTTP request completed in 77.084772ms +77ms
+config:validation_schema Schema read completed in 125.294µs (size: 13040 bytes) +637µs
+config:validation_schema Schema fixes applied in 249.806µs +666µs
+config:validation_schema Total schema fetch and fix completed in 79.052535ms +367µs
+config:validation_schema Schema compiled and cached successfully +2ms
+config:validation_schema Schema compilation/retrieval took: 81.770961ms +411µs
+config:validation_schema JSON parsing took: 17.342µs +396µs
+config:validation_schema Schema validation took: 99.706µs +428µs
+config:validation_schema Total validation completed successfully in 83.226271ms +328µs
+config:validation_schema Validating string patterns: server_count=2 +356µs
+config:validation_schema Validating server: name=github, type=stdio +352µs
+config:validation_schema Validating server: name=safeoutputs, type=http +448µs
+config:validation Validating gateway configuration +84ms
+config:validation Validating gateway port: 80 +355µs
+config:validation Validating payload directory: /tmp/gh-aw/mcp-payloads +301µs
+config:validation Gateway config validation passed +437µs
+config:validation Validating server config: name=github, type=stdio +307µs
+config:validation Server config validation passed: name=github +297µs
+config:validation Expanding env variables for server: github, count=4 +293µs
+config:validation Expanding variables: jsonPath=mcpServers.github.env.GITHUB_LOCKDOWN_MODE +283µs
+config:validation Variable expansion completed successfully +279µs
+config:validation Expanding variables: jsonPath=mcpServers.github.env.GITHUB_PERSONAL_ACCESS_TOKEN +296µs
+config:validation Variable expansion completed successfully +352µs
+config:validation Expanding variables: jsonPath=mcpServers.github.env.GITHUB_READ_ONLY +404µs
+config:validation Variable expansion completed successfully +481µs
+config:validation Expanding variables: jsonPath=mcpServers.github.env.GITHUB_TOOLSETS +348µs
+config:validation Variable expansion completed successfully +309µs
+config:validation Env variable expansion completed for server: github +349µs
+config:validation Validating server config: name=safeoutputs, type=http +342µs
+config:validation Server config validation passed: name=safeoutputs +310µs
+config:validation Expanding env variables for server: safeoutputs, count=1 +366µs
+config:validation Expanding variables: jsonPath=mcpServers.safeoutputs.env.Authorization +278µs
+config:validation Variable expansion completed successfully +311µs
+config:validation Env variable expansion completed for server: safeoutputs +286µs
+2026/03/04 15:32:07 [CONFIG] Configured HTTP MCP server: safeoutputs -> http://host.docker.internal:3001
+cmd:root Configuration loaded with 2 servers +93ms
+2026/03/04 15:32:07 Loaded 2 MCP server(s)
+2026/03/04 15:32:07 DIFC enforcement disabled (sessions auto-created for standard MCP client compatibility)
+2026/03/04 15:32:07 Parallel server launching enabled (default)
+cmd:root Server mode: routed, DIFC enabled: false +1ms
+server:unified Creating new unified server: enableDIFC=false, sequentialLaunch=false, servers=2 +97ms
+launcher:launcher Creating new launcher with 2 configured servers +98ms
+2026/03/04 15:32:07 [LAUNCHER] Detected running inside a container
+launcher:launcher Using configured startup timeout: 1m0s +516µs
+launcher:pool Creating new session connection pool: idleTimeout=30m0s, cleanupInterval=5m0s, maxErrors=10 +99ms
+server:unified Payload configuration: dir=/tmp/gh-aw/mcp-payloads, sizeThreshold=10240 bytes (10.00 KB) +1ms
+launcher:pool Cleanup goroutine started +422µs
+launcher:launcher Retrieved server IDs: count=2, ids=[github safeoutputs] +1ms
+sys:sys Creating new SysServer with 2 servers: [github safeoutputs] +102ms
+guard:registry Creating new guard registry +103ms
+launcher:launcher Retrieved server IDs: count=2, ids=[github safeoutputs] +1ms
+guard:noop Creating new noop guard (no DIFC restrictions) +104ms
+guard:registry Registering guard for serverID=github, guardName=noop +1ms
+guard:context [Guard] Registered guard 'noop' for server 'github' +104ms
+2026/03/04 15:32:07 [DIFC] Registered guard 'noop' for server 'github'
+guard:noop Creating new noop guard (no DIFC restrictions) +1ms
+guard:registry Registering guard for serverID=safeoutputs, guardName=noop +955µs
+guard:context [Guard] Registered guard 'noop' for server 'safeoutputs' +941µs
+2026/03/04 15:32:07 [DIFC] Registered guard 'noop' for server 'safeoutputs'
+2026/03/04 15:32:07 Registering tools from all backends...
+launcher:launcher Retrieved server IDs: count=2, ids=[github safeoutputs] +2ms
+server:unified Starting tool registration for 2 backends +4ms
+2026/03/04 15:32:07 DIFC disabled: skipping sys tools registration
+launcher:launcher Retrieved server IDs: count=2, ids=[github safeoutputs] +648µs
+server:unified Registering tools in parallel from 2 backends +629µs
+2026/03/04 15:32:07 Registering tools from backend: github
+2026/03/04 15:32:07 Registering tools from backend: safeoutputs
+launcher:launcher GetOrLaunch called: serverID=safeoutputs +1ms
+launcher:launcher Connection not found in cache, launching new: serverID=safeoutputs +328µs
+launcher:launcher Retrieved server config: serverID=safeoutputs, type=http +360µs
+launcher:launcher GetOrLaunch called: serverID=github +631µs
+2026/03/04 15:32:07 [LAUNCHER] Configuring HTTP MCP backend: safeoutputs
+2026/03/04 15:32:07 [LAUNCHER] URL: http://host.docker.internal:3001
+launcher:launcher HTTP backend: serverID=safeoutputs, url=http://host.docker.internal:3001 +385µs
+mcp:connection Creating HTTP MCP connection: url=http://host.docker.internal:3001 +108ms
+mcp:connection Custom headers detected, using plain JSON-RPC transport for http://host.docker.internal:3001 +294µs
+mcp:connection Sending initialize request via plain JSON-RPC to: http://host.docker.internal:3001 +732µs
+mcp:connection Sending initialize request: {"id":1,"jsonrpc":"2.0","method":"initialize","params":{"capabilities":{},"clientInfo":{"name":"awmg","version":"1.0.0"},"protocolVersion":"2024-11-05"}} +512µs
+mcp:connection Sending initialize with temporary session ID: awmg-init-1 +305µs
+mcp:connection Sending initialize to http://host.docker.internal:3001 +278µs
+mcp:connection No Mcp-Session-Id in response, using temporary session ID: awmg-init-1 +3ms
+mcp:connection Initialize response: status=200, body_len=148, session=awmg-init-1 +434µs
+mcp:connection Connected with plain JSON-RPC transport, session=awmg-init-1 +912µs
+2026/03/04 15:32:07 Configured HTTP MCP server with plain JSON-RPC transport: http://host.docker.internal:3001
+2026/03/04 15:32:07 [LAUNCHER] Successfully configured HTTP backend: safeoutputs
+launcher:launcher HTTP connection configured: serverID=safeoutputs +8ms
+launcher:launcher Connection not found in cache, launching new: serverID=github +366µs
+launcher:launcher Retrieved server config: serverID=github, type=stdio +621µs
+mcp:connection Using session ID from context: gateway-init-safeoutputs +2ms
+mcp:connection Sending HTTP request to http://host.docker.internal:3001: method=tools/list, id=2 +368µs
+2026/03/04 15:32:07 [LAUNCHER] Starting MCP server: github
+launcher:launcher Launching new server: serverID=github, command=docker, inContainer=true, isDirectCommand=false +1ms
+2026/03/04 15:32:07 [LAUNCHER] Command: docker
+2026/03/04 15:32:07 [LAUNCHER] Args: [run --rm -i -e NO_COLOR=... -e TERM=... -e PYTHONUNBUFFERED=... -e GITHUB_LOCKDOWN_MODE=... -e GITHUB_PERSONAL_ACCESS_TOKEN -e GITHUB_READ_ONLY=... -e GITHUB_TOOLSETS=repo... ghcr.io/github/github-mcp-server:v0.30.3]
+2026/03/04 15:32:07 [LAUNCHER] ✗ WARNING: Env passthrough for GITHUB_PERSONAL_ACCESS_TOKEN requested but NOT FOUND in MCPG process
+2026/03/04 15:32:07 [LAUNCHER] Starting server with 1m0s timeout
+launcher:launcher Starting server with timeout: serverID=github, timeout=1m0s +374µs
+mcp:connection Received HTTP response: status=200, body_len=10209 +1ms
+launcher:launcher Starting connection goroutine: serverID=github +317µs
+mcp:connection Creating new MCP connection: command=docker, args=[run --rm -i -e NO_COLOR=... -e TERM=... -e PYTHONUNBUFFERED=... -e GITHUB_LOCKDOWN_MODE=... -e GITHUB_PERSONAL_ACCESS_TOKEN -e GITHUB_READ_ONLY=... -e GITHUB_TOOLSETS=repo... ghcr.io/github/github-mcp-server:v0.30.3] +1ms
+mcp:connection Expanded args for Docker env: [run --rm -i -e NO_COLOR=... -e TERM=... -e PYTHONUNBUFFERED=... -e GITHUB_LOCKDOWN_MODE=... -e GITHUB_PERSONAL_ACCESS_TOKEN -e GITHUB_READ_ONLY=... -e GITHUB_TOOLSETS=repo... ghcr.io/github/github-mcp-server:v0.30.3] +301µs
+2026/03/04 15:32:07 Starting MCP server command: docker [run --rm -i -e NO_COLOR=... -e TERM=... -e PYTHONUNBUFFERED=... -e GITHUB_LOCKDOWN_MODE=... -e GITHUB_PERSONAL_ACCESS_TOKEN -e GITHUB_READ_ONLY=... -e GITHUB_TOOLSETS=repo... ghcr.io/github/github-mcp-server:v0.30.3]
+2026/03/04 15:32:07 Connecting to MCP server...
+mcp:connection Initiating MCP server connection and handshake +915µs
+mcp:types Normalizing input schema for tool: safeoutputs___create_issue +137ms
+mcp:types Tool safeoutputs___create_issue schema analysis: hasType=true +537µs
+mcp:types Tool safeoutputs___create_issue object type schema: hasProperties=true, hasAdditionalProperties=true +493µs
+mcp:types Tool safeoutputs___create_issue schema is valid, no normalization needed +742µs
+2026/03/04 15:32:07 Registered tool: safeoutputs___create_issue
+mcp:types Normalizing input schema for tool: safeoutputs___add_comment +1ms
+mcp:types Tool safeoutputs___add_comment schema analysis: hasType=true +756µs
+mcp:types Tool safeoutputs___add_comment object type schema: hasProperties=true, hasAdditionalProperties=true +573µs
+mcp:types Tool safeoutputs___add_comment schema is valid, no normalization needed +443µs
+2026/03/04 15:32:07 Registered tool: safeoutputs___add_comment
+mcp:types Normalizing input schema for tool: safeoutputs___add_labels +385µs
+mcp:types Tool safeoutputs___add_labels schema analysis: hasType=true +359µs
+mcp:types Tool safeoutputs___add_labels object type schema: hasProperties=true, hasAdditionalProperties=true +956µs
+mcp:types Tool safeoutputs___add_labels schema is valid, no normalization needed +616µs
+2026/03/04 15:32:07 Registered tool: safeoutputs___add_labels
+mcp:types Normalizing input schema for tool: safeoutputs___update_issue +653µs
+mcp:types Tool safeoutputs___update_issue schema analysis: hasType=true +446µs
+mcp:types Tool safeoutputs___update_issue object type schema: hasProperties=true, hasAdditionalProperties=true +369µs
+mcp:types Tool safeoutputs___update_issue schema is valid, no normalization needed +1ms
+2026/03/04 15:32:07 Registered tool: safeoutputs___update_issue
+mcp:types Normalizing input schema for tool: safeoutputs___missing_tool +491µs
+mcp:types Tool safeoutputs___missing_tool schema analysis: hasType=true +363µs
+mcp:types Tool safeoutputs___missing_tool object type schema: hasProperties=true, hasAdditionalProperties=true +367µs
+mcp:types Tool safeoutputs___missing_tool schema is valid, no normalization needed +546µs
+2026/03/04 15:32:07 Registered tool: safeoutputs___missing_tool
+mcp:types Normalizing input schema for tool: safeoutputs___noop +479µs
+mcp:types Tool safeoutputs___noop schema analysis: hasType=true +340µs
+mcp:types Tool safeoutputs___noop object type schema: hasProperties=true, hasAdditionalProperties=true +412µs
+mcp:types Tool safeoutputs___noop schema is valid, no normalization needed +489µs
+2026/03/04 15:32:07 Registered tool: safeoutputs___noop
+mcp:types Normalizing input schema for tool: safeoutputs___hide_comment +506µs
+mcp:types Tool safeoutputs___hide_comment schema analysis: hasType=true +372µs
+mcp:types Tool safeoutputs___hide_comment object type schema: hasProperties=true, hasAdditionalProperties=true +397µs
+mcp:types Tool safeoutputs___hide_comment schema is valid, no normalization needed +350µs
+2026/03/04 15:32:07 Registered tool: safeoutputs___hide_comment
+mcp:types Normalizing input schema for tool: safeoutputs___missing_data +407µs
+mcp:types Tool safeoutputs___missing_data schema analysis: hasType=true +424µs
+mcp:types Tool safeoutputs___missing_data object type schema: hasProperties=true, hasAdditionalProperties=true +337µs
+mcp:types Tool safeoutputs___missing_data schema is valid, no normalization needed +450µs
+2026/03/04 15:32:07 Registered tool: safeoutputs___missing_data
+2026/03/04 15:32:07 Registered 8 tools from safeoutputs: [safeoutputs___create_issue safeoutputs___add_comment safeoutputs___add_labels safeoutputs___update_issue safeoutputs___missing_tool safeoutputs___noop safeoutputs___hide_comment safeoutputs___missing_data]
+mcp:connection [github stderr] Error: GITHUB_PERSONAL_ACCESS_TOKEN not set +155ms
+mcp:connection [github stderr] Usage: +1ms
+mcp:connection [github stderr]   server stdio [flags] +1ms
+mcp:connection [github stderr]  +1ms
+mcp:connection [github stderr] Flags: +1ms
+mcp:connection [github stderr]   -h, --help   help for stdio +925µs
+mcp:connection [github stderr]  +1ms
+mcp:connection [github stderr] Global Flags: +1ms
+mcp:connection [github stderr]       --content-window-size int          Specify the content window size (default 5000) +1ms
+mcp:connection [github stderr]       --dynamic-toolsets                 Enable dynamic toolsets +1ms
+mcp:connection [github stderr]       --enable-command-logging           When enabled, the server will log all command requests and responses to the log file +944µs
+mcp:connection [github stderr]       --export-translations              Save translations to a JSON file +1ms
+mcp:connection [github stderr]       --features strings                 Comma-separated list of feature flags to enable +1ms
+mcp:connection [github stderr]       --gh-host string                   Specify the GitHub hostname (for GitHub Enterprise etc.) +1ms
+mcp:connection [github stderr]       --insiders                         Enable insiders features +1ms
+mcp:connection [github stderr]       --lockdown-mode                    Enable lockdown mode +1ms
+mcp:connection [github stderr]       --log-file string                  Path to log file +950µs
+mcp:connection [github stderr]       --read-only                        Restrict the server to read-only operations +963µs
+mcp:connection [github stderr]       --repo-access-cache-ttl duration   Override the repo access cache TTL (e.g. 1m, 0s to disable) (default 5m0s) +984µs
+mcp:connection [github stderr]       --tools strings                    Comma-separated list of specific tools to enable +1ms
+mcp:connection [github stderr]       --toolsets strings                 Comma-separated list of tool groups to enable (no spaces). +1ms
+mcp:connection [github stderr]                                          Available: actions, code_security, dependabot, discussions, gists, git, issues, +1ms
+mcp:connection [github stderr]                                          	     labels, notifications, orgs, projects, pull_requests, repos, +1ms
+mcp:connection [github stderr]                                          	     secret_protection, security_advisories, stargazers, users +1ms
+mcp:connection [github stderr]                                          Special toolset keywords: +1ms
+mcp:connection [github stderr]                                            - all: Enables all available toolsets +978µs
+mcp:connection [github stderr]                                            - default: Enables the default toolset configuration of: +1ms
+mcp:connection [github stderr]                                          	     context, issues, pull_requests, repos, users +1ms
+mcp:connection [github stderr]                                          Examples: +961µs
+mcp:connection [github stderr]                                            - --toolsets=actions,gists,notifications +942µs
+mcp:connection [github stderr]                                            - Default + additional: --toolsets=default,actions,gists +932µs
+mcp:connection [github stderr]                                            - All tools: --toolsets=all +1ms
+mcp:connection [github stderr]  +1ms
+mcp:connection [github stderr] GITHUB_PERSONAL_ACCESS_TOKEN not set +1ms
+2026/03/04 15:32:07 ❌ MCP Connection Failed:
+2026/03/04 15:32:07    Command: docker
+2026/03/04 15:32:07    Args: [run --rm -i -e NO_COLOR=... -e TERM=... -e PYTHONUNBUFFERED=... -e GITHUB_LOCKDOWN_MODE=... -e GITHUB_PERSONAL_ACCESS_TOKEN -e GITHUB_READ_ONLY=... -e GITHUB_TOOLSETS=repo... ghcr.io/github/github-mcp-server:v0.30.3]
+2026/03/04 15:32:07    Error: calling "initialize": EOF
+2026/03/04 15:32:07    📋 Container/Process stderr output:
+2026/03/04 15:32:07       Error: GITHUB_PERSONAL_ACCESS_TOKEN not set
+2026/03/04 15:32:07       Usage:
+2026/03/04 15:32:07         server stdio [flags]
+2026/03/04 15:32:07       
+2026/03/04 15:32:07       Flags:
+2026/03/04 15:32:07         -h, --help   help for stdio
+2026/03/04 15:32:07       
+2026/03/04 15:32:07       Global Flags:
+2026/03/04 15:32:07             --content-window-size int          Specify the content window size (default 5000)
+2026/03/04 15:32:07             --dynamic-toolsets                 Enable dynamic toolsets
+2026/03/04 15:32:07             --enable-command-logging           When enabled, the server will log all command requests and responses to the log file
+2026/03/04 15:32:07             --export-translations              Save translations to a JSON file
+2026/03/04 15:32:07             --features strings                 Comma-separated list of feature flags to enable
+2026/03/04 15:32:07             --gh-host string                   Specify the GitHub hostname (for GitHub Enterprise etc.)
+2026/03/04 15:32:07             --insiders                         Enable insiders features
+2026/03/04 15:32:07             --lockdown-mode                    Enable lockdown mode
+2026/03/04 15:32:07             --log-file string                  Path to log file
+2026/03/04 15:32:07             --read-only                        Restrict the server to read-only operations
+2026/03/04 15:32:07             --repo-access-cache-ttl duration   Override the repo access cache TTL (e.g. 1m, 0s to disable) (default 5m0s)
+2026/03/04 15:32:07             --tools strings                    Comma-separated list of specific tools to enable
+2026/03/04 15:32:07             --toolsets strings                 Comma-separated list of tool groups to enable (no spaces).
+2026/03/04 15:32:07                                                Available: actions, code_security, dependabot, discussions, gists, git, issues,
+2026/03/04 15:32:07                                                	     labels, notifications, orgs, projects, pull_requests, repos,
+2026/03/04 15:32:07                                                	     secret_protection, security_advisories, stargazers, users
+2026/03/04 15:32:07                                                Special toolset keywords:
+2026/03/04 15:32:07                                                  - all: Enables all available toolsets
+2026/03/04 15:32:07                                                  - default: Enables the default toolset configuration of:
+2026/03/04 15:32:07                                                	     context, issues, pull_requests, repos, users
+2026/03/04 15:32:07                                                Examples:
+2026/03/04 15:32:07                                                  - --toolsets=actions,gists,notifications
+2026/03/04 15:32:07                                                  - Default + additional: --toolsets=default,actions,gists
+2026/03/04 15:32:07                                                  - All tools: --toolsets=all
+2026/03/04 15:32:07       
+2026/03/04 15:32:07       GITHUB_PERSONAL_ACCESS_TOKEN not set
+2026/03/04 15:32:07    ⚠️  Process started but terminated unexpectedly
+2026/03/04 15:32:07    ⚠️  Check if the command supports MCP protocol over stdio
+mcp:connection Connection failed: command=docker, error=calling "initialize": EOF +34ms
+2026/03/04 15:32:07 [LAUNCHER] ❌ FAILED to launch server 'github'
+2026/03/04 15:32:07 [LAUNCHER] Error: failed to connect: calling "initialize": EOF
+2026/03/04 15:32:07 [LAUNCHER] Debug Information:
+2026/03/04 15:32:07 [LAUNCHER]   - Command: docker
+2026/03/04 15:32:07 [LAUNCHER]   - Args: [run --rm -i -e NO_COLOR=... -e TERM=... -e PYTHONUNBUFFERED=... -e GITHUB_LOCKDOWN_MODE=... -e GITHUB_PERSONAL_ACCESS_TOKEN -e GITHUB_READ_ONLY=... -e GITHUB_TOOLSETS=repo... ghcr.io/github/github-mcp-server:v0.30.3]
+2026/03/04 15:32:07 [LAUNCHER]   - Env vars: map[]
+2026/03/04 15:32:07 [LAUNCHER]   - Running in container: true
+2026/03/04 15:32:07 [LAUNCHER]   - Is direct command: false
+2026/03/04 15:32:07 [LAUNCHER]   - Startup timeout: 1m0s
+server:unified Successfully registered tools from safeoutputs (took 50.349581ms) +247ms
+2026/03/04 15:32:07 Warning: failed to register tools from github (took 246.732545ms): failed to connect: failed to create connection: failed to connect: calling "initialize": EOF
+2026/03/04 15:32:07 Parallel tool registration complete: 1 succeeded, 1 failed, total tools=8
+server:unified Tool registration complete: 1 succeeded, 1 failed, total tools=8 +1ms
+server:unified Unified server created successfully with 8 tools +290µs
+2026/03/04 15:32:07 Starting MCPG in ROUTED mode on 0.0.0.0:80
+launcher:launcher Retrieved server IDs: count=2, ids=[github safeoutputs] +234ms
+2026/03/04 15:32:07 Routes: /mcp/<server> where <server> is one of: [github safeoutputs]
+launcher:launcher Retrieved server IDs: count=2, ids=[safeoutputs github] +1ms
+server:routed Creating HTTP server for routed mode: addr=0.0.0.0:80 +356ms
+server:handlers Creating OAuth discovery handler +356ms
+server:handlers Creating OAuth discovery handler +315µs
+launcher:launcher Retrieved server IDs: count=2, ids=[github safeoutputs] +2ms
+server:routed DIFC disabled: excluding sys from route registration +1ms
+server:routed Registering routes for 2 backends: [github safeoutputs] +285µs
+server:auth Initialized auth middleware +358ms
+2026/03/04 15:32:07 Registered route: /mcp/github
+server:auth Initialized auth middleware +366µs
+2026/03/04 15:32:07 Registered route: /mcp/safeoutputs
+server:handlers Creating close handler +1ms
+server:auth Initialized auth middleware +692µs
+server:response_writer Creating new response writer with default status 200 +4.5s
+server:health Health check request: method=GET, remote=[::1]:50128 +4.5s
+server:response_writer Setting response status code: 200 +950µs
+server:health Building health response +728µs
+launcher:launcher Retrieved server IDs: count=2, ids=[github safeoutputs] +4.2s
+server:health Retrieved status for 2 servers +700µs
+server:health Overall health status determined: healthy +321µs
+server:health Health response: status=healthy, servers=2 +379µs
+server:response_writer Writing response body: 168 bytes +2ms
+server:response_writer Retrieving captured body: 168 bytes +348µs
+server:response_writer Retrieving captured body: 168 bytes +274µs
+server:response_writer Retrieving captured status code: 200 +431µs
+2026/03/04 15:32:11 [[::1]:50128] GET /health - Status: 200, Response: {"status":"healthy","specVersion":"1.5.0","gatewayVersion":"v0.1.4","servers":{"github":{"status":"running","uptime":0},"safeoutputs":{"status":"running","uptime":0}}}
+server:auth Authenticating request: method=POST, path=/mcp/github, remote=127.0.0.1:57678 +4.2s
+server:auth Authentication successful +448µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +4.6s
+auth:header Using plain API key as session ID +324µs
+server:sdk-frontend >>> SDK Request [routed:github] session=nuFV4T2u... mcp-session=(none) method=POST path=/mcp/github +4.6s
+server:sdk-frontend     JSON-RPC Request: method=ping id=1 +316µs
+server:response_writer Creating new response writer with default status 200 +62ms
+server:helpers Extracting session from request: remote=127.0.0.1:57678, path=/mcp/github +4.6s
+auth:header Extracting session ID from auth header: sanitized=nuFV... +1ms
+auth:header Using plain API key as session ID +291µs
+server:helpers Session extracted successfully: sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh, remote=127.0.0.1:57678 +1ms
+2026/03/04 15:32:11 === NEW STREAMABLE HTTP CONNECTION (ROUTED) ===
+2026/03/04 15:32:11 [127.0.0.1:57678] POST /mcp/github
+2026/03/04 15:32:11 Backend: github
+2026/03/04 15:32:11 Authorization (Session ID): nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+server:helpers Checking request body: method=POST, hasBody=true, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +941µs
+server:helpers Request body read: size=40 bytes, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh, backendID=github +305µs
+2026/03/04 15:32:11 Request body: {"jsonrpc":"2.0","id":1,"method":"ping"}
+server:helpers Request body restored for subsequent reads +791µs
+server:helpers Injecting session context: sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh, backendID=github +284µs
+server:helpers Adding backend ID to context: backendID=github +322µs
+server:helpers Session context injected successfully +520µs
+2026/03/04 15:32:11 ✓ Injected session ID and backend ID into context
+2026/03/04 15:32:11 ===================================
+server:routed [CACHE] Creating new filtered server: backend=github, session=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +4.3s
+server:routed Creating filtered server: backend=github +286µs
+2026/03/04 15:32:11 Creating filtered server for github with 0 tools
+server:routed Backend github has 0 tools available +363µs
+server:response_writer Writing response body: 59 bytes +5ms
+server:response_writer Retrieving captured body: 59 bytes +484µs
+server:response_writer Retrieving captured status code: 200 +366µs
+server:sdk-frontend <<< SDK Response [routed:github] status=200 duration=7.9614ms (non-JSON or stream) +7ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":1,"result":{}}
+
+ +299µs
+server:auth Authenticating request: method=POST, path=/mcp/safeoutputs, remote=127.0.0.1:57686 +38ms
+server:auth Authentication successful +405µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +36ms
+auth:header Using plain API key as session ID +325µs
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=(none) method=POST path=/mcp/safeoutputs +30ms
+server:sdk-frontend     JSON-RPC Request: method=ping id=1 +287µs
+server:response_writer Creating new response writer with default status 200 +32ms
+server:helpers Extracting session from request: remote=127.0.0.1:57686, path=/mcp/safeoutputs +34ms
+auth:header Extracting session ID from auth header: sanitized=nuFV... +2ms
+auth:header Using plain API key as session ID +299µs
+server:helpers Session extracted successfully: sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh, remote=127.0.0.1:57686 +952µs
+2026/03/04 15:32:11 === NEW STREAMABLE HTTP CONNECTION (ROUTED) ===
+2026/03/04 15:32:11 [127.0.0.1:57686] POST /mcp/safeoutputs
+2026/03/04 15:32:11 Backend: safeoutputs
+2026/03/04 15:32:11 Authorization (Session ID): nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+server:helpers Checking request body: method=POST, hasBody=true, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +541µs
+server:helpers Request body read: size=40 bytes, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh, backendID=safeoutputs +784µs
+2026/03/04 15:32:11 Request body: {"jsonrpc":"2.0","id":1,"method":"ping"}
+server:helpers Request body restored for subsequent reads +675µs
+server:helpers Injecting session context: sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh, backendID=safeoutputs +365µs
+server:helpers Adding backend ID to context: backendID=safeoutputs +320µs
+server:helpers Session context injected successfully +325µs
+2026/03/04 15:32:11 ✓ Injected session ID and backend ID into context
+2026/03/04 15:32:11 ===================================
+server:routed [CACHE] Creating new filtered server: backend=safeoutputs, session=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +37ms
+server:routed Creating filtered server: backend=safeoutputs +316µs
+2026/03/04 15:32:11 Creating filtered server for safeoutputs with 8 tools
+server:routed Backend safeoutputs has 8 tools available +417µs
+server:response_writer Writing response body: 59 bytes +5ms
+server:response_writer Retrieving captured body: 59 bytes +393µs
+server:response_writer Retrieving captured status code: 200 +323µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=200 duration=8.120146ms (non-JSON or stream) +8ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":1,"result":{}}
+
+ +299µs
+server:auth Authenticating request: method=POST, path=/mcp/github, remote=172.30.0.20:40138 +12.0s
+server:auth Authentication successful +827µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +12.0s
+auth:header Using plain API key as session ID +434µs
+server:sdk-frontend >>> SDK Request [routed:github] session=nuFV4T2u... mcp-session=(none) method=POST path=/mcp/github +12.0s
+server:sdk-frontend     JSON-RPC Request: method=initialize id=0 +382µs
+server:auth Authenticating request: method=POST, path=/mcp/safeoutputs, remote=172.30.0.20:40152 +1ms
+server:response_writer Creating new response writer with default status 200 +12.0s
+server:helpers Extracting session from request: remote=172.30.0.20:40138, path=/mcp/github +12.0s
+auth:header Extracting session ID from auth header: sanitized=nuFV... +2ms
+auth:header Using plain API key as session ID +361µs
+server:auth Authentication successful +1ms
+auth:header Extracting session ID from auth header: sanitized=nuFV... +2ms
+auth:header Using plain API key as session ID +434µs
+server:helpers Session extracted successfully: sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh, remote=172.30.0.20:40138 +3ms
+2026/03/04 15:32:23 === NEW STREAMABLE HTTP CONNECTION (ROUTED) ===
+2026/03/04 15:32:23 [172.30.0.20:40138] POST /mcp/github
+2026/03/04 15:32:23 Backend: github
+2026/03/04 15:32:23 Authorization (Session ID): nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+server:helpers Checking request body: method=POST, hasBody=true, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +694µs
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=(none) method=POST path=/mcp/safeoutputs +5ms
+server:sdk-frontend     JSON-RPC Request: method=initialize id=0 +355µs
+server:helpers Request body read: size=173 bytes, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh, backendID=github +955µs
+server:response_writer Creating new response writer with default status 200 +6ms
+server:helpers Extracting session from request: remote=172.30.0.20:40152, path=/mcp/safeoutputs +1ms
+auth:header Extracting session ID from auth header: sanitized=nuFV... +3ms
+2026/03/04 15:32:23 Request body: {"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"github-copilot-developer","version":"1.0.0"}},"jsonrpc":"2.0","id":0}
+server:helpers Request body restored for subsequent reads +646µs
+server:helpers Injecting session context: sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh, backendID=github +371µs
+server:helpers Adding backend ID to context: backendID=github +371µs
+server:helpers Session context injected successfully +327µs
+auth:header Using plain API key as session ID +1ms
+server:helpers Session extracted successfully: sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh, remote=172.30.0.20:40152 +617µs
+2026/03/04 15:32:23 === NEW STREAMABLE HTTP CONNECTION (ROUTED) ===
+2026/03/04 15:32:23 [172.30.0.20:40152] POST /mcp/safeoutputs
+2026/03/04 15:32:23 Backend: safeoutputs
+2026/03/04 15:32:23 Authorization (Session ID): nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+server:helpers Checking request body: method=POST, hasBody=true, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +710µs
+server:helpers Request body read: size=173 bytes, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh, backendID=safeoutputs +410µs
+2026/03/04 15:32:23 ✓ Injected session ID and backend ID into context
+2026/03/04 15:32:23 ===================================
+server:routed [CACHE] Reusing cached filtered server: backend=github, session=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +12.0s
+server:response_writer Writing response body: 173 bytes +4ms
+2026/03/04 15:32:23 Request body: {"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"github-copilot-developer","version":"1.0.0"}},"jsonrpc":"2.0","id":0}
+server:helpers Request body restored for subsequent reads +1ms
+server:response_writer Retrieving captured body: 173 bytes +1ms
+server:helpers Injecting session context: sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh, backendID=safeoutputs +770µs
+server:helpers Adding backend ID to context: backendID=safeoutputs +530µs
+server:helpers Session context injected successfully +348µs
+2026/03/04 15:32:23 ✓ Injected session ID and backend ID into context
+2026/03/04 15:32:23 ===================================
+server:routed [CACHE] Reusing cached filtered server: backend=safeoutputs, session=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +3ms
+server:response_writer Retrieving captured status code: 200 +1ms
+server:response_writer Writing response body: 207 bytes +410µs
+server:sdk-frontend <<< SDK Response [routed:github] status=200 duration=14.799018ms (non-JSON or stream) +10ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":0,"result":{"capabilities":{"logging":{}},"protocolVersion":"2025-06-18","serverInfo":{"name":"awmg-github","version":"1.0.0"}}}
+
+ +296µs
+server:response_writer Retrieving captured body: 207 bytes +1ms
+server:response_writer Retrieving captured status code: 200 +344µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=200 duration=13.387795ms (non-JSON or stream) +1ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":0,"result":{"capabilities":{"logging":{},"tools":{"listChanged":true}},"protocolVersion":"2025-06-18","serverInfo":{"name":"awmg-safeoutputs","version":"1.0.0"}}}
+
+ +340µs
+server:auth Authenticating request: method=POST, path=/mcp/safeoutputs, remote=172.30.0.20:40138 +26ms
+server:auth Authentication successful +403µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +19ms
+auth:header Using plain API key as session ID +347µs
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=KZSAL6Q2... method=POST path=/mcp/safeoutputs +11ms
+server:sdk-frontend     JSON-RPC Request: method=notifications/initialized id=<nil> +316µs
+server:auth Authenticating request: method=POST, path=/mcp/github, remote=172.30.0.20:40154 +1ms
+server:response_writer Creating new response writer with default status 200 +13ms
+server:response_writer Setting response status code: 202 +388µs
+server:response_writer Retrieving captured body: 0 bytes +389µs
+server:auth Authentication successful +1ms
+auth:header Extracting session ID from auth header: sanitized=nuFV... +3ms
+server:response_writer Retrieving captured status code: 202 +1ms
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=202 duration=2.528054ms (empty body) +3ms
+auth:header Using plain API key as session ID +1ms
+server:sdk-frontend >>> SDK Request [routed:github] session=nuFV4T2u... mcp-session=VS7HS375... method=POST path=/mcp/github +1ms
+server:sdk-frontend     JSON-RPC Request: method=notifications/initialized id=<nil> +470µs
+server:auth Authenticating request: method=GET, path=/mcp/safeoutputs, remote=172.30.0.20:40152 +3ms
+server:response_writer Creating new response writer with default status 200 +2ms
+server:response_writer Setting response status code: 202 +616µs
+server:response_writer Retrieving captured body: 0 bytes +502µs
+server:auth Authentication successful +1ms
+auth:header Extracting session ID from auth header: sanitized=nuFV... +3ms
+auth:header Using plain API key as session ID +323µs
+server:response_writer Retrieving captured status code: 202 +1ms
+server:sdk-frontend <<< SDK Response [routed:github] status=202 duration=4.398521ms (empty body) +4ms
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=KZSAL6Q2... method=GET path=/mcp/safeoutputs +680µs
+server:response_writer Creating new response writer with default status 200 +1ms
+server:auth Authenticating request: method=GET, path=/mcp/github, remote=172.30.0.20:40138 +2ms
+server:response_writer Setting response status code: 200 +475µs
+server:auth Authentication successful +1ms
+auth:header Extracting session ID from auth header: sanitized=nuFV... +3ms
+auth:header Using plain API key as session ID +469µs
+server:sdk-frontend >>> SDK Request [routed:github] session=nuFV4T2u... mcp-session=VS7HS375... method=GET path=/mcp/github +3ms
+server:response_writer Creating new response writer with default status 200 +2ms
+server:response_writer Setting response status code: 200 +357µs
+server:auth Authenticating request: method=POST, path=/mcp/safeoutputs, remote=172.30.0.20:40154 +140ms
+server:auth Authentication successful +521µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +140ms
+auth:header Using plain API key as session ID +318µs
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=KZSAL6Q2... method=POST path=/mcp/safeoutputs +140ms
+server:sdk-frontend     JSON-RPC Request: method=tools/list id=1 +350µs
+server:response_writer Creating new response writer with default status 200 +141ms
+server:response_writer Writing response body: 10344 bytes +662µs
+server:response_writer Retrieving captured body: 10344 bytes +424µs
+server:response_writer Retrieving captured status code: 200 +329µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=200 duration=2.674975ms (non-JSON or stream) +2ms
+server:sdk-frontend     Raw response (truncated): event: message
+data: {"jsonrpc":"2.0","id":1,"result":{"tools":[{"description":"[safeoutputs] Add a comment to an existing GitHub issue, pull request, or discussion. Use this to provide feedback, answer questions, or add information to an existing conversation. For creating new items, use create_issue, create_discussion, or create_pull_request instead. IMPORTANT: Comments are subject to validation constraints enforced by the MCP server - maximum 65536 characters for the complete comment (includi... +497µs
+server:auth Authenticating request: method=POST, path=/mcp/github, remote=172.30.0.20:40170 +8ms
+server:auth Authentication successful +586µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +8ms
+auth:header Using plain API key as session ID +308µs
+server:sdk-frontend >>> SDK Request [routed:github] session=nuFV4T2u... mcp-session=VS7HS375... method=POST path=/mcp/github +5ms
+server:sdk-frontend     JSON-RPC Request: method=tools/list id=1 +319µs
+server:response_writer Creating new response writer with default status 200 +7ms
+server:response_writer Writing response body: 69 bytes +374µs
+server:response_writer Retrieving captured body: 69 bytes +374µs
+server:response_writer Retrieving captured status code: 200 +297µs
+server:sdk-frontend <<< SDK Response [routed:github] status=200 duration=2.437401ms (non-JSON or stream) +2ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":1,"result":{"tools":[]}}
+
+ +391µs
+server:auth Authenticating request: method=POST, path=/mcp/safeoutputs, remote=172.30.0.20:39352 +3.5m
+server:auth Authentication successful +709µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +3.5m
+auth:header Using plain API key as session ID +356µs
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=KZSAL6Q2... method=POST path=/mcp/safeoutputs +3.5m
+server:sdk-frontend     JSON-RPC Request: method=tools/call id=2 +391µs
+server:response_writer Creating new response writer with default status 200 +3.5m
+2026/03/04 15:35:56 [ROUTED] Calling unified handler for: missing_tool
+2026/03/04 15:35:56 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+middleware:jqschema Processing tool call: tool=safeoutputs___missing_tool, queryID=3da27ca9cd27d4e6700a5ed820da312a, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +3.8m
+2026/03/04 15:35:56 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:35:56 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:35:56 Checking session for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:35:56 Auto-creating session for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:35:56 Session auto-created for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+server:unified Created session directory: /tmp/gh-aw/mcp-payloads/nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +3.8m
+2026/03/04 15:35:56 Created payload directory for session: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:35:56 Calling tool on safeoutputs: missing_tool with DIFC enforcement
+guard:context Agent ID not found in context, returning default +3.8m
+difc:agent GetOrCreate called for agentID=default +3.8m
+difc:agent Creating agent labels with tags: agentID=default, secrecyTags=[], integrityTags=[] +318µs
+2026/03/04 15:35:56 [DIFC] Created new agent: default with default labels (secrecy: [], integrity: [])
+2026/03/04 15:35:56 [DIFC] Agent default | Secrecy: [] | Integrity: []
+guard:registry Getting guard for serverID=safeoutputs +3.8m
+guard:registry Found guard for serverID=safeoutputs, guardName=noop +305µs
+guard:context Labeling resource: tool=missing_tool, operation=write (conservative) +1ms
+guard:context Resource labeled with no restrictions: tool=missing_tool +311µs
+2026/03/04 15:35:56 [DIFC] Resource: noop resource (no restrictions) | Operation: write | Secrecy: [] | Integrity: []
+difc:evaluator Evaluating access: operation=write, resource=noop resource (no restrictions) +3.8m
+difc:evaluator Evaluating write access: resource=noop resource (no restrictions), agentSecrecy=[], agentIntegrity=[] +312µs
+difc:evaluator Write access allowed: resource=noop resource (no restrictions) +297µs
+2026/03/04 15:35:56 [DIFC] Access ALLOWED for agent default to noop resource (no restrictions)
+2026/03/04 15:35:56 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+launcher:launcher GetOrLaunchForSession called: serverID=safeoutputs, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +3.7m
+launcher:launcher HTTP backend detected, using stateless connection: serverID=safeoutputs +470µs
+launcher:launcher GetOrLaunch called: serverID=safeoutputs +828µs
+launcher:launcher Reusing existing connection: serverID=safeoutputs +899µs
+mcp:connection Using session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +3.8m
+mcp:connection Sending HTTP request to http://host.docker.internal:3001: method=tools/call, id=3 +330µs
+mcp:connection Received HTTP response: status=200, body_len=113 +2ms
+guard:context Labeling response: tool=missing_tool, using resource labels (no fine-grained labeling) +11ms
+middleware:jqschema Payload within threshold: tool=safeoutputs___missing_tool, queryID=3da27ca9cd27d4e6700a5ed820da312a, size=79 bytes, threshold=10240 bytes, returning inline +16ms
+server:response_writer Writing response body: 120 bytes +17ms
+server:response_writer Retrieving captured body: 120 bytes +299µs
+server:response_writer Retrieving captured status code: 200 +288µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=200 duration=19.430786ms (non-JSON or stream) +18ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":2,"result":{"content":[{"type":"text","text":"{\"result\":\"success\"}"}]}}
+
+ +301µs
+server:auth Authenticating request: method=POST, path=/mcp/safeoutputs, remote=172.30.0.20:41624 +58.8s
+server:auth Authentication successful +614µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +58.8s
+auth:header Using plain API key as session ID +408µs
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=KZSAL6Q2... method=POST path=/mcp/safeoutputs +58.8s
+server:sdk-frontend     JSON-RPC Request: method=tools/call id=3 +410µs
+server:response_writer Creating new response writer with default status 200 +58.8s
+2026/03/04 15:36:55 [ROUTED] Calling unified handler for: missing_tool
+2026/03/04 15:36:55 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+middleware:jqschema Processing tool call: tool=safeoutputs___missing_tool, queryID=ad67e3a906384afb107722dc80929ddc, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +58.8s
+2026/03/04 15:36:55 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:36:55 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:36:55 Checking session for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:36:55 Session validated for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:36:55 Calling tool on safeoutputs: missing_tool with DIFC enforcement
+guard:context Agent ID not found in context, returning default +58.8s
+difc:agent GetOrCreate called for agentID=default +58.8s
+difc:agent Found existing agent: default +375µs
+2026/03/04 15:36:55 [DIFC] Agent default | Secrecy: [] | Integrity: []
+guard:registry Getting guard for serverID=safeoutputs +58.8s
+guard:registry Found guard for serverID=safeoutputs, guardName=noop +443µs
+guard:context Labeling resource: tool=missing_tool, operation=write (conservative) +1ms
+guard:context Resource labeled with no restrictions: tool=missing_tool +279µs
+2026/03/04 15:36:55 [DIFC] Resource: noop resource (no restrictions) | Operation: write | Secrecy: [] | Integrity: []
+difc:evaluator Evaluating access: operation=write, resource=noop resource (no restrictions) +58.8s
+difc:evaluator Evaluating write access: resource=noop resource (no restrictions), agentSecrecy=[], agentIntegrity=[] +320µs
+difc:evaluator Write access allowed: resource=noop resource (no restrictions) +306µs
+2026/03/04 15:36:55 [DIFC] Access ALLOWED for agent default to noop resource (no restrictions)
+2026/03/04 15:36:55 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+launcher:launcher GetOrLaunchForSession called: serverID=safeoutputs, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +58.8s
+launcher:launcher HTTP backend detected, using stateless connection: serverID=safeoutputs +310µs
+launcher:launcher GetOrLaunch called: serverID=safeoutputs +1ms
+launcher:launcher Reusing existing connection: serverID=safeoutputs +871µs
+mcp:connection Using session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +58.8s
+mcp:connection Sending HTTP request to http://host.docker.internal:3001: method=tools/call, id=4 +317µs
+mcp:connection Received HTTP response: status=200, body_len=113 +1ms
+guard:context Labeling response: tool=missing_tool, using resource labels (no fine-grained labeling) +10ms
+middleware:jqschema Payload within threshold: tool=safeoutputs___missing_tool, queryID=ad67e3a906384afb107722dc80929ddc, size=79 bytes, threshold=10240 bytes, returning inline +15ms
+server:response_writer Writing response body: 120 bytes +16ms
+server:response_writer Retrieving captured body: 120 bytes +441µs
+server:response_writer Retrieving captured status code: 200 +366µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=200 duration=18.877946ms (non-JSON or stream) +18ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":3,"result":{"content":[{"type":"text","text":"{\"result\":\"success\"}"}]}}
+
+ +501µs
+server:response_writer Retrieving captured body: 0 bytes +29.9s
+server:response_writer Retrieving captured body: 0 bytes +118µs
+server:response_writer Retrieving captured status code: 200 +682µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=200 duration=5m1.621521384s (empty body) +29.9s
+server:response_writer Retrieving captured status code: 200 +1ms
+server:sdk-frontend <<< SDK Response [routed:github] status=200 duration=5m1.617716018s (empty body) +1ms
+server:auth Authenticating request: method=POST, path=/mcp/safeoutputs, remote=172.30.0.20:37824 +3.0m
+server:auth Authentication successful +607µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +3.0m
+auth:header Using plain API key as session ID +358µs
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=KZSAL6Q2... method=POST path=/mcp/safeoutputs +2.5m
+server:sdk-frontend     JSON-RPC Request: method=tools/call id=4 +389µs
+server:response_writer Creating new response writer with default status 200 +2.5m
+2026/03/04 15:39:53 [ROUTED] Calling unified handler for: noop
+2026/03/04 15:39:53 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+middleware:jqschema Processing tool call: tool=safeoutputs___noop, queryID=a7ee02f9ed1c2632630abaa38bc9a283, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +3.0m
+2026/03/04 15:39:53 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:39:53 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:39:53 Checking session for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:39:53 Session validated for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:39:53 Calling tool on safeoutputs: noop with DIFC enforcement
+guard:context Agent ID not found in context, returning default +3.0m
+difc:agent GetOrCreate called for agentID=default +3.0m
+difc:agent Found existing agent: default +287µs
+2026/03/04 15:39:53 [DIFC] Agent default | Secrecy: [] | Integrity: []
+guard:registry Getting guard for serverID=safeoutputs +3.0m
+guard:registry Found guard for serverID=safeoutputs, guardName=noop +284µs
+guard:context Labeling resource: tool=noop, operation=write (conservative) +1ms
+guard:context Resource labeled with no restrictions: tool=noop +305µs
+2026/03/04 15:39:53 [DIFC] Resource: noop resource (no restrictions) | Operation: write | Secrecy: [] | Integrity: []
+difc:evaluator Evaluating access: operation=write, resource=noop resource (no restrictions) +3.0m
+difc:evaluator Evaluating write access: resource=noop resource (no restrictions), agentSecrecy=[], agentIntegrity=[] +381µs
+difc:evaluator Write access allowed: resource=noop resource (no restrictions) +353µs
+2026/03/04 15:39:53 [DIFC] Access ALLOWED for agent default to noop resource (no restrictions)
+2026/03/04 15:39:53 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+launcher:launcher GetOrLaunchForSession called: serverID=safeoutputs, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +3.0m
+launcher:launcher HTTP backend detected, using stateless connection: serverID=safeoutputs +424µs
+launcher:launcher GetOrLaunch called: serverID=safeoutputs +856µs
+launcher:launcher Reusing existing connection: serverID=safeoutputs +1ms
+mcp:connection Using session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +3.0m
+mcp:connection Sending HTTP request to http://host.docker.internal:3001: method=tools/call, id=5 +356µs
+mcp:connection Received HTTP response: status=200, body_len=113 +1ms
+guard:context Labeling response: tool=noop, using resource labels (no fine-grained labeling) +11ms
+middleware:jqschema Payload within threshold: tool=safeoutputs___noop, queryID=a7ee02f9ed1c2632630abaa38bc9a283, size=79 bytes, threshold=10240 bytes, returning inline +15ms
+server:response_writer Writing response body: 120 bytes +16ms
+server:response_writer Retrieving captured body: 120 bytes +303µs
+server:response_writer Retrieving captured status code: 200 +308µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=200 duration=18.561138ms (non-JSON or stream) +18ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":4,"result":{"content":[{"type":"text","text":"{\"result\":\"success\"}"}]}}
+
+ +298µs
+server:auth Authenticating request: method=POST, path=/mcp/safeoutputs, remote=172.30.0.20:42344 +1.2m
+server:auth Authentication successful +508µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +1.2m
+auth:header Using plain API key as session ID +292µs
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=KZSAL6Q2... method=POST path=/mcp/safeoutputs +1.2m
+server:sdk-frontend     JSON-RPC Request: method=tools/call id=5 +386µs
+server:response_writer Creating new response writer with default status 200 +1.2m
+2026/03/04 15:41:02 [ROUTED] Calling unified handler for: add_comment
+2026/03/04 15:41:02 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+middleware:jqschema Processing tool call: tool=safeoutputs___add_comment, queryID=3a45cef3cd73832d06ac2050c55f4652, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +1.2m
+2026/03/04 15:41:02 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:41:02 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:41:02 Checking session for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:41:02 Session validated for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:41:02 Calling tool on safeoutputs: add_comment with DIFC enforcement
+guard:context Agent ID not found in context, returning default +1.2m
+difc:agent GetOrCreate called for agentID=default +1.2m
+difc:agent Found existing agent: default +282µs
+2026/03/04 15:41:02 [DIFC] Agent default | Secrecy: [] | Integrity: []
+guard:registry Getting guard for serverID=safeoutputs +1.2m
+guard:registry Found guard for serverID=safeoutputs, guardName=noop +288µs
+guard:context Labeling resource: tool=add_comment, operation=write (conservative) +1ms
+guard:context Resource labeled with no restrictions: tool=add_comment +294µs
+2026/03/04 15:41:02 [DIFC] Resource: noop resource (no restrictions) | Operation: write | Secrecy: [] | Integrity: []
+difc:evaluator Evaluating access: operation=write, resource=noop resource (no restrictions) +1.2m
+difc:evaluator Evaluating write access: resource=noop resource (no restrictions), agentSecrecy=[], agentIntegrity=[] +283µs
+difc:evaluator Write access allowed: resource=noop resource (no restrictions) +268µs
+2026/03/04 15:41:02 [DIFC] Access ALLOWED for agent default to noop resource (no restrictions)
+2026/03/04 15:41:02 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+launcher:launcher GetOrLaunchForSession called: serverID=safeoutputs, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +1.2m
+launcher:launcher HTTP backend detected, using stateless connection: serverID=safeoutputs +261µs
+launcher:launcher GetOrLaunch called: serverID=safeoutputs +874µs
+launcher:launcher Reusing existing connection: serverID=safeoutputs +782µs
+mcp:connection Using session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +1.2m
+mcp:connection Sending HTTP request to http://host.docker.internal:3001: method=tools/call, id=6 +285µs
+mcp:connection Received HTTP response: status=200, body_len=113 +1ms
+guard:context Labeling response: tool=add_comment, using resource labels (no fine-grained labeling) +11ms
+middleware:jqschema Payload within threshold: tool=safeoutputs___add_comment, queryID=3a45cef3cd73832d06ac2050c55f4652, size=79 bytes, threshold=10240 bytes, returning inline +16ms
+server:response_writer Writing response body: 120 bytes +16ms
+server:response_writer Retrieving captured body: 120 bytes +325µs
+server:response_writer Retrieving captured status code: 200 +331µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=200 duration=18.947105ms (non-JSON or stream) +18ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":5,"result":{"content":[{"type":"text","text":"{\"result\":\"success\"}"}]}}
+
+ +322µs
+server:auth Authenticating request: method=POST, path=/mcp/safeoutputs, remote=172.30.0.20:44936 +49.3s
+server:auth Authentication successful +805µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +49.3s
+auth:header Using plain API key as session ID +431µs
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=KZSAL6Q2... method=POST path=/mcp/safeoutputs +49.3s
+server:sdk-frontend     JSON-RPC Request: method=tools/call id=6 +425µs
+server:response_writer Creating new response writer with default status 200 +49.3s
+2026/03/04 15:41:52 [ROUTED] Calling unified handler for: missing_tool
+2026/03/04 15:41:52 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+middleware:jqschema Processing tool call: tool=safeoutputs___missing_tool, queryID=69a063fc2caa1079143e2586a321178f, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +49.3s
+2026/03/04 15:41:52 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:41:52 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:41:52 Checking session for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:41:52 Session validated for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:41:52 Calling tool on safeoutputs: missing_tool with DIFC enforcement
+guard:context Agent ID not found in context, returning default +49.3s
+difc:agent GetOrCreate called for agentID=default +49.3s
+difc:agent Found existing agent: default +333µs
+2026/03/04 15:41:52 [DIFC] Agent default | Secrecy: [] | Integrity: []
+guard:registry Getting guard for serverID=safeoutputs +49.3s
+guard:registry Found guard for serverID=safeoutputs, guardName=noop +363µs
+guard:context Labeling resource: tool=missing_tool, operation=write (conservative) +1ms
+guard:context Resource labeled with no restrictions: tool=missing_tool +350µs
+2026/03/04 15:41:52 [DIFC] Resource: noop resource (no restrictions) | Operation: write | Secrecy: [] | Integrity: []
+difc:evaluator Evaluating access: operation=write, resource=noop resource (no restrictions) +49.3s
+difc:evaluator Evaluating write access: resource=noop resource (no restrictions), agentSecrecy=[], agentIntegrity=[] +313µs
+difc:evaluator Write access allowed: resource=noop resource (no restrictions) +1ms
+2026/03/04 15:41:52 [DIFC] Access ALLOWED for agent default to noop resource (no restrictions)
+2026/03/04 15:41:52 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+launcher:launcher GetOrLaunchForSession called: serverID=safeoutputs, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +49.3s
+launcher:launcher HTTP backend detected, using stateless connection: serverID=safeoutputs +296µs
+launcher:launcher GetOrLaunch called: serverID=safeoutputs +1ms
+launcher:launcher Reusing existing connection: serverID=safeoutputs +889µs
+mcp:connection Using session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +49.3s
+mcp:connection Sending HTTP request to http://host.docker.internal:3001: method=tools/call, id=7 +356µs
+mcp:connection Received HTTP response: status=200, body_len=113 +1ms
+guard:context Labeling response: tool=missing_tool, using resource labels (no fine-grained labeling) +11ms
+middleware:jqschema Payload within threshold: tool=safeoutputs___missing_tool, queryID=69a063fc2caa1079143e2586a321178f, size=79 bytes, threshold=10240 bytes, returning inline +16ms
+server:response_writer Writing response body: 120 bytes +17ms
+server:response_writer Retrieving captured body: 120 bytes +437µs
+server:response_writer Retrieving captured status code: 200 +346µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=200 duration=19.536963ms (non-JSON or stream) +19ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":6,"result":{"content":[{"type":"text","text":"{\"result\":\"success\"}"}]}}
+
+ +338µs
+server:auth Authenticating request: method=POST, path=/mcp/safeoutputs, remote=172.30.0.20:58202 +39.2s
+server:auth Authentication successful +656µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +39.2s
+auth:header Using plain API key as session ID +338µs
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=KZSAL6Q2... method=POST path=/mcp/safeoutputs +39.2s
+server:sdk-frontend     JSON-RPC Request: method=tools/call id=7 +388µs
+server:response_writer Creating new response writer with default status 200 +39.2s
+2026/03/04 15:42:31 [ROUTED] Calling unified handler for: missing_data
+2026/03/04 15:42:31 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+middleware:jqschema Processing tool call: tool=safeoutputs___missing_data, queryID=cf2dd5ee0e35aea2b071c70edb24d3ec, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +39.2s
+2026/03/04 15:42:31 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:42:31 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:42:31 Checking session for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:42:31 Session validated for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:42:31 Calling tool on safeoutputs: missing_data with DIFC enforcement
+guard:context Agent ID not found in context, returning default +39.2s
+difc:agent GetOrCreate called for agentID=default +39.2s
+difc:agent Found existing agent: default +436µs
+2026/03/04 15:42:31 [DIFC] Agent default | Secrecy: [] | Integrity: []
+guard:registry Getting guard for serverID=safeoutputs +39.2s
+guard:registry Found guard for serverID=safeoutputs, guardName=noop +315µs
+guard:context Labeling resource: tool=missing_data, operation=write (conservative) +1ms
+guard:context Resource labeled with no restrictions: tool=missing_data +299µs
+2026/03/04 15:42:31 [DIFC] Resource: noop resource (no restrictions) | Operation: write | Secrecy: [] | Integrity: []
+difc:evaluator Evaluating access: operation=write, resource=noop resource (no restrictions) +39.2s
+difc:evaluator Evaluating write access: resource=noop resource (no restrictions), agentSecrecy=[], agentIntegrity=[] +346µs
+difc:evaluator Write access allowed: resource=noop resource (no restrictions) +278µs
+2026/03/04 15:42:31 [DIFC] Access ALLOWED for agent default to noop resource (no restrictions)
+2026/03/04 15:42:31 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+launcher:launcher GetOrLaunchForSession called: serverID=safeoutputs, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +39.2s
+launcher:launcher HTTP backend detected, using stateless connection: serverID=safeoutputs +272µs
+launcher:launcher GetOrLaunch called: serverID=safeoutputs +889µs
+launcher:launcher Reusing existing connection: serverID=safeoutputs +1ms
+mcp:connection Using session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +39.2s
+mcp:connection Sending HTTP request to http://host.docker.internal:3001: method=tools/call, id=8 +300µs
+mcp:connection Received HTTP response: status=200, body_len=113 +1ms
+guard:context Labeling response: tool=missing_data, using resource labels (no fine-grained labeling) +10ms
+middleware:jqschema Payload within threshold: tool=safeoutputs___missing_data, queryID=cf2dd5ee0e35aea2b071c70edb24d3ec, size=79 bytes, threshold=10240 bytes, returning inline +15ms
+server:response_writer Writing response body: 120 bytes +16ms
+server:response_writer Retrieving captured body: 120 bytes +296µs
+server:response_writer Retrieving captured status code: 200 +567µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=200 duration=18.204069ms (non-JSON or stream) +18ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":7,"result":{"content":[{"type":"text","text":"{\"result\":\"success\"}"}]}}
+
+ +305µs
+server:auth Authenticating request: method=POST, path=/mcp/safeoutputs, remote=172.30.0.20:43984 +26.2s
+server:auth Authentication successful +940µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +26.2s
+auth:header Using plain API key as session ID +305µs
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=KZSAL6Q2... method=POST path=/mcp/safeoutputs +26.2s
+server:sdk-frontend     JSON-RPC Request: method=tools/call id=8 +580µs
+server:response_writer Creating new response writer with default status 200 +26.2s
+2026/03/04 15:42:57 [ROUTED] Calling unified handler for: create_issue
+2026/03/04 15:42:57 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+middleware:jqschema Processing tool call: tool=safeoutputs___create_issue, queryID=7ad54f11925707c18a6b4da16189181e, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +26.2s
+2026/03/04 15:42:57 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:42:57 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:42:57 Checking session for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:42:57 Session validated for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:42:57 Calling tool on safeoutputs: create_issue with DIFC enforcement
+guard:context Agent ID not found in context, returning default +26.2s
+difc:agent GetOrCreate called for agentID=default +26.2s
+difc:agent Found existing agent: default +313µs
+2026/03/04 15:42:57 [DIFC] Agent default | Secrecy: [] | Integrity: []
+guard:registry Getting guard for serverID=safeoutputs +26.2s
+guard:registry Found guard for serverID=safeoutputs, guardName=noop +285µs
+guard:context Labeling resource: tool=create_issue, operation=write (conservative) +1ms
+guard:context Resource labeled with no restrictions: tool=create_issue +278µs
+2026/03/04 15:42:57 [DIFC] Resource: noop resource (no restrictions) | Operation: write | Secrecy: [] | Integrity: []
+difc:evaluator Evaluating access: operation=write, resource=noop resource (no restrictions) +26.2s
+difc:evaluator Evaluating write access: resource=noop resource (no restrictions), agentSecrecy=[], agentIntegrity=[] +749µs
+difc:evaluator Write access allowed: resource=noop resource (no restrictions) +351µs
+2026/03/04 15:42:57 [DIFC] Access ALLOWED for agent default to noop resource (no restrictions)
+2026/03/04 15:42:57 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+launcher:launcher GetOrLaunchForSession called: serverID=safeoutputs, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +26.2s
+launcher:launcher HTTP backend detected, using stateless connection: serverID=safeoutputs +306µs
+launcher:launcher GetOrLaunch called: serverID=safeoutputs +1ms
+launcher:launcher Reusing existing connection: serverID=safeoutputs +1ms
+mcp:connection Using session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +26.2s
+mcp:connection Sending HTTP request to http://host.docker.internal:3001: method=tools/call, id=9 +344µs
+mcp:connection Received HTTP response: status=200, body_len=113 +2ms
+guard:context Labeling response: tool=create_issue, using resource labels (no fine-grained labeling) +17ms
+middleware:jqschema Payload within threshold: tool=safeoutputs___create_issue, queryID=7ad54f11925707c18a6b4da16189181e, size=79 bytes, threshold=10240 bytes, returning inline +24ms
+server:response_writer Writing response body: 120 bytes +24ms
+server:response_writer Retrieving captured body: 120 bytes +420µs
+server:response_writer Retrieving captured status code: 200 +394µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=200 duration=27.361454ms (non-JSON or stream) +26ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":8,"result":{"content":[{"type":"text","text":"{\"result\":\"success\"}"}]}}
+
+ +389µs
+server:auth Authenticating request: method=POST, path=/mcp/safeoutputs, remote=172.30.0.20:55778 +9.1s
+server:auth Authentication successful +701µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +9.1s
+auth:header Using plain API key as session ID +304µs
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=KZSAL6Q2... method=POST path=/mcp/safeoutputs +9.0s
+server:sdk-frontend     JSON-RPC Request: method=tools/call id=9 +440µs
+server:response_writer Creating new response writer with default status 200 +9.0s
+2026/03/04 15:43:06 [ROUTED] Calling unified handler for: add_comment
+2026/03/04 15:43:06 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+middleware:jqschema Processing tool call: tool=safeoutputs___add_comment, queryID=91942c70efc588ca184a086fd9d1786f, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +9.0s
+2026/03/04 15:43:06 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:43:06 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:43:06 Checking session for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:43:06 Session validated for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:43:06 Calling tool on safeoutputs: add_comment with DIFC enforcement
+guard:context Agent ID not found in context, returning default +9.0s
+difc:agent GetOrCreate called for agentID=default +9.1s
+difc:agent Found existing agent: default +291µs
+2026/03/04 15:43:06 [DIFC] Agent default | Secrecy: [] | Integrity: []
+guard:registry Getting guard for serverID=safeoutputs +9.1s
+guard:registry Found guard for serverID=safeoutputs, guardName=noop +293µs
+guard:context Labeling resource: tool=add_comment, operation=write (conservative) +1ms
+guard:context Resource labeled with no restrictions: tool=add_comment +310µs
+2026/03/04 15:43:06 [DIFC] Resource: noop resource (no restrictions) | Operation: write | Secrecy: [] | Integrity: []
+difc:evaluator Evaluating access: operation=write, resource=noop resource (no restrictions) +9.1s
+difc:evaluator Evaluating write access: resource=noop resource (no restrictions), agentSecrecy=[], agentIntegrity=[] +304µs
+difc:evaluator Write access allowed: resource=noop resource (no restrictions) +305µs
+2026/03/04 15:43:06 [DIFC] Access ALLOWED for agent default to noop resource (no restrictions)
+2026/03/04 15:43:06 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+launcher:launcher GetOrLaunchForSession called: serverID=safeoutputs, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +9.1s
+launcher:launcher HTTP backend detected, using stateless connection: serverID=safeoutputs +372µs
+launcher:launcher GetOrLaunch called: serverID=safeoutputs +867µs
+launcher:launcher Reusing existing connection: serverID=safeoutputs +819µs
+mcp:connection Using session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +9.1s
+mcp:connection Sending HTTP request to http://host.docker.internal:3001: method=tools/call, id=10 +307µs
+mcp:connection Received HTTP response: status=200, body_len=114 +1ms
+guard:context Labeling response: tool=add_comment, using resource labels (no fine-grained labeling) +11ms
+middleware:jqschema Payload within threshold: tool=safeoutputs___add_comment, queryID=91942c70efc588ca184a086fd9d1786f, size=79 bytes, threshold=10240 bytes, returning inline +16ms
+server:response_writer Writing response body: 120 bytes +16ms
+server:response_writer Retrieving captured body: 120 bytes +309µs
+server:response_writer Retrieving captured status code: 200 +300µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=200 duration=19.062812ms (non-JSON or stream) +18ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":9,"result":{"content":[{"type":"text","text":"{\"result\":\"success\"}"}]}}
+
+ +317µs
+server:auth Authenticating request: method=POST, path=/mcp/safeoutputs, remote=172.30.0.20:37734 +1.8m
+server:auth Authentication successful +873µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +1.8m
+auth:header Using plain API key as session ID +395µs
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=KZSAL6Q2... method=POST path=/mcp/safeoutputs +1.8m
+server:sdk-frontend     JSON-RPC Request: method=tools/call id=10 +597µs
+server:response_writer Creating new response writer with default status 200 +1.8m
+2026/03/04 15:44:55 [ROUTED] Calling unified handler for: add_comment
+2026/03/04 15:44:55 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+middleware:jqschema Processing tool call: tool=safeoutputs___add_comment, queryID=32db1aa127fef67c29aa032a3bbfc9e5, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +1.8m
+2026/03/04 15:44:55 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:44:55 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:44:55 Checking session for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:44:55 Session validated for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:44:55 Calling tool on safeoutputs: add_comment with DIFC enforcement
+guard:context Agent ID not found in context, returning default +1.8m
+difc:agent GetOrCreate called for agentID=default +1.8m
+difc:agent Found existing agent: default +396µs
+2026/03/04 15:44:55 [DIFC] Agent default | Secrecy: [] | Integrity: []
+guard:registry Getting guard for serverID=safeoutputs +1.8m
+guard:registry Found guard for serverID=safeoutputs, guardName=noop +323µs
+guard:context Labeling resource: tool=add_comment, operation=write (conservative) +1ms
+guard:context Resource labeled with no restrictions: tool=add_comment +386µs
+2026/03/04 15:44:55 [DIFC] Resource: noop resource (no restrictions) | Operation: write | Secrecy: [] | Integrity: []
+difc:evaluator Evaluating access: operation=write, resource=noop resource (no restrictions) +1.8m
+difc:evaluator Evaluating write access: resource=noop resource (no restrictions), agentSecrecy=[], agentIntegrity=[] +742µs
+difc:evaluator Write access allowed: resource=noop resource (no restrictions) +354µs
+2026/03/04 15:44:55 [DIFC] Access ALLOWED for agent default to noop resource (no restrictions)
+2026/03/04 15:44:55 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+launcher:launcher GetOrLaunchForSession called: serverID=safeoutputs, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +1.8m
+launcher:launcher HTTP backend detected, using stateless connection: serverID=safeoutputs +410µs
+launcher:launcher GetOrLaunch called: serverID=safeoutputs +936µs
+launcher:launcher Reusing existing connection: serverID=safeoutputs +1ms
+mcp:connection Using session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +1.8m
+mcp:connection Sending HTTP request to http://host.docker.internal:3001: method=tools/call, id=11 +324µs
+mcp:connection Received HTTP response: status=200, body_len=114 +1ms
+guard:context Labeling response: tool=add_comment, using resource labels (no fine-grained labeling) +20ms
+middleware:jqschema Payload within threshold: tool=safeoutputs___add_comment, queryID=32db1aa127fef67c29aa032a3bbfc9e5, size=79 bytes, threshold=10240 bytes, returning inline +29ms
+server:response_writer Writing response body: 121 bytes +30ms
+server:response_writer Retrieving captured body: 121 bytes +414µs
+server:response_writer Retrieving captured status code: 200 +408µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=200 duration=32.631754ms (non-JSON or stream) +32ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":10,"result":{"content":[{"type":"text","text":"{\"result\":\"success\"}"}]}}
+
+ +471µs
+server:auth Authenticating request: method=POST, path=/mcp/safeoutputs, remote=172.30.0.20:42954 +11.6s
+server:auth Authentication successful +579µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +11.6s
+auth:header Using plain API key as session ID +354µs
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=KZSAL6Q2... method=POST path=/mcp/safeoutputs +11.5s
+server:sdk-frontend     JSON-RPC Request: method=tools/call id=11 +421µs
+server:response_writer Creating new response writer with default status 200 +11.5s
+2026/03/04 15:45:07 [ROUTED] Calling unified handler for: noop
+2026/03/04 15:45:07 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+middleware:jqschema Processing tool call: tool=safeoutputs___noop, queryID=08814222d1ef62dba9a3335a128fcd6f, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +11.5s
+2026/03/04 15:45:07 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:45:07 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:45:07 Checking session for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:45:07 Session validated for ID: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+2026/03/04 15:45:07 Calling tool on safeoutputs: noop with DIFC enforcement
+guard:context Agent ID not found in context, returning default +11.5s
+difc:agent GetOrCreate called for agentID=default +11.6s
+difc:agent Found existing agent: default +311µs
+2026/03/04 15:45:07 [DIFC] Agent default | Secrecy: [] | Integrity: []
+guard:registry Getting guard for serverID=safeoutputs +11.6s
+guard:registry Found guard for serverID=safeoutputs, guardName=noop +261µs
+guard:context Labeling resource: tool=noop, operation=write (conservative) +1ms
+guard:context Resource labeled with no restrictions: tool=noop +277µs
+2026/03/04 15:45:07 [DIFC] Resource: noop resource (no restrictions) | Operation: write | Secrecy: [] | Integrity: []
+difc:evaluator Evaluating access: operation=write, resource=noop resource (no restrictions) +11.6s
+difc:evaluator Evaluating write access: resource=noop resource (no restrictions), agentSecrecy=[], agentIntegrity=[] +313µs
+difc:evaluator Write access allowed: resource=noop resource (no restrictions) +464µs
+2026/03/04 15:45:07 [DIFC] Access ALLOWED for agent default to noop resource (no restrictions)
+2026/03/04 15:45:07 Extracted session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh
+launcher:launcher GetOrLaunchForSession called: serverID=safeoutputs, sessionID=nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +11.6s
+launcher:launcher HTTP backend detected, using stateless connection: serverID=safeoutputs +345µs
+launcher:launcher GetOrLaunch called: serverID=safeoutputs +1ms
+launcher:launcher Reusing existing connection: serverID=safeoutputs +1ms
+mcp:connection Using session ID from context: nuFV4T2u4Dj75r9MH9wMPz44atzKpYZdlsQD9xLiQIBNTRFHHsUqmTg9iRh +11.6s
+mcp:connection Sending HTTP request to http://host.docker.internal:3001: method=tools/call, id=12 +362µs
+mcp:connection Received HTTP response: status=200, body_len=114 +1ms
+guard:context Labeling response: tool=noop, using resource labels (no fine-grained labeling) +10ms
+middleware:jqschema Payload within threshold: tool=safeoutputs___noop, queryID=08814222d1ef62dba9a3335a128fcd6f, size=79 bytes, threshold=10240 bytes, returning inline +14ms
+server:response_writer Writing response body: 121 bytes +15ms
+server:response_writer Retrieving captured body: 121 bytes +283µs
+server:response_writer Retrieving captured status code: 200 +353µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=200 duration=17.844855ms (non-JSON or stream) +17ms
+server:sdk-frontend     Raw response: event: message
+data: {"jsonrpc":"2.0","id":11,"result":{"content":[{"type":"text","text":"{\"result\":\"success\"}"}]}}
+
+ +319µs
+server:auth Authenticating request: method=DELETE, path=/mcp/github, remote=172.30.0.20:54366 +8.4s
+server:auth Authenticating request: method=DELETE, path=/mcp/safeoutputs, remote=172.30.0.20:54368 +150µs
+server:auth Authentication successful +566µs
+server:auth Authentication successful +465µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +8.4s
+auth:header Using plain API key as session ID +323µs
+auth:header Extracting session ID from auth header: sanitized=nuFV... +513µs
+auth:header Using plain API key as session ID +370µs
+server:sdk-frontend >>> SDK Request [routed:github] session=nuFV4T2u... mcp-session=VS7HS375... method=DELETE path=/mcp/github +8.4s
+server:response_writer Creating new response writer with default status 200 +8.4s
+server:sdk-frontend >>> SDK Request [routed:safeoutputs] session=nuFV4T2u... mcp-session=KZSAL6Q2... method=DELETE path=/mcp/safeoutputs +638µs
+server:response_writer Creating new response writer with default status 200 +650µs
+server:response_writer Setting response status code: 204 +358µs
+server:response_writer Setting response status code: 204 +617µs
+server:response_writer Retrieving captured body: 0 bytes +629µs
+server:response_writer Retrieving captured status code: 204 +407µs
+server:sdk-frontend <<< SDK Response [routed:safeoutputs] status=204 duration=4.079343ms (empty body) +3ms
+server:response_writer Retrieving captured body: 0 bytes +1ms
+server:response_writer Retrieving captured status code: 204 +340µs
+server:sdk-frontend <<< SDK Response [routed:github] status=204 duration=4.669066ms (empty body) +972µs
+server:response_writer Creating new response writer with default status 200 +11.0s
+server:auth Authenticating request: method=POST, path=/close, remote=[::1]:51556 +11.0s
+server:auth Authentication failed: invalid API key +361µs
+server:auth Logging runtime error: type=authentication_failed, detail=invalid_api_key +1ms
+2026/03/04 15:45:26 [ERROR] timestamp=2026-03-04T15:45:26Z server=gateway request_id=unknown error_type=authentication_failed detail=invalid_api_key path=/close method=POST
+server:response_writer Setting response status code: 401 +2ms
+server:response_writer Writing response body: 30 bytes +320µs
+server:response_writer Retrieving captured body: 30 bytes +356µs
+server:response_writer Retrieving captured body: 30 bytes +324µs
+server:response_writer Retrieving captured status code: 401 +327µs
+2026/03/04 15:45:26 [[::1]:51556] POST /close - Status: 401, Response: Unauthorized: invalid API key
+launcher:pool Context cancelled, stopping cleanup +13.3m
+launcher:launcher Closing launcher: connections=1, hasSessionPool=true +19.4s
+2026/03/04 15:45:26 Shutting down...
+launcher:launcher Closing 1 connections +1ms
+launcher:launcher Stopping session connection pool +409µs
+launcher:pool Stopping connection pool +2ms
+launcher:pool Cleanup goroutine stopped +438µs
+launcher:pool Connection pool stopped +458µs
+launcher:launcher Launcher closed successfully +1ms
+launcher:launcher Closing launcher: connections=0, hasSessionPool=true +413µs
+launcher:launcher Closing 0 connections +630µs
+launcher:launcher Stopping session connection pool +350µs

@@ -1,0 +1,28 @@
+﻿2026-03-04T15:45:26.4884985Z ##[group]Run # Copy Copilot session state files to logs folder for artifact collection
+2026-03-04T15:45:26.4885578Z [36;1m# Copy Copilot session state files to logs folder for artifact collection[0m
+2026-03-04T15:45:26.4886288Z [36;1m# This ensures they are in /tmp/gh-aw/ where secret redaction can scan them[0m
+2026-03-04T15:45:26.4886774Z [36;1mSESSION_STATE_DIR="$HOME/.copilot/session-state"[0m
+2026-03-04T15:45:26.4887136Z [36;1mLOGS_DIR="/tmp/gh-aw/sandbox/agent/logs"[0m
+2026-03-04T15:45:26.4887419Z [36;1m[0m
+2026-03-04T15:45:26.4887625Z [36;1mif [ -d "$SESSION_STATE_DIR" ]; then[0m
+2026-03-04T15:45:26.4888057Z [36;1m  echo "Copying Copilot session state files from $SESSION_STATE_DIR to $LOGS_DIR"[0m
+2026-03-04T15:45:26.4888484Z [36;1m  mkdir -p "$LOGS_DIR"[0m
+2026-03-04T15:45:26.4888830Z [36;1m  cp -v "$SESSION_STATE_DIR"/*.jsonl "$LOGS_DIR/" 2>/dev/null || true[0m
+2026-03-04T15:45:26.4889244Z [36;1m  echo "Session state files copied successfully"[0m
+2026-03-04T15:45:26.4889535Z [36;1melse[0m
+2026-03-04T15:45:26.4889842Z [36;1m  echo "No session-state directory found at $SESSION_STATE_DIR"[0m
+2026-03-04T15:45:26.4890177Z [36;1mfi[0m
+2026-03-04T15:45:26.4934326Z shell: /usr/bin/bash -e {0}
+2026-03-04T15:45:26.4934579Z env:
+2026-03-04T15:45:26.4934753Z   DEFAULT_BRANCH: main
+2026-03-04T15:45:26.4934974Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-03-04T15:45:26.4935201Z   GH_AW_ASSETS_BRANCH: 
+2026-03-04T15:45:26.4935412Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-03-04T15:45:26.4935688Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-03-04T15:45:26.4936057Z   GH_AW_SAFE_OUTPUTS: /opt/gh-aw/safeoutputs/outputs.jsonl
+2026-03-04T15:45:26.4936490Z   GH_AW_SAFE_OUTPUTS_CONFIG_PATH: /opt/gh-aw/safeoutputs/config.json
+2026-03-04T15:45:26.4936935Z   GH_AW_SAFE_OUTPUTS_TOOLS_PATH: /opt/gh-aw/safeoutputs/tools.json
+2026-03-04T15:45:26.4937306Z   GH_AW_WORKFLOW_ID_SANITIZED: mlrepohealthcheck
+2026-03-04T15:45:26.4937579Z ##[endgroup]
+2026-03-04T15:45:26.4999429Z Copying Copilot session state files from /home/runner/.copilot/session-state to /tmp/gh-aw/sandbox/agent/logs
+2026-03-04T15:45:26.5027611Z Session state files copied successfully

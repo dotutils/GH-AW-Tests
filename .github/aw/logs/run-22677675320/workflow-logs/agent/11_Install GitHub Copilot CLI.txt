@@ -1,0 +1,29 @@
+﻿2026-03-04T16:03:30.7357217Z ##[group]Run /opt/gh-aw/actions/install_copilot_cli.sh 0.0.410
+2026-03-04T16:03:30.7357648Z [36;1m/opt/gh-aw/actions/install_copilot_cli.sh 0.0.410[0m
+2026-03-04T16:03:30.7401329Z shell: /usr/bin/bash -e {0}
+2026-03-04T16:03:30.7401640Z env:
+2026-03-04T16:03:30.7401872Z   DEFAULT_BRANCH: main
+2026-03-04T16:03:30.7402088Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-03-04T16:03:30.7402488Z   GH_AW_ASSETS_BRANCH: 
+2026-03-04T16:03:30.7402703Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-03-04T16:03:30.7402974Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-03-04T16:03:30.7403325Z   GH_AW_SAFE_OUTPUTS: /opt/gh-aw/safeoutputs/outputs.jsonl
+2026-03-04T16:03:30.7403723Z   GH_AW_SAFE_OUTPUTS_CONFIG_PATH: /opt/gh-aw/safeoutputs/config.json
+2026-03-04T16:03:30.7404157Z   GH_AW_SAFE_OUTPUTS_TOOLS_PATH: /opt/gh-aw/safeoutputs/tools.json
+2026-03-04T16:03:30.7404522Z   GH_AW_WORKFLOW_ID_SANITIZED: mlrepohealthcheck
+2026-03-04T16:03:30.7404793Z ##[endgroup]
+2026-03-04T16:03:30.7487129Z Ensuring correct ownership of /home/runner/.copilot...
+2026-03-04T16:03:30.7589761Z Installing GitHub Copilot CLI version 0.0.410...
+2026-03-04T16:03:30.7590403Z Attempt 1 of 3: Downloading Copilot CLI installer...
+2026-03-04T16:03:30.8931488Z Successfully downloaded installer
+2026-03-04T16:03:30.8932019Z Installing Copilot CLI version 0.0.410...
+2026-03-04T16:03:30.9001694Z Installing GitHub Copilot CLI...
+2026-03-04T16:03:30.9030874Z Downloading from: https://github.com/github/copilot-cli/releases/download/v0.0.410/copilot-linux-x64.tar.gz
+2026-03-04T16:03:32.0236009Z ✓ Checksum validated
+2026-03-04T16:03:33.7820233Z ✓ GitHub Copilot CLI installed to /usr/local/bin/copilot
+2026-03-04T16:03:33.7945580Z 
+2026-03-04T16:03:33.7945947Z Installation complete! Run 'copilot help' to get started.
+2026-03-04T16:03:33.7969582Z Verifying Copilot CLI installation...
+2026-03-04T16:03:35.0366340Z GitHub Copilot CLI 0.0.410.
+2026-03-04T16:03:35.0366898Z Run 'copilot update' to check for updates.
+2026-03-04T16:03:35.0556365Z ✓ Copilot CLI installation complete

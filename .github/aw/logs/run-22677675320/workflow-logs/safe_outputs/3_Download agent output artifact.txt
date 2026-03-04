@@ -1,0 +1,23 @@
+﻿2026-03-04T16:10:25.6769351Z ##[group]Run actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+2026-03-04T16:10:25.6771315Z with:
+2026-03-04T16:10:25.6771950Z   name: agent-output
+2026-03-04T16:10:25.6772685Z   path: /tmp/gh-aw/safeoutputs/
+2026-03-04T16:10:25.6773520Z   merge-multiple: false
+2026-03-04T16:10:25.6775207Z   repository: dotutils/GH-AW-Tests
+2026-03-04T16:10:25.6776113Z   run-id: 22677675320
+2026-03-04T16:10:25.6776797Z env:
+2026-03-04T16:10:25.6777686Z   GH_AW_ENGINE_ID: copilot
+2026-03-04T16:10:25.6778531Z   GH_AW_WORKFLOW_ID: ml-repo-health-check
+2026-03-04T16:10:25.6779570Z   GH_AW_WORKFLOW_NAME: ML.NET Repository Health Check
+2026-03-04T16:10:25.6780687Z ##[endgroup]
+2026-03-04T16:10:26.2659382Z Downloading single artifact
+2026-03-04T16:10:26.6441755Z (node:916) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-03-04T16:10:26.6445505Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-03-04T16:10:26.6452612Z Preparing to download the following artifacts:
+2026-03-04T16:10:26.6455195Z - agent-output (ID: 5762981488, Size: 3981, Expected Digest: sha256:a83f40adf6b2bb210eb41f5aabc77c0cd571c66a43b490ac7dc5f95ed0641d9f)
+2026-03-04T16:10:26.6525824Z Redirecting to blob download url: https://productionresultssa19.blob.core.windows.net/actions-results/ebf64ec7-2060-47b2-813b-f01e2151c72c/workflow-job-run-5e02886f-3b40-5f32-adcc-2ffbb9672d8f/artifacts/5feb6d3ffed3baf4352cf0f03dcabdcad81892c86a67977bf8e6087a64894dee.zip
+2026-03-04T16:10:26.6543198Z Starting download of artifact to: /tmp/gh-aw/safeoutputs
+2026-03-04T16:10:26.6573997Z SHA256 digest of downloaded artifact is a83f40adf6b2bb210eb41f5aabc77c0cd571c66a43b490ac7dc5f95ed0641d9f
+2026-03-04T16:10:26.6576513Z Artifact download completed successfully.
+2026-03-04T16:10:26.6577752Z Total of 1 artifact(s) downloaded
+2026-03-04T16:10:26.6599187Z Download artifact has finished successfully

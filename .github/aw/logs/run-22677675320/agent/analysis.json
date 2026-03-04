@@ -1,0 +1,47 @@
+{
+  "date": "2026-03-04",
+  "timestamp": "2026-03-04T16:06:50Z",
+  "metrics": {
+    "untriaged_issues": 211,
+    "awaiting_user_input": 4,
+    "open_questions_total": 52,
+    "old_unanswered_questions": 52,
+    "open_prs": 12,
+    "old_prs_7d": 12,
+    "stale_prs_90d": 6,
+    "community_prs": 5,
+    "community_prs_no_review": 5,
+    "p0_issues": 1,
+    "p1_issues": 0,
+    "open_bugs": 0,
+    "security_issues": 1,
+    "blocking_ci": 0,
+    "known_build_errors": 0,
+    "gh_actions_last_24h_failed": 0,
+    "gh_actions_7d_total": 8,
+    "gh_actions_7d_success": 8,
+    "gh_actions_7d_fail": 0,
+    "gh_actions_7d_cancel": 0,
+    "issues_opened_7d": 0,
+    "issues_closed_7d": 0,
+    "prs_merged_7d": 0
+  },
+  "severity": {
+    "critical": 3,
+    "warning": 5,
+    "info": 2,
+    "overall": "NEEDS_ATTENTION"
+  },
+  "critical_items": [
+    "🔴 211 untriaged issues (>50 threshold)",
+    "�� 5 community PRs awaiting first review (some >1000 days old)",
+    "🔴 1 P0 issue open: #5805 MKLImports PDB not included"
+  ],
+  "warning_items": [
+    "🟡 52 unanswered questions >7 days old",
+    "🟡 12 open PRs all >7 days old",
+    "🟡 6 stale PRs >90 days old",
+    "🟡 4 issues awaiting user input need review",
+    "🟡 1 open security issue: #3604"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "servers": {
+    "safeoutputs": [
+      {
+        "name": "create_issue",
+        "description": "Create a new GitHub issue for tracking bugs, feature requests, or tasks. Use this for actionable work items that need assignment, labeling, and status tracking. For reports, announcements, or status updates that don't require task tracking, use create_discussion instead. CONSTRAINTS: Maximum 1 issue(s) can be created. Title will be prefixed with \"🏥 \". Labels [repo-health] will be automatically added. Issues will be created in repository \"dotnet/machinelearning\"."
+      },
+      {
+        "name": "add_comment",
+        "description": "Add a comment to an existing GitHub issue, pull request, or discussion. Use this to provide feedback, answer questions, or add information to an existing conversation. For creating new items, use create_issue, create_discussion, or create_pull_request instead. IMPORTANT: Comments are subject to validation constraints enforced by the MCP server - maximum 65536 characters for the complete comment (including footer which is added automatically), 10 mentions (@username), and 50 links. Exceeding these limits will result in an immediate error with specific guidance. CONSTRAINTS: Maximum 1 comment(s) can be added. Target: *. Comments will be added in repository \"dotnet/machinelearning\"."
+      },
+      {
+        "name": "add_labels",
+        "description": "Add labels to an existing GitHub issue or pull request for categorization and filtering. Labels must already exist in the repository. For creating new issues with labels, use create_issue with the labels property instead. CONSTRAINTS: Maximum 2 label(s) can be added. Target: *."
+      },
+      {
+        "name": "update_issue",
+        "description": "Update an existing GitHub issue's title, body, labels, assignees, or milestone WITHOUT closing it. This tool is primarily for editing issue metadata and content. While it supports changing status between 'open' and 'closed', use close_issue instead when you want to close an issue with a closing comment. Body updates support replacing, appending to, prepending content, or updating a per-run \"island\" section. CONSTRAINTS: Maximum 1 issue(s) can be updated. Target: *."
+      },
+      {
+        "name": "missing_tool",
+        "description": "Report that a tool or capability needed to complete the task is not available, or share any information you deem important about missing functionality or limitations. Use this when you cannot accomplish what was requested because the required functionality is missing or access is restricted."
+      },
+      {
+        "name": "noop",
+        "description": "Log a transparency message when no significant actions are needed. Use this to confirm workflow completion and provide visibility when analysis is complete but no changes or outputs are required (e.g., 'No issues found', 'All checks passed'). This ensures the workflow produces human-visible output even when no other actions are taken."
+      },
+      {
+        "name": "hide_comment",
+        "description": "Hide a comment on a GitHub issue, pull request, or discussion. This collapses the comment and marks it as spam, abuse, off-topic, outdated, or resolved. Use this for inappropriate, off-topic, or outdated comments. The comment_id must be a GraphQL node ID (string like 'IC_kwDOABCD123456'), not a numeric REST API comment ID."
+      },
+      {
+        "name": "missing_data",
+        "description": "Report that data or information needed to complete the task is not available. Use this when you cannot accomplish what was requested because required data, context, or information is missing."
+      }
+    ]
+  }
+}

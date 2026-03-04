@@ -1,0 +1,31 @@
+﻿2026-03-04T15:45:28.9203319Z ##[group]Run actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+2026-03-04T15:45:28.9203733Z with:
+2026-03-04T15:45:28.9203920Z   name: agent-output
+2026-03-04T15:45:28.9204150Z   path: /tmp/gh-aw/agent_output.json
+2026-03-04T15:45:28.9204426Z   if-no-files-found: warn
+2026-03-04T15:45:28.9204658Z   compression-level: 6
+2026-03-04T15:45:28.9204879Z   overwrite: false
+2026-03-04T15:45:28.9205093Z   include-hidden-files: false
+2026-03-04T15:45:28.9205320Z env:
+2026-03-04T15:45:28.9205495Z   DEFAULT_BRANCH: main
+2026-03-04T15:45:28.9205726Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-03-04T15:45:28.9205957Z   GH_AW_ASSETS_BRANCH: 
+2026-03-04T15:45:28.9206170Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-03-04T15:45:28.9206448Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-03-04T15:45:28.9206809Z   GH_AW_SAFE_OUTPUTS: /opt/gh-aw/safeoutputs/outputs.jsonl
+2026-03-04T15:45:28.9207206Z   GH_AW_SAFE_OUTPUTS_CONFIG_PATH: /opt/gh-aw/safeoutputs/config.json
+2026-03-04T15:45:28.9207632Z   GH_AW_SAFE_OUTPUTS_TOOLS_PATH: /opt/gh-aw/safeoutputs/tools.json
+2026-03-04T15:45:28.9208037Z   GH_AW_WORKFLOW_ID_SANITIZED: mlrepohealthcheck
+2026-03-04T15:45:28.9208360Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/agent_output.json
+2026-03-04T15:45:28.9208642Z ##[endgroup]
+2026-03-04T15:45:29.0767445Z With the provided path, there will be 1 file uploaded
+2026-03-04T15:45:29.0773133Z Artifact name is valid!
+2026-03-04T15:45:29.0775185Z Root directory input is valid!
+2026-03-04T15:45:29.2038048Z Beginning upload of artifact content to blob storage
+2026-03-04T15:45:29.3545384Z Uploaded bytes 4888
+2026-03-04T15:45:29.3909742Z Finished uploading artifact content to blob storage!
+2026-03-04T15:45:29.3911100Z SHA256 digest of uploaded artifact zip is ded8ce9b9c503558ee83d7d7ffb989deff2e71bb9ca0bbf57888186a8a564635
+2026-03-04T15:45:29.3913191Z Finalizing artifact upload
+2026-03-04T15:45:29.5678383Z Artifact agent-output.zip successfully finalized. Artifact ID 5762537635
+2026-03-04T15:45:29.5679908Z Artifact agent-output has been successfully uploaded! Final size is 4888 bytes. Artifact ID is 5762537635
+2026-03-04T15:45:29.5684294Z Artifact download URL: https://github.com/dotutils/GH-AW-Tests/actions/runs/22676341856/artifacts/5762537635

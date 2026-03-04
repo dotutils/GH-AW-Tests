@@ -1,0 +1,38 @@
+﻿2026-03-04T16:08:53.2098600Z ##[group]Run # Fix permissions on firewall logs so they can be uploaded as artifacts
+2026-03-04T16:08:53.2098922Z [36;1m# Fix permissions on firewall logs so they can be uploaded as artifacts[0m
+2026-03-04T16:08:53.2099087Z [36;1m# AWF runs with sudo, creating files owned by root[0m
+2026-03-04T16:08:53.2099305Z [36;1msudo chmod -R a+r /tmp/gh-aw/sandbox/firewall/logs 2>/dev/null || true[0m
+2026-03-04T16:08:53.2099649Z [36;1m# Only run awf logs summary if awf command exists (it may not be installed if workflow failed before install step)[0m
+2026-03-04T16:08:53.2099769Z [36;1mif command -v awf &> /dev/null; then[0m
+2026-03-04T16:08:53.2099920Z [36;1m  awf logs summary | tee -a "$GITHUB_STEP_SUMMARY"[0m
+2026-03-04T16:08:53.2100005Z [36;1melse[0m
+2026-03-04T16:08:53.2100203Z [36;1m  echo 'AWF binary not installed, skipping firewall log summary'[0m
+2026-03-04T16:08:53.2100284Z [36;1mfi[0m
+2026-03-04T16:08:53.2148307Z shell: /usr/bin/bash -e {0}
+2026-03-04T16:08:53.2148397Z env:
+2026-03-04T16:08:53.2207385Z   DEFAULT_BRANCH: main
+2026-03-04T16:08:53.2207540Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-03-04T16:08:53.2207639Z   GH_AW_ASSETS_BRANCH: 
+2026-03-04T16:08:53.2207734Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-03-04T16:08:53.2207886Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-03-04T16:08:53.2208057Z   GH_AW_SAFE_OUTPUTS: /opt/gh-aw/safeoutputs/outputs.jsonl
+2026-03-04T16:08:53.2208247Z   GH_AW_SAFE_OUTPUTS_CONFIG_PATH: /opt/gh-aw/safeoutputs/config.json
+2026-03-04T16:08:53.2208444Z   GH_AW_SAFE_OUTPUTS_TOOLS_PATH: /opt/gh-aw/safeoutputs/tools.json
+2026-03-04T16:08:53.2208597Z   GH_AW_WORKFLOW_ID_SANITIZED: mlrepohealthcheck
+2026-03-04T16:08:53.2208748Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/agent_output.json
+2026-03-04T16:08:53.2208868Z   AWF_LOGS_DIR: /tmp/gh-aw/sandbox/firewall/logs
+2026-03-04T16:08:53.2208968Z ##[endgroup]
+2026-03-04T16:08:53.3475631Z <details>
+2026-03-04T16:08:53.3476200Z <summary>Firewall Activity</summary>
+2026-03-04T16:08:53.3476660Z 
+2026-03-04T16:08:53.3477142Z ▼ 19 requests | 19 allowed | 0 blocked | 4 unique domains
+2026-03-04T16:08:53.3477496Z 
+2026-03-04T16:08:53.3477626Z | Domain | Allowed | Denied |
+2026-03-04T16:08:53.3477941Z |--------|---------|--------|
+2026-03-04T16:08:53.3478328Z | telemetry.enterprise.githubcopilot.com | 13 | 0 |
+2026-03-04T16:08:53.3478890Z | api.enterprise.githubcopilot.com | 4 | 0 |
+2026-03-04T16:08:53.3479361Z | api.github.com | 1 | 0 |
+2026-03-04T16:08:53.3479704Z | api.githubcopilot.com | 1 | 0 |
+2026-03-04T16:08:53.3479958Z 
+2026-03-04T16:08:53.3480082Z </details>
+2026-03-04T16:08:53.3480221Z 

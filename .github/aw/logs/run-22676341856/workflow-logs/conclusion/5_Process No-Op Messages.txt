@@ -1,0 +1,29 @@
+﻿2026-03-04T15:46:55.5118404Z ##[group]Run actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+2026-03-04T15:46:55.5119292Z with:
+2026-03-04T15:46:55.5120077Z   script: const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
+setupGlobals(core, github, context, exec, io);
+const { main } = require('/opt/gh-aw/actions/noop.cjs');
+await main();
+
+2026-03-04T15:46:55.5120924Z   debug: false
+2026-03-04T15:46:55.5121167Z   user-agent: actions/github-script
+2026-03-04T15:46:55.5121462Z   result-encoding: json
+2026-03-04T15:46:55.5121695Z   retries: 0
+2026-03-04T15:46:55.5121951Z   retry-exempt-status-codes: 400,401,403,404,422
+2026-03-04T15:46:55.5122269Z env:
+2026-03-04T15:46:55.5122550Z   GH_AW_AGENT_OUTPUT: /tmp/gh-aw/safeoutputs/agent_output.json
+2026-03-04T15:46:55.5123280Z   GH_AW_NOOP_MAX: 1
+2026-03-04T15:46:55.5123811Z   GH_AW_WORKFLOW_NAME: ML.NET Repository Health Check
+2026-03-04T15:46:55.5124134Z ##[endgroup]
+2026-03-04T15:46:55.9437202Z Error: Input required and not supplied: github-token
+2026-03-04T15:46:55.9438755Z     at Object.getInput (/home/runner/work/_actions/actions/github-script/ed597411d8f924073f98dfc5c65a23a2325f34cd/dist/index.js:212:15)
+2026-03-04T15:46:55.9476623Z     at main (/home/runner/work/_actions/actions/github-script/ed597411d8f924073f98dfc5c65a23a2325f34cd/dist/index.js:36262:24)
+2026-03-04T15:46:55.9571172Z     at /home/runner/work/_actions/actions/github-script/ed597411d8f924073f98dfc5c65a23a2325f34cd/dist/index.js:36260:1
+2026-03-04T15:46:55.9574329Z     at /home/runner/work/_actions/actions/github-script/ed597411d8f924073f98dfc5c65a23a2325f34cd/dist/index.js:36317:3
+2026-03-04T15:46:55.9576499Z     at Object.<anonymous> (/home/runner/work/_actions/actions/github-script/ed597411d8f924073f98dfc5c65a23a2325f34cd/dist/index.js:36320:12)
+2026-03-04T15:46:55.9577273Z     at Module._compile (node:internal/modules/cjs/loader:1761:14)
+2026-03-04T15:46:55.9578379Z     at Object..js (node:internal/modules/cjs/loader:1893:10)
+2026-03-04T15:46:55.9579416Z     at Module.load (node:internal/modules/cjs/loader:1481:32)
+2026-03-04T15:46:55.9583574Z     at Module._load (node:internal/modules/cjs/loader:1300:12)
+2026-03-04T15:46:55.9584129Z     at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+2026-03-04T15:46:55.9758711Z ##[error]Unhandled error: Error: Input required and not supplied: github-token

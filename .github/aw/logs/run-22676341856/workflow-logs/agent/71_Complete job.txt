@@ -1,0 +1,8 @@
+﻿2026-03-04T15:45:32.7959952Z Evaluate and set job outputs
+2026-03-04T15:45:32.7965633Z Set output 'checkout_pr_success'
+2026-03-04T15:45:32.7967226Z Set output 'has_patch'
+2026-03-04T15:45:32.8007188Z Set output 'output'
+2026-03-04T15:45:32.8007622Z Set output 'output_types'
+2026-03-04T15:45:32.8008029Z Set output 'secret_verification_result'
+2026-03-04T15:45:32.8009153Z Cleaning up orphan processes
+2026-03-04T15:45:32.8308517Z Terminate orphan process: pid (3651) (node)

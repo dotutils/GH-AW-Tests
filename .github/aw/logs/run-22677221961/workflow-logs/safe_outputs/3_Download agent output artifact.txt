@@ -1,0 +1,23 @@
+﻿2026-03-04T15:57:45.0635398Z ##[group]Run actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+2026-03-04T15:57:45.0636891Z with:
+2026-03-04T15:57:45.0637778Z   name: agent-output
+2026-03-04T15:57:45.0638587Z   path: /tmp/gh-aw/safeoutputs/
+2026-03-04T15:57:45.0639496Z   merge-multiple: false
+2026-03-04T15:57:45.0640635Z   repository: dotutils/GH-AW-Tests
+2026-03-04T15:57:45.0641553Z   run-id: 22677221961
+2026-03-04T15:57:45.0642277Z env:
+2026-03-04T15:57:45.0642950Z   GH_AW_ENGINE_ID: copilot
+2026-03-04T15:57:45.0643829Z   GH_AW_WORKFLOW_ID: ml-repo-health-check
+2026-03-04T15:57:45.0644966Z   GH_AW_WORKFLOW_NAME: ML.NET Repository Health Check
+2026-03-04T15:57:45.0646053Z ##[endgroup]
+2026-03-04T15:57:45.7028973Z Downloading single artifact
+2026-03-04T15:57:45.7901532Z Preparing to download the following artifacts:
+2026-03-04T15:57:45.7906726Z - agent-output (ID: 5762750420, Size: 575, Expected Digest: sha256:b17513895e64681eb0e254570176ff6c1cc6725ed2bbc896d73ed186f2cf26fd)
+2026-03-04T15:57:46.0098678Z Redirecting to blob download url: https://productionresultssa17.blob.core.windows.net/actions-results/aafcf2e7-7272-4be7-9d53-bff10f0e0b55/workflow-job-run-0968c8a5-23bf-56a0-b903-7964bcfb1881/artifacts/5feb6d3ffed3baf4352cf0f03dcabdcad81892c86a67977bf8e6087a64894dee.zip
+2026-03-04T15:57:46.0105513Z Starting download of artifact to: /tmp/gh-aw/safeoutputs
+2026-03-04T15:57:46.2133775Z (node:929) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-03-04T15:57:46.2137188Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-03-04T15:57:46.2186100Z SHA256 digest of downloaded artifact is b17513895e64681eb0e254570176ff6c1cc6725ed2bbc896d73ed186f2cf26fd
+2026-03-04T15:57:46.2191396Z Artifact download completed successfully.
+2026-03-04T15:57:46.2195198Z Total of 1 artifact(s) downloaded
+2026-03-04T15:57:46.2204741Z Download artifact has finished successfully

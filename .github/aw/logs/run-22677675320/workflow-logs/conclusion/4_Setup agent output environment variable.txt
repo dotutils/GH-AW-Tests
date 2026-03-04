@@ -1,0 +1,7 @@
+﻿2026-03-04T16:10:50.4806734Z ##[group]Run mkdir -p /tmp/gh-aw/safeoutputs/
+2026-03-04T16:10:50.4808340Z [36;1mmkdir -p /tmp/gh-aw/safeoutputs/[0m
+2026-03-04T16:10:50.4809536Z [36;1mfind "/tmp/gh-aw/safeoutputs/" -type f -print[0m
+2026-03-04T16:10:50.4811287Z [36;1mecho "GH_AW_AGENT_OUTPUT=/tmp/gh-aw/safeoutputs/agent_output.json" >> "$GITHUB_ENV"[0m
+2026-03-04T16:10:50.4818641Z shell: /usr/bin/bash -e {0}
+2026-03-04T16:10:50.4819524Z ##[endgroup]
+2026-03-04T16:10:50.4891056Z /tmp/gh-aw/safeoutputs/agent_output.json

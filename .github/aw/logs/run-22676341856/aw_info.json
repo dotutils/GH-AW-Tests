@@ -1,0 +1,30 @@
+{
+  "engine_id": "copilot",
+  "engine_name": "GitHub Copilot CLI",
+  "model": "",
+  "version": "",
+  "agent_version": "0.0.410",
+  "cli_version": "v0.45.4",
+  "workflow_name": "ML.NET Repository Health Check",
+  "experimental": false,
+  "supports_tools_allowlist": true,
+  "run_id": 22676341856,
+  "run_number": 1,
+  "run_attempt": "1",
+  "repository": "dotutils/GH-AW-Tests",
+  "ref": "refs/heads/main",
+  "sha": "bf496a2cae75633d65589d9d9519904340e87972",
+  "actor": "JanKrivanek",
+  "event_name": "workflow_dispatch",
+  "staged": false,
+  "allowed_domains": [
+    "github"
+  ],
+  "firewall_enabled": true,
+  "awf_version": "v0.19.1",
+  "awmg_version": "v0.1.4",
+  "steps": {
+    "firewall": "squid"
+  },
+  "created_at": "2026-03-04T15:31:48.281Z"
+}

@@ -1,0 +1,21 @@
+﻿2026-03-04T15:52:48.7388504Z ##[group]Run actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830
+2026-03-04T15:52:48.7388940Z with:
+2026-03-04T15:52:48.7389161Z   key: memory-mlrepohealthcheck-22677221961
+2026-03-04T15:52:48.7389448Z   path: /tmp/gh-aw/cache-memory
+2026-03-04T15:52:48.7389717Z   restore-keys: memory-mlrepohealthcheck-
+
+2026-03-04T15:52:48.7390017Z   enableCrossOsArchive: false
+2026-03-04T15:52:48.7390254Z   fail-on-cache-miss: false
+2026-03-04T15:52:48.7390475Z   lookup-only: false
+2026-03-04T15:52:48.7390653Z env:
+2026-03-04T15:52:48.7390817Z   DEFAULT_BRANCH: main
+2026-03-04T15:52:48.7391018Z   GH_AW_ASSETS_ALLOWED_EXTS: 
+2026-03-04T15:52:48.7391234Z   GH_AW_ASSETS_BRANCH: 
+2026-03-04T15:52:48.7391436Z   GH_AW_ASSETS_MAX_SIZE_KB: 0
+2026-03-04T15:52:48.7391692Z   GH_AW_MCP_LOG_DIR: /tmp/gh-aw/mcp-logs/safeoutputs
+2026-03-04T15:52:48.7392038Z   GH_AW_SAFE_OUTPUTS: /opt/gh-aw/safeoutputs/outputs.jsonl
+2026-03-04T15:52:48.7392427Z   GH_AW_SAFE_OUTPUTS_CONFIG_PATH: /opt/gh-aw/safeoutputs/config.json
+2026-03-04T15:52:48.7392898Z   GH_AW_SAFE_OUTPUTS_TOOLS_PATH: /opt/gh-aw/safeoutputs/tools.json
+2026-03-04T15:52:48.7393254Z   GH_AW_WORKFLOW_ID_SANITIZED: mlrepohealthcheck
+2026-03-04T15:52:48.7393523Z ##[endgroup]
+2026-03-04T15:52:49.1373328Z Cache not found for input keys: memory-mlrepohealthcheck-22677221961, memory-mlrepohealthcheck-
