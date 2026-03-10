@@ -23,7 +23,7 @@ tools:
   bash: ["cat", "grep", "head", "tail", "wc", "jq", "date", "sort", "uniq", "echo", "sed", "awk"]
 
 safe-outputs:
-  update-discussion:
+  add-comment:
     target: "*"
     max: 1
   noop:
@@ -91,33 +91,24 @@ Include:
 
 ---
 
-## Step 3: Update the Discussion Body
+## Step 3: Post Summary Comment
 
-Use the `update-discussion` safe output to update discussion #__GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID__.
+Use the `add-comment` safe output to post a summary comment on discussion #__GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID__.
 
-**Strategy:**
-- Read the current discussion body
-- Find the marker section:
-  ```
-  ## 🧪 Investigation Results
-  _Investigation results will be added here as they complete._
-  ```
-- Replace that section (and everything after it) with the consolidated summary from Step 2
-- Keep ALL content before the marker section unchanged
-
-The updated body should end with:
+The comment should contain:
 
 ```markdown
-## 🧪 Investigation Results
+## 🧪 Investigation Results Summary
 
 **Summary:** Investigated X issue(s) — Y reproduced, Z not reproduced, W inconclusive
 
 | # | Title | Classification | Reproduced? | Summary | Details |
 |---|-------|----------------|-------------|---------|---------|
+| [#NNN](link) | <title> | Bug | ✅ Yes | <brief summary> | [View details](#comment-link) |
 | ... | ... | ... | ... | ... | ... |
 
 ---
-_Investigation summary generated automatically. See individual comments below for full details._
+_Investigation summary generated automatically. See individual comments above for full details._
 ```
 
 ## If No Investigation Comments Found
