@@ -23,10 +23,6 @@ on:
         description: 'JSON array of upstream issue numbers (e.g. ["1234","5678"])'
         required: true
         type: string
-      discussion_id:
-        description: 'Discussion number to post investigation results to'
-        required: true
-        type: string
       upstream_repo:
         description: 'Upstream repo (owner/name)'
         required: false
@@ -53,7 +49,6 @@ jobs:
         env:
           ISSUES_JSON: ${{ inputs.issues_json }}
           MAX_PARALLEL: ${{ inputs.max_parallel }}
-          DISCUSSION_ID: ${{ inputs.discussion_id }}
         run: |
           if ! echo "$ISSUES_JSON" | jq -e 'type == "array" and length > 0' > /dev/null 2>&1; then
             echo "::error::issues_json must be a non-empty JSON array"
@@ -63,17 +58,48 @@ jobs:
             echo "::error::max_parallel must be a positive integer"
             exit 1
           fi
-          if [ -z "$DISCUSSION_ID" ]; then
-            echo "::error::discussion_id is required"
-            exit 1
-          fi
           COUNT=$(echo "$ISSUES_JSON" | jq 'length')
           echo "### Dispatch MSBuild Investigation Batch" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Issues to investigate:** ${COUNT}" >> "$GITHUB_STEP_SUMMARY"
           echo "- **Max parallel:** ${MAX_PARALLEL}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- **Discussion ID:** ${DISCUSSION_ID}" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Find latest weekly report discussion
+        id: find-discussion
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # Parse owner and repo name
+          OWNER="${REPO%%/*}"
+          REPO_NAME="${REPO##*/}"
+
+          # Search for the most recent MSBuild Weekly Report discussion
+          DISCUSSION_ID=$(gh api graphql -f query='
+            query($owner: String!, $repo: String!) {
+              repository(owner: $owner, name: $repo) {
+                discussions(first: 5, orderBy: {field: CREATED_AT, direction: DESC}) {
+                  nodes {
+                    number
+                    title
+                  }
+                }
+              }
+            }
+          ' -f owner="$OWNER" -f repo="$REPO_NAME" \
+            --jq '.data.repository.discussions.nodes[] | select(.title | startswith("MSBuild Weekly Report")) | .number' \
+            | head -1)
+
+          if [ -z "$DISCUSSION_ID" ]; then
+            echo "::warning::No MSBuild Weekly Report discussion found. Investigation comments will not be posted."
+            DISCUSSION_ID="0"
+          fi
+
+          echo "discussion_id=${DISCUSSION_ID}" >> "$GITHUB_OUTPUT"
+          echo "Found discussion #${DISCUSSION_ID}"
+          echo "- **Discussion:** #${DISCUSSION_ID}" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Dispatch investigation workflows in throttled batches
         env:
@@ -81,7 +107,7 @@ jobs:
           ISSUES_JSON: ${{ inputs.issues_json }}
           MAX_PARALLEL: ${{ inputs.max_parallel }}
           UPSTREAM_REPO: ${{ inputs.upstream_repo }}
-          DISCUSSION_ID: ${{ inputs.discussion_id }}
+          DISCUSSION_ID: ${{ steps.find-discussion.outputs.discussion_id }}
           REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
@@ -188,7 +214,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
-          DISCUSSION_ID: ${{ inputs.discussion_id }}
+          DISCUSSION_ID: ${{ steps.find-discussion.outputs.discussion_id }}
         run: |
           echo "Dispatching investigation summary workflow..."
           gh workflow run msbuild-investigation-summary.lock.yml \

@@ -51,7 +51,7 @@ network:
 
 # MSBuild Issue Investigation — Worker Agent
 
-You are an expert MSBuild issue investigator. Your job is to deeply analyze upstream issue #${{ github.event.inputs.upstream_issue }} from ${{ github.event.inputs.upstream_repo }}, attempt to reproduce it, investigate the root cause, and post your findings as a comment on discussion #${{ github.event.inputs.discussion_id }}.
+You are an expert MSBuild issue investigator. Your job is to deeply analyze upstream issue #__GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE__ from __GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_REPO__, attempt to reproduce it, investigate the root cause, and post your findings as a comment on discussion #__GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID__.
 
 ## CRITICAL TOOL USAGE RULES
 
@@ -69,8 +69,8 @@ You are an expert MSBuild issue investigator. Your job is to deeply analyze upst
 
 ## Step 1: Read Upstream Issue
 
-Use the github tools to fetch from **${{ github.event.inputs.upstream_repo }}**:
-1. Get issue #${{ github.event.inputs.upstream_issue }} (title, body, labels, state)
+Use the github tools to fetch from **__GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_REPO__**:
+1. Get issue #__GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE__ (title, body, labels, state)
 2. Get all comments on the issue
 3. Note the issue author, creation date, labels, and any referenced versions or error messages
 
@@ -114,8 +114,8 @@ Attempt to reproduce the issue:
 
 1. Create a temp directory:
    ```bash
-   mkdir -p /tmp/repro-${{ github.event.inputs.upstream_issue }}
-   cd /tmp/repro-${{ github.event.inputs.upstream_issue }}
+   mkdir -p /tmp/repro-__GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE__
+   cd /tmp/repro-__GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE__
    ```
 
 2. Based on the issue description, create a minimal reproduction:
@@ -126,12 +126,12 @@ Attempt to reproduce the issue:
 
 3. Use the `edit` tool (write) to create the project files. Example:
    ```
-   Write /tmp/repro-${{ github.event.inputs.upstream_issue }}/TestProject/TestProject.csproj
+   Write /tmp/repro-__GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE__/TestProject/TestProject.csproj
    ```
 
 4. Build with `dotnet build` and capture output:
    ```bash
-   cd /tmp/repro-${{ github.event.inputs.upstream_issue }}/TestProject
+   cd /tmp/repro-__GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE__/TestProject
    dotnet build 2>&1 | head -100
    ```
 
@@ -143,13 +143,13 @@ Attempt to reproduce the issue:
    - If the code builds/runs without the reported error → **repro-failed**
    - If you can't create a meaningful repro from the issue description → **repro-inconclusive**
 
-**SAFETY:** Work ONLY in `/tmp/repro-${{ github.event.inputs.upstream_issue }}/`. Do NOT modify any files in the repository checkout.
+**SAFETY:** Work ONLY in `/tmp/repro-__GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE__/`. Do NOT modify any files in the repository checkout.
 
 ---
 
 ## Step 5: Post Investigation Results
 
-Post your findings as a single comment on discussion #${{ github.event.inputs.discussion_id }} using the `add-comment` safe output.
+Post your findings as a single comment on discussion #__GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID__ using the `add-comment` safe output.
 
 **Comment body format:**
 

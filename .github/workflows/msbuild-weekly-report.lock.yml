@@ -456,10 +456,6 @@ jobs:
               "inputSchema": {
                 "additionalProperties": false,
                 "properties": {
-                  "discussion_id": {
-                    "description": "Discussion number to post investigation results to",
-                    "type": "string"
-                  },
                   "issues_json": {
                     "description": "JSON array of upstream issue numbers (e.g. [\"1234\",\"5678\"])",
                     "type": "string"
@@ -476,8 +472,7 @@ jobs:
                   }
                 },
                 "required": [
-                  "issues_json",
-                  "discussion_id"
+                  "issues_json"
                 ],
                 "type": "object"
               },

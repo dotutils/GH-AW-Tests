@@ -116,7 +116,9 @@ At the very end of the body, add this marker block (used by the summarization wo
 _Investigation results will be added here as they complete._
 ```
 
-Use the `create-discussion` safe output to post the discussion. Use temporary ID `aw_disc1` so it can be referenced later.
+Use the `create-discussion` safe output to post the discussion.
+
+**IMPORTANT: You MUST call create-discussion FIRST before calling dispatch-workflow.** The safe outputs are processed in the order you call them.
 
 ## Output Step 2 — Dispatch Deeper Investigations
 
@@ -126,7 +128,6 @@ If there are bugs or regressions to investigate:
 1. Build a JSON array of issue number strings, e.g., `["1234","5678"]`
 2. Dispatch the `dispatch-msbuild-investigation-batch` workflow with inputs:
    - `issues_json`: the JSON array of issue number strings
-   - `discussion_id`: `#aw_disc1` (reference to the discussion just created)
    - `upstream_repo`: `dotnet/msbuild`
    - `max_parallel`: `2`
 

@@ -34,7 +34,7 @@ network:
 
 # MSBuild Investigation Summary
 
-You are an AI agent that consolidates investigation results from the MSBuild weekly report discussion #${{ github.event.inputs.discussion_id }}.
+You are an AI agent that consolidates investigation results from the MSBuild weekly report discussion #__GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID__.
 
 Your job is to:
 1. Read all comments on the discussion
@@ -54,7 +54,7 @@ Your job is to:
 ## Step 1: Read the Discussion
 
 Use github tools to:
-1. Get discussion #${{ github.event.inputs.discussion_id }} — read the full body
+1. Get discussion #__GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID__ — read the full body
 2. List ALL comments on the discussion
 3. Identify comments that contain investigation results (they will have the pattern `## 🔍 Investigation: Issue #`)
 
@@ -89,7 +89,7 @@ Include:
 
 ## Step 3: Update the Discussion Body
 
-Use the `update-discussion` safe output to update discussion #${{ github.event.inputs.discussion_id }}.
+Use the `update-discussion` safe output to update discussion #__GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID__.
 
 **Strategy:**
 - Read the current discussion body
