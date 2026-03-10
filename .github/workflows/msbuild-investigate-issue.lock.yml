@@ -89,6 +89,9 @@ jobs:
           GH_AW_GITHUB_ACTOR: ${{ github.actor }}
           GH_AW_GITHUB_EVENT_COMMENT_ID: ${{ github.event.comment.id }}
           GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER: ${{ github.event.discussion.number }}
+          GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID: ${{ github.event.inputs.discussion_id }}
+          GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE: ${{ github.event.inputs.upstream_issue }}
+          GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_REPO: ${{ github.event.inputs.upstream_repo }}
           GH_AW_GITHUB_EVENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
           GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
           GH_AW_GITHUB_REPOSITORY: ${{ github.repository }}
@@ -170,6 +173,9 @@ jobs:
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
           GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
+          GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID: ${{ github.event.inputs.discussion_id }}
+          GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE: ${{ github.event.inputs.upstream_issue }}
+          GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_REPO: ${{ github.event.inputs.upstream_repo }}
         with:
           script: |
             const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
@@ -183,6 +189,9 @@ jobs:
           GH_AW_GITHUB_ACTOR: ${{ github.actor }}
           GH_AW_GITHUB_EVENT_COMMENT_ID: ${{ github.event.comment.id }}
           GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER: ${{ github.event.discussion.number }}
+          GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID: ${{ github.event.inputs.discussion_id }}
+          GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE: ${{ github.event.inputs.upstream_issue }}
+          GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_REPO: ${{ github.event.inputs.upstream_repo }}
           GH_AW_GITHUB_EVENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
           GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
           GH_AW_GITHUB_REPOSITORY: ${{ github.repository }}
@@ -204,6 +213,9 @@ jobs:
                 GH_AW_GITHUB_ACTOR: process.env.GH_AW_GITHUB_ACTOR,
                 GH_AW_GITHUB_EVENT_COMMENT_ID: process.env.GH_AW_GITHUB_EVENT_COMMENT_ID,
                 GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER: process.env.GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER,
+                GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID: process.env.GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID,
+                GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE: process.env.GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE,
+                GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_REPO: process.env.GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_REPO,
                 GH_AW_GITHUB_EVENT_ISSUE_NUMBER: process.env.GH_AW_GITHUB_EVENT_ISSUE_NUMBER,
                 GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER: process.env.GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER,
                 GH_AW_GITHUB_REPOSITORY: process.env.GH_AW_GITHUB_REPOSITORY,

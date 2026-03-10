@@ -34,10 +34,13 @@ network:
 
 # MSBuild Investigation Summary
 
-You are an AI agent that consolidates investigation results from the MSBuild weekly report discussion #__GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID__.
+You are an AI agent that consolidates investigation results from the MSBuild weekly report
+discussion #__GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID__.
+
+<!-- compiler-hint: ${{ github.event.inputs.discussion_id }} -->
 
 Your job is to:
-1. Read all comments on the discussion
+1. Read all comments on discussion #__GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID__
 2. Extract investigation summaries from comments posted by the investigation workflows
 3. Update the discussion body to include a consolidated summary with links to detailed comments
 
@@ -118,7 +121,4 @@ _Investigation summary generated automatically. See individual comments below fo
 
 ## If No Investigation Comments Found
 
-If there are no investigation comments on the discussion, call `noop` with message:
-```json
-{"noop": {"message": "No investigation results found on discussion #<id>. Investigations may still be in progress or none were dispatched."}}
-```
+If there are no investigation comments on the discussion, call `noop` with a descriptive message explaining why no summary can be generated.
