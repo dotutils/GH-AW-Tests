@@ -1289,8 +1289,6 @@ jobs:
     if: always() && needs.detection.outputs.success == 'true'
     runs-on: ubuntu-latest
     permissions: {}
-    env:
-      GH_AW_WORKFLOW_ID_SANITIZED: mlrepohealthcheck
     steps:
       - name: Setup Scripts
         uses: github/gh-aw/actions/setup@ac090214a48a1938f7abafe132460b66752261af # v0.45.4

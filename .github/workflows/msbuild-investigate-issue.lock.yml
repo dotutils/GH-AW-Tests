@@ -21,23 +21,35 @@
 #
 # For more information: https://github.github.com/gh-aw/introduction/overview/
 #
-# Weekly activity report for dotnet/msbuild — new/unassigned issues, stale issues with recent comments, open PRs triaged by action needed. Posts results to a GitHub Discussion and dispatches deeper investigation for bugs and regressions.
+# Worker workflow that investigates a single upstream dotnet/msbuild issue. Reads the issue, analyzes root cause, attempts reproduction for bug reports, and posts findings as a comment on the weekly report discussion.
 #
-# frontmatter-hash: 56696abeae280dd94c0e87794eafb29a4c0bc040d752e30f0e1f655f037c1356
+# frontmatter-hash: a3840c43245b7638bd28c564e89c8b7edaf1e34ac91ac344135e5a6d45d2f4f8
 
-name: "MSBuild Weekly Activity Report"
+name: "MSBuild Issue Investigation — Worker Agent"
 "on":
-  schedule:
-  - cron: "8 11 * * 2"
-    # Friendly format: weekly on tuesday (scattered)
   workflow_dispatch:
+    inputs:
+      discussion_id:
+        description: Discussion number to post investigation results to
+        required: true
+        type: string
+      upstream_issue:
+        description: Upstream issue number (e.g. 11234)
+        required: true
+        type: string
+      upstream_repo:
+        default: dotnet/msbuild
+        description: Upstream repo (owner/name)
+        required: false
+        type: string
 
 permissions: {}
 
 concurrency:
-  group: "gh-aw-${{ github.workflow }}"
+  cancel-in-progress: false
+  group: msbuild-investigate-${{ github.event.inputs.upstream_issue }}
 
-run-name: "MSBuild Weekly Activity Report"
+run-name: "MSBuild Issue Investigation — Worker Agent"
 
 jobs:
   activation:
@@ -63,7 +75,7 @@ jobs:
       - name: Check workflow file timestamps
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
-          GH_AW_WORKFLOW_FILE: "msbuild-weekly-report.lock.yml"
+          GH_AW_WORKFLOW_FILE: "msbuild-investigate-issue.lock.yml"
         with:
           script: |
             const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
@@ -77,6 +89,9 @@ jobs:
           GH_AW_GITHUB_ACTOR: ${{ github.actor }}
           GH_AW_GITHUB_EVENT_COMMENT_ID: ${{ github.event.comment.id }}
           GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER: ${{ github.event.discussion.number }}
+          GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID: ${{ github.event.inputs.discussion_id }}
+          GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE: ${{ github.event.inputs.upstream_issue }}
+          GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_REPO: ${{ github.event.inputs.upstream_repo }}
           GH_AW_GITHUB_EVENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
           GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
           GH_AW_GITHUB_REPOSITORY: ${{ github.repository }}
@@ -152,12 +167,15 @@ jobs:
           </system>
           GH_AW_PROMPT_EOF
           cat << 'GH_AW_PROMPT_EOF' >> "$GH_AW_PROMPT"
-          {{#runtime-import .github/workflows/msbuild-weekly-report.md}}
+          {{#runtime-import .github/workflows/msbuild-investigate-issue.md}}
           GH_AW_PROMPT_EOF
       - name: Interpolate variables and render templates
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
           GH_AW_PROMPT: /tmp/gh-aw/aw-prompts/prompt.txt
+          GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID: ${{ github.event.inputs.discussion_id }}
+          GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE: ${{ github.event.inputs.upstream_issue }}
+          GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_REPO: ${{ github.event.inputs.upstream_repo }}
         with:
           script: |
             const { setupGlobals } = require('/opt/gh-aw/actions/setup_globals.cjs');
@@ -171,6 +189,9 @@ jobs:
           GH_AW_GITHUB_ACTOR: ${{ github.actor }}
           GH_AW_GITHUB_EVENT_COMMENT_ID: ${{ github.event.comment.id }}
           GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER: ${{ github.event.discussion.number }}
+          GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID: ${{ github.event.inputs.discussion_id }}
+          GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE: ${{ github.event.inputs.upstream_issue }}
+          GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_REPO: ${{ github.event.inputs.upstream_repo }}
           GH_AW_GITHUB_EVENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
           GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
           GH_AW_GITHUB_REPOSITORY: ${{ github.repository }}
@@ -192,6 +213,9 @@ jobs:
                 GH_AW_GITHUB_ACTOR: process.env.GH_AW_GITHUB_ACTOR,
                 GH_AW_GITHUB_EVENT_COMMENT_ID: process.env.GH_AW_GITHUB_EVENT_COMMENT_ID,
                 GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER: process.env.GH_AW_GITHUB_EVENT_DISCUSSION_NUMBER,
+                GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID: process.env.GH_AW_GITHUB_EVENT_INPUTS_DISCUSSION_ID,
+                GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE: process.env.GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_ISSUE,
+                GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_REPO: process.env.GH_AW_GITHUB_EVENT_INPUTS_UPSTREAM_REPO,
                 GH_AW_GITHUB_EVENT_ISSUE_NUMBER: process.env.GH_AW_GITHUB_EVENT_ISSUE_NUMBER,
                 GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER: process.env.GH_AW_GITHUB_EVENT_PULL_REQUEST_NUMBER,
                 GH_AW_GITHUB_REPOSITORY: process.env.GH_AW_GITHUB_REPOSITORY,
@@ -221,12 +245,9 @@ jobs:
     needs: activation
     runs-on: ubuntu-latest
     permissions:
-      actions: read
       contents: read
       issues: read
       pull-requests: read
-    concurrency:
-      group: "gh-aw-copilot-${{ github.workflow }}"
     env:
       DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
       GH_AW_ASSETS_ALLOWED_EXTS: ""
@@ -236,7 +257,7 @@ jobs:
       GH_AW_SAFE_OUTPUTS: /opt/gh-aw/safeoutputs/outputs.jsonl
       GH_AW_SAFE_OUTPUTS_CONFIG_PATH: /opt/gh-aw/safeoutputs/config.json
       GH_AW_SAFE_OUTPUTS_TOOLS_PATH: /opt/gh-aw/safeoutputs/tools.json
-      GH_AW_WORKFLOW_ID_SANITIZED: msbuildweeklyreport
+      GH_AW_WORKFLOW_ID_SANITIZED: msbuildinvestigateissue
     outputs:
       checkout_pr_success: ${{ steps.checkout-pr.outputs.checkout_pr_success || 'true' }}
       has_patch: ${{ steps.collect_output.outputs.has_patch }}
@@ -294,7 +315,7 @@ jobs:
               version: "",
               agent_version: "0.0.410",
               cli_version: "v0.45.4",
-              workflow_name: "MSBuild Weekly Activity Report",
+              workflow_name: "MSBuild Issue Investigation — Worker Agent",
               experimental: false,
               supports_tools_allowlist: true,
               run_id: context.runId,
@@ -306,7 +327,7 @@ jobs:
               actor: context.actor,
               event_name: context.eventName,
               staged: false,
-              allowed_domains: ["github"],
+              allowed_domains: ["github","dotnet"],
               firewall_enabled: true,
               awf_version: "v0.19.1",
               awmg_version: "v0.1.4",
@@ -351,35 +372,30 @@ jobs:
           mkdir -p /tmp/gh-aw/safeoutputs
           mkdir -p /tmp/gh-aw/mcp-logs/safeoutputs
           cat > /opt/gh-aw/safeoutputs/config.json << 'GH_AW_SAFE_OUTPUTS_CONFIG_EOF'
-          {"create_discussion":{"expires":168,"max":1},"dispatch_workflow":{"max":1,"workflow_files":{"dispatch-msbuild-investigation-batch":".yml"},"workflows":["dispatch-msbuild-investigation-batch"]},"missing_data":{},"missing_tool":{},"noop":{"max":1}}
+          {"add_comment":{"max":1,"target":"*"},"missing_data":{},"missing_tool":{},"noop":{"max":1}}
           GH_AW_SAFE_OUTPUTS_CONFIG_EOF
           cat > /opt/gh-aw/safeoutputs/tools.json << 'GH_AW_SAFE_OUTPUTS_TOOLS_EOF'
           [
             {
-              "description": "Create a GitHub discussion for announcements, Q\u0026A, reports, status updates, or community conversations. Use this for content that benefits from threaded replies, doesn't require task tracking, or serves as documentation. For actionable work items that need assignment and status tracking, use create_issue instead. CONSTRAINTS: Maximum 1 discussion(s) can be created. Discussions will be created in category \"general\".",
+              "description": "Add a comment to an existing GitHub issue, pull request, or discussion. Use this to provide feedback, answer questions, or add information to an existing conversation. For creating new items, use create_issue, create_discussion, or create_pull_request instead. IMPORTANT: Comments are subject to validation constraints enforced by the MCP server - maximum 65536 characters for the complete comment (including footer which is added automatically), 10 mentions (@username), and 50 links. Exceeding these limits will result in an immediate error with specific guidance. CONSTRAINTS: Maximum 1 comment(s) can be added. Target: *.",
               "inputSchema": {
                 "additionalProperties": false,
                 "properties": {
                   "body": {
-                    "description": "Discussion content in Markdown. Do NOT repeat the title as a heading since it already appears as the discussion's h1. Include all relevant context, findings, or questions.",
+                    "description": "The comment text in Markdown format. This is the 'body' field - do not use 'comment_body' or other variations. Provide helpful, relevant information that adds value to the conversation. CONSTRAINTS: The complete comment (your body text + automatically added footer) must not exceed 65536 characters total. Maximum 10 mentions (@username), maximum 50 links (http/https URLs). A footer (~200-500 characters) is automatically appended with workflow attribution, so leave adequate space. If these limits are exceeded, the tool call will fail with a detailed error message indicating which constraint was violated.",
                     "type": "string"
                   },
-                  "category": {
-                    "description": "Discussion category by name (e.g., 'General'), slug (e.g., 'general'), or ID. If omitted, uses the first available category. Category must exist in the repository.",
-                    "type": "string"
-                  },
-                  "title": {
-                    "description": "Concise discussion title summarizing the topic. The title appears as the main heading, so keep it brief and descriptive.",
-                    "type": "string"
+                  "item_number": {
+                    "description": "The issue, pull request, or discussion number to comment on. This is the numeric ID from the GitHub URL (e.g., 123 in github.com/owner/repo/issues/123). If omitted, the tool will attempt to resolve the target from the current workflow context (triggering issue, PR, or discussion).",
+                    "type": "number"
                   }
                 },
                 "required": [
-                  "title",
                   "body"
                 ],
                 "type": "object"
               },
-              "name": "create_discussion"
+              "name": "add_comment"
             },
             {
               "description": "Report that a tool or capability needed to complete the task is not available, or share any information you deem important about missing functionality or limitations. Use this when you cannot accomplish what was requested because the required functionality is missing or access is restricted.",
@@ -449,45 +465,12 @@ jobs:
                 "type": "object"
               },
               "name": "missing_data"
-            },
-            {
-              "_workflow_name": "dispatch-msbuild-investigation-batch",
-              "description": "Dispatch the 'dispatch-msbuild-investigation-batch' workflow with workflow_dispatch trigger. This workflow must support workflow_dispatch and be in .github/workflows/ directory in the same repository.",
-              "inputSchema": {
-                "additionalProperties": false,
-                "properties": {
-                  "discussion_id": {
-                    "description": "Discussion number to post investigation results to",
-                    "type": "string"
-                  },
-                  "issues_json": {
-                    "description": "JSON array of upstream issue numbers (e.g. [\"1234\",\"5678\"])",
-                    "type": "string"
-                  },
-                  "max_parallel": {
-                    "default": "2",
-                    "description": "Max number of investigation workflows running concurrently",
-                    "type": "string"
-                  },
-                  "upstream_repo": {
-                    "default": "dotnet/msbuild",
-                    "description": "Upstream repo (owner/name)",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "issues_json",
-                  "discussion_id"
-                ],
-                "type": "object"
-              },
-              "name": "dispatch_msbuild_investigation_batch"
             }
           ]
           GH_AW_SAFE_OUTPUTS_TOOLS_EOF
           cat > /opt/gh-aw/safeoutputs/validation.json << 'GH_AW_SAFE_OUTPUTS_VALIDATION_EOF'
           {
-            "create_discussion": {
+            "add_comment": {
               "defaultMax": 1,
               "fields": {
                 "body": {
@@ -496,20 +479,8 @@ jobs:
                   "sanitize": true,
                   "maxLength": 65000
                 },
-                "category": {
-                  "type": "string",
-                  "sanitize": true,
-                  "maxLength": 128
-                },
-                "repo": {
-                  "type": "string",
-                  "maxLength": 256
-                },
-                "title": {
-                  "required": true,
-                  "type": "string",
-                  "sanitize": true,
-                  "maxLength": 128
+                "item_number": {
+                  "issueOrPRNumber": true
                 }
               }
             },
@@ -621,7 +592,7 @@ jobs:
                   "GITHUB_LOCKDOWN_MODE": "$GITHUB_MCP_LOCKDOWN",
                   "GITHUB_PERSONAL_ACCESS_TOKEN": "\${GITHUB_MCP_SERVER_TOKEN}",
                   "GITHUB_READ_ONLY": "1",
-                  "GITHUB_TOOLSETS": "issues,pull_requests,repos"
+                  "GITHUB_TOOLSETS": "repos,issues,pull_requests"
                 }
               },
               "safeoutputs": {
@@ -658,14 +629,21 @@ jobs:
         # Copilot CLI tool arguments (sorted):
         # --allow-tool github
         # --allow-tool safeoutputs
+        # --allow-tool shell(awk)
         # --allow-tool shell(cat)
+        # --allow-tool shell(cd)
+        # --allow-tool shell(cp)
         # --allow-tool shell(date)
+        # --allow-tool shell(dotnet)
         # --allow-tool shell(echo)
+        # --allow-tool shell(find)
         # --allow-tool shell(grep)
         # --allow-tool shell(head)
         # --allow-tool shell(jq)
         # --allow-tool shell(ls)
+        # --allow-tool shell(mkdir)
         # --allow-tool shell(pwd)
+        # --allow-tool shell(sed)
         # --allow-tool shell(sort)
         # --allow-tool shell(tail)
         # --allow-tool shell(uniq)
@@ -675,8 +653,8 @@ jobs:
         timeout-minutes: 20
         run: |
           set -o pipefail
-          sudo -E awf --env-all --container-workdir "${GITHUB_WORKSPACE}" --allow-domains '*.githubusercontent.com,api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,codeload.github.com,github-cloud.githubusercontent.com,github-cloud.s3.amazonaws.com,github.com,github.githubassets.com,host.docker.internal,lfs.github.com,objects.githubusercontent.com,raw.githubusercontent.com,registry.npmjs.org,telemetry.enterprise.githubcopilot.com' --log-level info --proxy-logs-dir /tmp/gh-aw/sandbox/firewall/logs --enable-host-access --image-tag 0.19.1 --skip-pull \
-            -- /bin/bash -c '/usr/local/bin/copilot --add-dir /tmp/gh-aw/ --log-level all --log-dir /tmp/gh-aw/sandbox/agent/logs/ --add-dir "${GITHUB_WORKSPACE}" --disable-builtin-mcps --allow-tool github --allow-tool safeoutputs --allow-tool '\''shell(cat)'\'' --allow-tool '\''shell(date)'\'' --allow-tool '\''shell(echo)'\'' --allow-tool '\''shell(grep)'\'' --allow-tool '\''shell(head)'\'' --allow-tool '\''shell(jq)'\'' --allow-tool '\''shell(ls)'\'' --allow-tool '\''shell(pwd)'\'' --allow-tool '\''shell(sort)'\'' --allow-tool '\''shell(tail)'\'' --allow-tool '\''shell(uniq)'\'' --allow-tool '\''shell(wc)'\'' --allow-tool '\''shell(yq)'\'' --allow-tool write --allow-all-paths --share /tmp/gh-aw/sandbox/agent/logs/conversation.md --prompt "$(cat /tmp/gh-aw/aw-prompts/prompt.txt)"${GH_AW_MODEL_AGENT_COPILOT:+ --model "$GH_AW_MODEL_AGENT_COPILOT"}' 2>&1 | tee -a /tmp/gh-aw/agent-stdio.log
+          sudo -E awf --env-all --container-workdir "${GITHUB_WORKSPACE}" --allow-domains '*.githubusercontent.com,api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,api.nuget.org,azuresearch-usnc.nuget.org,azuresearch-ussc.nuget.org,builds.dotnet.microsoft.com,ci.dot.net,codeload.github.com,dc.services.visualstudio.com,dist.nuget.org,dot.net,dotnet.microsoft.com,dotnetcli.blob.core.windows.net,github-cloud.githubusercontent.com,github-cloud.s3.amazonaws.com,github.com,github.githubassets.com,host.docker.internal,lfs.github.com,nuget.org,nuget.pkg.github.com,nugetregistryv2prod.blob.core.windows.net,objects.githubusercontent.com,oneocsp.microsoft.com,pkgs.dev.azure.com,raw.githubusercontent.com,registry.npmjs.org,telemetry.enterprise.githubcopilot.com,www.microsoft.com' --log-level info --proxy-logs-dir /tmp/gh-aw/sandbox/firewall/logs --enable-host-access --image-tag 0.19.1 --skip-pull \
+            -- /bin/bash -c '/usr/local/bin/copilot --add-dir /tmp/gh-aw/ --log-level all --log-dir /tmp/gh-aw/sandbox/agent/logs/ --add-dir "${GITHUB_WORKSPACE}" --disable-builtin-mcps --allow-tool github --allow-tool safeoutputs --allow-tool '\''shell(awk)'\'' --allow-tool '\''shell(cat)'\'' --allow-tool '\''shell(cd)'\'' --allow-tool '\''shell(cp)'\'' --allow-tool '\''shell(date)'\'' --allow-tool '\''shell(dotnet)'\'' --allow-tool '\''shell(echo)'\'' --allow-tool '\''shell(find)'\'' --allow-tool '\''shell(grep)'\'' --allow-tool '\''shell(head)'\'' --allow-tool '\''shell(jq)'\'' --allow-tool '\''shell(ls)'\'' --allow-tool '\''shell(mkdir)'\'' --allow-tool '\''shell(pwd)'\'' --allow-tool '\''shell(sed)'\'' --allow-tool '\''shell(sort)'\'' --allow-tool '\''shell(tail)'\'' --allow-tool '\''shell(uniq)'\'' --allow-tool '\''shell(wc)'\'' --allow-tool '\''shell(yq)'\'' --allow-tool write --allow-all-paths --share /tmp/gh-aw/sandbox/agent/logs/conversation.md --prompt "$(cat /tmp/gh-aw/aw-prompts/prompt.txt)"${GH_AW_MODEL_AGENT_COPILOT:+ --model "$GH_AW_MODEL_AGENT_COPILOT"}' 2>&1 | tee -a /tmp/gh-aw/agent-stdio.log
         env:
           COPILOT_AGENT_RUNNER_TYPE: STANDALONE
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
@@ -754,7 +732,7 @@ jobs:
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
           GH_AW_SAFE_OUTPUTS: ${{ env.GH_AW_SAFE_OUTPUTS }}
-          GH_AW_ALLOWED_DOMAINS: "*.githubusercontent.com,api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,codeload.github.com,github-cloud.githubusercontent.com,github-cloud.s3.amazonaws.com,github.com,github.githubassets.com,host.docker.internal,lfs.github.com,objects.githubusercontent.com,raw.githubusercontent.com,registry.npmjs.org,telemetry.enterprise.githubcopilot.com"
+          GH_AW_ALLOWED_DOMAINS: "*.githubusercontent.com,api.business.githubcopilot.com,api.enterprise.githubcopilot.com,api.github.com,api.githubcopilot.com,api.individual.githubcopilot.com,api.nuget.org,azuresearch-usnc.nuget.org,azuresearch-ussc.nuget.org,builds.dotnet.microsoft.com,ci.dot.net,codeload.github.com,dc.services.visualstudio.com,dist.nuget.org,dot.net,dotnet.microsoft.com,dotnetcli.blob.core.windows.net,github-cloud.githubusercontent.com,github-cloud.s3.amazonaws.com,github.com,github.githubassets.com,host.docker.internal,lfs.github.com,nuget.org,nuget.pkg.github.com,nugetregistryv2prod.blob.core.windows.net,objects.githubusercontent.com,oneocsp.microsoft.com,pkgs.dev.azure.com,raw.githubusercontent.com,registry.npmjs.org,telemetry.enterprise.githubcopilot.com,www.microsoft.com"
           GITHUB_SERVER_URL: ${{ github.server_url }}
           GITHUB_API_URL: ${{ github.api_url }}
         with:
@@ -837,10 +815,10 @@ jobs:
     if: (always()) && (needs.agent.result != 'skipped')
     runs-on: ubuntu-slim
     permissions:
-      actions: write
       contents: read
       discussions: write
       issues: write
+      pull-requests: write
     outputs:
       noop_message: ${{ steps.noop.outputs.noop_message }}
       tools_reported: ${{ steps.missing_tool.outputs.tools_reported }}
@@ -867,7 +845,7 @@ jobs:
         env:
           GH_AW_AGENT_OUTPUT: ${{ env.GH_AW_AGENT_OUTPUT }}
           GH_AW_NOOP_MAX: 1
-          GH_AW_WORKFLOW_NAME: "MSBuild Weekly Activity Report"
+          GH_AW_WORKFLOW_NAME: "MSBuild Issue Investigation — Worker Agent"
         with:
           github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
@@ -880,7 +858,7 @@ jobs:
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
           GH_AW_AGENT_OUTPUT: ${{ env.GH_AW_AGENT_OUTPUT }}
-          GH_AW_WORKFLOW_NAME: "MSBuild Weekly Activity Report"
+          GH_AW_WORKFLOW_NAME: "MSBuild Issue Investigation — Worker Agent"
         with:
           github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
@@ -893,14 +871,12 @@ jobs:
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
           GH_AW_AGENT_OUTPUT: ${{ env.GH_AW_AGENT_OUTPUT }}
-          GH_AW_WORKFLOW_NAME: "MSBuild Weekly Activity Report"
+          GH_AW_WORKFLOW_NAME: "MSBuild Issue Investigation — Worker Agent"
           GH_AW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_AW_AGENT_CONCLUSION: ${{ needs.agent.result }}
-          GH_AW_WORKFLOW_ID: "msbuild-weekly-report"
+          GH_AW_WORKFLOW_ID: "msbuild-investigate-issue"
           GH_AW_SECRET_VERIFICATION_RESULT: ${{ needs.agent.outputs.secret_verification_result }}
           GH_AW_CHECKOUT_PR_SUCCESS: ${{ needs.agent.outputs.checkout_pr_success }}
-          GH_AW_CREATE_DISCUSSION_ERRORS: ${{ needs.safe_outputs.outputs.create_discussion_errors }}
-          GH_AW_CREATE_DISCUSSION_ERROR_COUNT: ${{ needs.safe_outputs.outputs.create_discussion_error_count }}
         with:
           github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
@@ -913,7 +889,7 @@ jobs:
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
           GH_AW_AGENT_OUTPUT: ${{ env.GH_AW_AGENT_OUTPUT }}
-          GH_AW_WORKFLOW_NAME: "MSBuild Weekly Activity Report"
+          GH_AW_WORKFLOW_NAME: "MSBuild Issue Investigation — Worker Agent"
           GH_AW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           GH_AW_AGENT_CONCLUSION: ${{ needs.agent.result }}
           GH_AW_NOOP_MESSAGE: ${{ steps.noop.outputs.noop_message }}
@@ -931,8 +907,6 @@ jobs:
     if: needs.agent.outputs.output_types != '' || needs.agent.outputs.has_patch == 'true'
     runs-on: ubuntu-latest
     permissions: {}
-    concurrency:
-      group: "gh-aw-copilot-${{ github.workflow }}"
     timeout-minutes: 10
     outputs:
       success: ${{ steps.parse_results.outputs.success }}
@@ -961,8 +935,8 @@ jobs:
       - name: Setup threat detection
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
-          WORKFLOW_NAME: "MSBuild Weekly Activity Report"
-          WORKFLOW_DESCRIPTION: "Weekly activity report for dotnet/msbuild — new/unassigned issues, stale issues with recent comments, open PRs triaged by action needed. Posts results to a GitHub Discussion and dispatches deeper investigation for bugs and regressions."
+          WORKFLOW_NAME: "MSBuild Issue Investigation — Worker Agent"
+          WORKFLOW_DESCRIPTION: "Worker workflow that investigates a single upstream dotnet/msbuild issue. Reads the issue, analyzes root cause, attempts reproduction for bug reports, and posts findings as a comment on the weekly report discussion."
           HAS_PATCH: ${{ needs.agent.outputs.has_patch }}
         with:
           script: |
@@ -1034,15 +1008,15 @@ jobs:
     if: ((!cancelled()) && (needs.agent.result != 'skipped')) && (needs.detection.outputs.success == 'true')
     runs-on: ubuntu-slim
     permissions:
-      actions: write
       contents: read
       discussions: write
       issues: write
+      pull-requests: write
     timeout-minutes: 15
     env:
       GH_AW_ENGINE_ID: "copilot"
-      GH_AW_WORKFLOW_ID: "msbuild-weekly-report"
-      GH_AW_WORKFLOW_NAME: "MSBuild Weekly Activity Report"
+      GH_AW_WORKFLOW_ID: "msbuild-investigate-issue"
+      GH_AW_WORKFLOW_NAME: "MSBuild Issue Investigation — Worker Agent"
     outputs:
       create_discussion_error_count: ${{ steps.process_safe_outputs.outputs.create_discussion_error_count }}
       create_discussion_errors: ${{ steps.process_safe_outputs.outputs.create_discussion_errors }}
@@ -1069,7 +1043,7 @@ jobs:
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
           GH_AW_AGENT_OUTPUT: ${{ env.GH_AW_AGENT_OUTPUT }}
-          GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: "{\"create_discussion\":{\"category\":\"general\",\"expires\":168,\"fallback_to_issue\":true,\"max\":1},\"dispatch_workflow\":{\"max\":1,\"workflow_files\":{\"dispatch-msbuild-investigation-batch\":\".yml\"},\"workflows\":[\"dispatch-msbuild-investigation-batch\"]},\"missing_data\":{},\"missing_tool\":{}}"
+          GH_AW_SAFE_OUTPUTS_HANDLER_CONFIG: "{\"add_comment\":{\"max\":1,\"target\":\"*\"},\"missing_data\":{},\"missing_tool\":{}}"
         with:
           github-token: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
           script: |
