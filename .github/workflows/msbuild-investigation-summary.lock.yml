@@ -23,7 +23,7 @@
 #
 # Finalization workflow that runs after all MSBuild issue investigations are complete. Reads investigation comments from the discussion, extracts summaries, and updates the discussion body with consolidated results.
 #
-# frontmatter-hash: b93780382f2d72449242f8e578015ebff1d492670908d508f08b0ca75f5992e4
+# frontmatter-hash: ee9a6f78eccc22197f586327433c0b3c4e077acce578f88860bfd8c466c46c75
 
 name: "MSBuild Investigation Summary"
 "on":
@@ -228,6 +228,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      discussions: read
       issues: read
     env:
       DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
@@ -563,7 +564,7 @@ jobs:
                   "GITHUB_LOCKDOWN_MODE": "$GITHUB_MCP_LOCKDOWN",
                   "GITHUB_PERSONAL_ACCESS_TOKEN": "\${GITHUB_MCP_SERVER_TOKEN}",
                   "GITHUB_READ_ONLY": "1",
-                  "GITHUB_TOOLSETS": "repos,issues"
+                  "GITHUB_TOOLSETS": "repos,issues,discussions"
                 }
               },
               "safeoutputs": {

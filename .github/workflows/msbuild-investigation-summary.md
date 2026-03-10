@@ -15,10 +15,11 @@ on:
 permissions:
   contents: read
   issues: read
+  discussions: read
 
 tools:
   github:
-    toolsets: [repos, issues]
+    toolsets: [repos, issues, discussions]
   bash: ["cat", "grep", "head", "tail", "wc", "jq", "date", "sort", "uniq", "echo", "sed", "awk"]
 
 safe-outputs:
